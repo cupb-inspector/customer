@@ -1,6 +1,7 @@
 package hxy.inspec.customer.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,8 +54,70 @@ public class UserController {
 				resultCode = 404;
 			}
 		}
-		resultCode = 200;
 		
+		org.json.JSONObject user_data = new org.json.JSONObject();
+		user_data.put("resultCode", resultCode);
+		user_data.put("key2", "today4");
+		user_data.put("key3", "today2");
+		String jsonStr2 = user_data.toString();
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().append(jsonStr2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	@RequestMapping(value = "/register-user", method = RequestMethod.POST)
+	public void userRegister(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		int resultCode = 0;
+		try {
+			// 返回页面防止出现中文乱码
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String username = request.getParameter("username").trim();// 这个应该是电话号码
+		String password = request.getParameter("passwd").trim();
+		String tel = request.getParameter("tel").trim();
+		logger.info("register Post username is:" + username + tel + " register Post password is:" + password);
+
+		User user = new User();
+		user.setName(username);
+		user.setPasswd(password);
+		user.setTel(tel);
+		if (username != null && password != null && !"".equals(username) && !"".equals(password)) {
+			UserService userService = new UserService();
+			// 检查用户是否存在
+			User user1 = userService.login(tel);
+			if (user1 != null) {
+				logger.info("用户存在" + user1.getName());
+				// 检查密码
+				if (password.equals(user1.getPasswd())) {
+					// 匹配成功
+					logger.info("密码正确");
+					request.getSession().setAttribute("user", user);
+					resultCode = 200;
+				} else {
+					// 提示密码不正确
+					logger.info("密码不正确");
+					resultCode = 101;// 用户已经存在，但是密码不正确
+				}
+
+			} else {
+				logger.info("用户未注册");
+				// 提示用户未注册
+				if (userService.insert(user)) {
+					logger.info("用户注册成功");
+					request.getSession().setAttribute("user", user);
+					resultCode = 200;
+				} else
+					;
+			}
+		}
+		logger.info("返回注册信息");
+
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
 		user_data.put("key2", "today4");
