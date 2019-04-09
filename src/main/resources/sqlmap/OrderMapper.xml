@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Orders">
+
+
+	<insert id="insert" parameterType="hxy.inspec.customer.po.Orders"
+		useGeneratedKeys="true">
+		insert into orders (custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,reportfile,status,fee,cost,othercost,profit,goods) values (#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods})
+	</insert>
+	
+	
+	
+	<select id="selectAll" resultType="hxy.inspec.customer.po.Orders">
+		select * from orders
+	</select>
+	<select id="findOrdersByTel" parameterType="String"
+		resultType="hxy.inspec.customer.po.Orders">
+		SELECT * FROM orders WHERE custel=#{custel}
+	</select>
+	<select id="findUserByOrdersId" parameterType="String"
+		resultType="hxy.inspec.customer.po.Orders">
+		SELECT * FROM orders WHERE ordesrid=#{ordesrid}
+	</select>
+	<delete id="delete" parameterType="hxy.inspec.customer.po.Orders">
+		delete from orders where
+		custel=#{custel}
+	</delete>
+	<update id="update" parameterType="hxy.inspec.customer.po.Orders">
+		update orders set
+		cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
+		where custel=#{custel}
+	</update>
+	
+</mapper>

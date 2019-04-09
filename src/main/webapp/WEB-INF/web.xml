@@ -7,6 +7,9 @@
 	<welcome-file-list>
 		<welcome-file>/WEB-INF/views/login.jsp</welcome-file>
 	</welcome-file-list>
+	<listener>
+		<listener-class>hxy.inspec.customer.util.ApplicationStartListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -213,7 +216,7 @@
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 		<servlet-name>login</servlet-name>
 		<jsp-file>/WEB-INF/views/login.jsp</jsp-file>
 	</servlet>
@@ -221,7 +224,14 @@
 		<servlet-name>login</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>admin-lose</servlet-name>
+		<jsp-file>/WEB-INF/views/admin-lose.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>admin-lose</servlet-name>
+		<url-pattern>/admin-lose</url-pattern>
+	</servlet-mapping>
 
 
 

@@ -50,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="sqlmap/UserMapper.xml" />
+		<mapper resource="sqlmap/OrderMapper.xml" />
 		<!--  
 		<mapper resource="sqlmap/GoodsMapper.xml" />
 		<mapper resource="sqlmap/RawFileMapper.xml" />

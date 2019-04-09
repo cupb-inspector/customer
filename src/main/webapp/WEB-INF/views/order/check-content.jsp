@@ -7,7 +7,6 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
 <!--<![endif]-->
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,8 +26,99 @@
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
+
+
+  <script src="js/jquery.min.js"></script>
+  <!--基于jQuery写的消息提示
+  https://www.awaimai.com/1627.html
+    -->
+  <link rel="stylesheet" href="hxy/css/hxy-alert.css">
+  <script src="hxy/js/hxy-alert.js"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#btn1").click(function () {
+    	var excdate = $("#date").val();
+		var facname = $("#facname").val();
+		var facaddress = $("#facaddress").val();
+		var facman = $("#facman").val();
+		var factel = $("#factel").val();
+		var profile = $("#profile").val();
+		var goods = $("#goods").val();
+	//	var file = $("#file").val();
+    	  console.log(excdate+"\t"+facname)
+    	  
+    	  if(excdate==""){
+    		  
+    			$('.alert').removeClass('alert-success')
+				$('.alert').html('请选择验货日期').addClass('alert-warning').show().delay(2000).fadeOut();
+    		  return false;
+    	  }
+    	  if(facname==""){
+  			$('.alert').removeClass('alert-success')
+				$('.alert').html('请填写工厂名称').addClass('alert-warning').show().delay(2000).fadeOut();
+				
+  		  return false;
+  	  }
+    	  
+    		$.ajax({
+    			//几个参数需要注意一下
+    			url : "${pageContext.request.contextPath}/cusInsertOrder",//url
+    			type : "POST",//方法类型
+    			async : false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
+
+    			dataType : "json",//预期服务器返回的数据类型
+    			cache : false,
+    			data : {
+    				"excdate" : excdate,
+    				"facname":facname,
+    				"facaddress":facaddress,
+    				"facman":facman,
+    				"factel":factel,
+    				"profile":profile,
+    				"goods":goods
+    			//	"file":file
+    			},//这个是发送给服务器的数据
+
+    			success : function(result) {
+    				console.log(result);//打印服务端返回的数据(调试用)
+    				if (result.resultCode == 200) {
+    					//跳转到首页	$('.alert').removeClass('alert-success')
+    					$('.alert').html('提交成功').addClass('alert-success').show().delay(2000).fadeOut();     				
+    					document.getElementById("facname").value=''
+    					document.getElementById("facaddress").value=''
+    					document.getElementById("facman").value=''
+    					document.getElementById("factel").value=''
+    					document.getElementById("profile").value=''
+    					document.getElementById("goods").value=''
+    				} else if (result.resultCode == 601) {
+    					//	$(this).remove();
+    					$('.alert').removeClass('alert-success')
+    					$('.alert').html('密码错误').addClass('alert-warning').show().delay(2000).fadeOut();
+    					document.getElementById("passwd").value=''
+    				}else if (result.resultCode == 404) {
+    					//	$(this).remove();
+    					$('.alert').removeClass('alert-success')
+    					$('.alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();
+    				}else if (result.resultCode == 604) {
+    					//跳转到首页
+    					window.location.href = 'login';
+    				};
+    			},
+    			error : function() {
+    				//console.log(data);
+    				$('.alert').removeClass('alert-success')
+					$('.alert').html('检查网络是否连接').addClass('alert-warning').show().delay(2000).fadeOut();
+    			}
+    		});
+        });
+      
+    });
+    </script>
+
 </head>
 <body>
+<div class="alert"></div>
         <!-- Header-->
         <div class="content" style="background:#f1f2f7"> 
             <div class="animated fadeIn">
@@ -39,33 +129,48 @@
                                 <strong class="card-title">自助下单</strong>
                             </div>
                             <div class="card-body">
-                                <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                   <!-- 
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label class=" form-control-label">Static</label></div>
                                         <div class="col-12 col-md-9">
                                             <p class="form-control-static">Username</p>
                                         </div>
                                     </div>
+                                     -->
+                                     
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Text Input</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">工厂名称</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="facname" name="text-input" placeholder="请填写工厂有效名称，百度高德地图可以搜到" class="form-control"><small class="form-text text-muted">建议先地图搜索确定下再填写</small></div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">Email Input</label></div>
-                                        <div class="col-12 col-md-9"><input type="email" id="email-input" name="email-input" placeholder="Enter Email" class="form-control"><small class="help-block form-text">Please enter your email</small></div>
+                                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">工厂地址</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="facaddress" name="email-input" placeholder="工厂有效地址" class="form-control"><small class="help-block form-text">地图上确定可以搜到的地址</small></div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">Password</label></div>
-                                        <div class="col-12 col-md-9"><input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control"><small class="help-block form-text">Please enter a complex password</small></div>
+                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">联系人</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="facman" name="password-input" placeholder="请填写联系人姓名" class="form-control"><small class="help-block form-text">不要填写一些别名</small></div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="disabled-input" class=" form-control-label">Disabled Input</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled="" class="form-control"></div>
+                                        <div class="col col-md-3"><label for="disabled-input" class=" form-control-label">联系人电话</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="factel" name="disabled-input" placeholder="请填写有效的电话"  class="form-control"></div>
                                     </div>
+                                    
+                                          </div>
+                                      <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">产品名称</label></div>
+                                        <div class="col-12 col-md-9"><input name="text" id="goods" rows="5" placeholder="产品名称，货号" class="form-control"></input></div>
+                                    </div>
+                                      <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">验货日期</label></div>
+                                        <div class="col-12 col-md-9"><input name="text" id="date" rows="5" placeholder="请填写一些注意事项或者要求，建议等" class="form-control"></input></div>
+                                    </div>
+                                    
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Textarea</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">备注</label></div>
+                                        <div class="col-12 col-md-9"><textarea name="textarea-input" id="profile" rows="5" placeholder="请填写一些注意事项或者要求，建议等" class="form-control"></textarea></div>
                                     </div>
+                                    <!-- 
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="select" class=" form-control-label">Select</label></div>
                                         <div class="col-12 col-md-9">
@@ -189,6 +294,7 @@
                                             </div>
                                         </div>
                                     </div>
+                              
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label class=" form-control-label">Inline Checkboxes</label></div>
                                         <div class="col col-md-9">
@@ -205,23 +311,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                         
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
                                         <div class="col-12 col-md-9"><input type="file" id="file-input" name="file-input" class="form-control-file"></div>
                                     </div>
+                                      -->
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="file-multiple-input" class=" form-control-label">Multiple File input</label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="file-multiple-input" name="file-multiple-input" multiple="" class="form-control-file"></div>
+                                        <div class="col col-md-3"><label for="file-multiple-input" class=" form-control-label">资料</label></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="file" name="file-multiple-input" multiple="" class="form-control-file"></div>
                                     </div>
                                     <div>
-                                        <button type="submit" class="btn btn-primary btn-sm">
+                                        <button type="submit"id="btn1" class="btn btn-primary btn-sm">
                                             <i class="fa fa-dot-circle-o"></i> 提交
                                         </button>
-                                        <button type="reset" class="btn btn-danger btn-sm">
+                                        <button type="reset" id="btn2" class="btn btn-danger btn-sm">
                                             <i class="fa fa-ban"></i> 重置
                                         </button>
                                     </div>
-                                </form>
+                                </div>
                                 
                                 
                             </div>

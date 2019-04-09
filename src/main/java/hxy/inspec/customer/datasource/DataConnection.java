@@ -66,7 +66,7 @@ public class DataConnection {
 			session.commit();
 			session.close();
 			for (User good : goodsList) {
-				System.out.format("%s\n", good.getName());
+				System.out.format("%s\n", good.getCusname());
 			}
 	
 		} catch (IOException e) {

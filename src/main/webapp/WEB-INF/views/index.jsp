@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ela Admin - HTML5 Admin Template</title>
+    <title>环球质检用户后台</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/normalize.css">
@@ -90,16 +90,7 @@
         }
     </style>
 
-    <script>
-        $(function () {
-            $('#nky li').click(function () {
-                //把之前已有的active去掉
-                $('.active').removeClass('active');
-                //当前点击的li加上class
-                $(this).addClass("active");
-            });
-        })
-    </script>
+ 
 
 </head>
 

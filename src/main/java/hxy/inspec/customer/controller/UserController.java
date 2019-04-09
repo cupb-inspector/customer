@@ -21,26 +21,35 @@ import hxy.inspec.customer.service.UserService;
 @RequestMapping("/")
 public class UserController {
 	private final static Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@RequestMapping(value = "/lo", method = RequestMethod.GET)
 	public String login(ModelMap model) {
 		model.addAttribute("greeting", "Hello World Again, from Spring 4 MVC");
 		return "index";
 	}
-	
+
 	@RequestMapping(value = "/loginVerify", method = RequestMethod.POST)
 	public void loginVerify(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		int resultCode = 0;
-		String tel = request.getParameter("tel").trim();// 这个应该是电话号码
-		String password = request.getParameter("passwd").trim();
+		String tel = null;
+		String password = null;
+
+		try {
+			tel = request.getParameter("tel").trim();// 这个应该是电话号码
+			password = request.getParameter("passwd").trim();
+		} catch (NullPointerException e) {
+			logger.warn("传入的是一个null");
+		}
+
 		logger.info("login Post tel is:" + tel + "Post password is:" + password);
 		UserService userService = new UserService();
 		if (tel != null && password != null && !"".equals(tel) && !"".equals(password)) {
+
 			User user = userService.login(tel);
 			if (user != null) {
-				logger.info("用户存在" + user.getName());
+				logger.info("用户存在" + user.getCusname());
 				// 检查密码
-				if (password.equals(user.getPasswd())) {
+				if (password.equals(user.getCuspasswd())) {
 					// 匹配成功
 					resultCode = 200;
 					// 把用户对象存储到session
@@ -53,8 +62,8 @@ public class UserController {
 				// 提示用户未注册
 				resultCode = 404;
 			}
-		}
-		
+		} else
+			resultCode = 701;
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
 		user_data.put("key2", "today4");
@@ -67,7 +76,6 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-	
 
 	@RequestMapping(value = "/register-user", method = RequestMethod.POST)
 	public void userRegister(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -84,17 +92,17 @@ public class UserController {
 		logger.info("register Post username is:" + username + tel + " register Post password is:" + password);
 
 		User user = new User();
-		user.setName(username);
-		user.setPasswd(password);
-		user.setTel(tel);
+		user.setCusname(username);
+		user.setCuspasswd(password);
+		user.setCustel(tel);
 		if (username != null && password != null && !"".equals(username) && !"".equals(password)) {
 			UserService userService = new UserService();
 			// 检查用户是否存在
 			User user1 = userService.login(tel);
 			if (user1 != null) {
-				logger.info("用户存在" + user1.getName());
+				logger.info("用户存在" + user1.getCusname());
 				// 检查密码
-				if (password.equals(user1.getPasswd())) {
+				if (password.equals(user1.getCuspasswd())) {
 					// 匹配成功
 					logger.info("密码正确");
 					request.getSession().setAttribute("user", user);
@@ -130,13 +138,12 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-	
 
 	@RequestMapping(value = "/user-login-out", method = RequestMethod.GET)
 	public String userLoginOut(ModelMap model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
-			logger.info(user.getName() + "将要退出登录");
+			logger.info(user.getCusname() + "将要退出登录");
 			// false代表：不创建session对象，只是从request中获取。
 			HttpSession session = request.getSession(false);
 			if (session == null) {

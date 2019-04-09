@@ -5,8 +5,6 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
-
-
 <html class="no-js" lang="">
 <!--<![endif]-->
 <head>
@@ -15,9 +13,6 @@
 <title>Ela Admin - HTML5 Admin Template</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
 <link rel="stylesheet" href="assets/css/normalize.css">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -29,9 +24,7 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
-
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-
   
   <script src="js/jquery.min.js"></script>
   <!--基于jQuery写的消息提示
@@ -46,15 +39,15 @@
     	  var username =$("#tel").val()
     	  var passwd=$("#passwd").val()
     	  
+    	  console.log(username+"\t"+passwd)
+    	  
     	  if(username==""){
     		  
     			$('.alert').removeClass('alert-success')
 				$('.alert').html('请输入手机号码').addClass('alert-warning').show().delay(2000).fadeOut();
-				
     		  return false;
     	  }
     	  if(passwd==""){
-    		  
   			$('.alert').removeClass('alert-success')
 				$('.alert').html('请输入密码').addClass('alert-warning').show().delay(2000).fadeOut();
 				
@@ -105,79 +98,6 @@
       
     });
     </script>
-    
-  <script src="js/jquery.min.js"></script>
-  <!--基于jQuery写的消息提示
-  https://www.awaimai.com/1627.html
-    -->
-  <link rel="stylesheet" href="hxy/css/hxy-alert.css">
-  <script src="hxy/js/hxy-alert.js"></script>
-  
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $("#btn1").click(function () {
-    	  var username =$("#username").val()
-    	  var passwd=$("#passwd").val()
-    	  
-    	  if(username==""){
-    		  
-    			$('.alert').removeClass('alert-success')
-				$('.alert').html('请输入手机号码').addClass('alert-warning').show().delay(2000).fadeOut();
-				
-    		  return false;
-    	  }
-    	  if(passwd==""){
-    		  
-  			$('.alert').removeClass('alert-success')
-				$('.alert').html('请输入密码').addClass('alert-warning').show().delay(2000).fadeOut();
-				
-  		  return false;
-  	  }
-    	  
-    		$.ajax({
-    			//几个参数需要注意一下
-    			url : "${pageContext.request.contextPath}/loginVerify",//url
-    			type : "POST",//方法类型
-    			async : false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
-    			dataType : "json",//预期服务器返回的数据类型
-    			cache : false,
-    			data : {
-    				"username" : username,
-    				"passwd":passwd,
-    			},//这个是发送给服务器的数据
-
-    			success : function(result) {
-    				console.log(result);//打印服务端返回的数据(调试用)
-    				if (result.resultCode == 200) {
-    					//跳转到首页
-    					window.location.href = 'index';
-    				} else if (result.resultCode == 601) {
-    					//	$(this).remove();
-    					$('.alert').removeClass('alert-success')
-    					$('.alert').html('密码错误').addClass('alert-warning').show().delay(2000).fadeOut();
-        				
-    					document.getElementById("passwd").value=''
-    					
-    				}else if (result.resultCode == 404) {
-    					//	$(this).remove();
-    					$('.alert').removeClass('alert-success')
-    					$('.alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();
-        				
-    					
-    				};
-    			},
-    			error : function() {
-    				//console.log(data);
-    				$('.alert').removeClass('alert-success')
-					$('.alert').html('检查网络是否连接').addClass('alert-warning').show().delay(2000).fadeOut();
-    				
-    			}
-    		});
-        });
-      
-    });
-    </script>
-  
 
 </head>
 <body class="bg-dark">
@@ -193,11 +113,11 @@
 				<div class="login-form">
 					<div>
 						<div class="form-group">
-							<label>Email address</label> <input type="email" id="tel"
+							<label>手机号码</label> <input type="email" id="tel"
 								class="form-control" placeholder="Email">
 						</div>
 						<div class="form-group">
-							<label>Password</label> <input type="password" id="passwd"
+							<label>密码</label> <input type="password" id="passwd"
 								class="form-control" placeholder="Password">
 						</div>
 						<div class="checkbox">
@@ -208,7 +128,7 @@
 
 						</div>
 						<button type="submit" id="btn1"
-							class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+							class="btn btn-success btn-flat m-b-30 m-t-30">登录/Sign in</button>
 						<!--  
                         <div class="social-login-content">
                             <div class="social-button">
