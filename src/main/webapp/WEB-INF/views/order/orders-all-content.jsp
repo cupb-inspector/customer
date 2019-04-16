@@ -71,6 +71,7 @@ if (user == null) {
 											<th>工厂名称</th>
 											<th>产品名称</th>
 											<th>状态</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -84,7 +85,8 @@ if (user == null) {
 										<td><%=orders.getExcedate() %></td>
 										<td><%=orders.getFactoryname() %></td>
 										<td><%=orders.getGoods() %></td>
-										<td><%=orders.getStatusString(orders.getStatus()) %></td>
+										<td><%=orders.getStatusString() %></td>
+											<td><a href="details2?id=<%=orders.getOrderid() %>">详情</a></td>
 									</tr>
 										<% 
 										}

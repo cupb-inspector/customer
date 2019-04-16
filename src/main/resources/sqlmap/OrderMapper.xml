@@ -6,32 +6,58 @@
 <mapper namespace="Orders">
 
 
-	<insert id="insert" parameterType="hxy.inspec.customer.po.Orders"
-		useGeneratedKeys="true">
-		insert into orders (custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,reportfile,status,fee,cost,othercost,profit,goods) values (#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods})
+	<insert id="insert"
+		parameterType="hxy.inspec.customer.po.Orders" useGeneratedKeys="true">
+		insert
+		into orders
+		(custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,reportfile,status,fee,cost,othercost,profit,goods)
+		values
+		(#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods})
 	</insert>
-	
-	
-	
-	<select id="selectAll" resultType="hxy.inspec.customer.po.Orders">
+
+
+
+	<select id="selectAll"
+		resultType="hxy.inspec.customer.po.Orders">
 		select * from orders
 	</select>
 	<select id="findOrdersByTel" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
 		SELECT * FROM orders WHERE custel=#{custel}
 	</select>
+
+
+
+
+	<select id="findAllByTelAndStatus" parameterType="String"
+		resultType="hxy.inspec.customer.po.Orders">
+		SELECT * FROM orders WHERE custel=#{custel} and
+		status=#{status}
+	</select>
+
 	<select id="findUserByOrdersId" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
 		SELECT * FROM orders WHERE ordesrid=#{ordesrid}
 	</select>
-	<delete id="delete" parameterType="hxy.inspec.customer.po.Orders">
+	<select id="findOrdersById" parameterType="String"
+		resultType="hxy.inspec.customer.po.Orders">
+		SELECT * FROM orders WHERE orderid=#{orderid}
+	</select>
+	<delete id="delete"
+		parameterType="hxy.inspec.customer.po.Orders">
 		delete from orders where
 		custel=#{custel}
 	</delete>
-	<update id="update" parameterType="hxy.inspec.customer.po.Orders">
+	<update id="update"
+		parameterType="hxy.inspec.customer.po.Orders">
 		update orders set
 		cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
 		where custel=#{custel}
 	</update>
-	
+	<update id="updateStatus"
+		parameterType="hxy.inspec.customer.po.Orders">
+		update orders set status=#{status} where
+		orderid=#{orderid}
+	</update>
+
 </mapper>

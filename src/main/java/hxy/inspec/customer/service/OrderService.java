@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cglib.reflect.FastClass;
 
 import hxy.inspec.customer.dao.OrdersDao;
 import hxy.inspec.customer.datasource.DataConnection;
@@ -33,6 +34,42 @@ public class OrderService {
 		OrdersDao ordersDao = new OrdersDao();
 		List<Orders> list = ordersDao.selectAllByTel(tel);
 		return list;
+	}
+	
+	
+	
+	
+	public List<Orders> selectAllByTelAndStatus(Orders tel) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list = ordersDao.selectAllByTelAndStatus(tel);
+		return list;
+	}
+
+	public Orders selectAllById(String ordersId) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		Orders list = ordersDao.selectAllById(ordersId);
+		return list;
+	}
+
+	public boolean updateInspector(Orders order) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean updateStatus(Orders orders) {
+		// TODO Auto-generated method stub
+		OrdersDao ordersDao = new OrdersDao();
+		int flag = ordersDao.updateStatus(orders);
+		if (flag == 1) {
+			return true;
+		} else
+			return false;
+
+	}
+
+	public void updateReport(Orders orders) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

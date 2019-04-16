@@ -110,5 +110,130 @@ public class OrderController {
 		User user = (User) request.getSession().getAttribute("user");
 
 	}
+	
+	@RequestMapping(value = "/details2", method = RequestMethod.GET)
+	public String details2(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		// 获取用户是否登录
+		User user = (User) request.getSession().getAttribute("user");
+		if (user!=null) {
+			
+			String ordersId = request.getParameter("id").trim();// 备注
+			//先依据id查询该订单，再判断该订单是否是该用户的，防止恶意的爬虫
+			OrderService orderService = new OrderService();
+			try {
+			Orders orders=	orderService.selectAllById(ordersId);
+			if (orders!=null) {
+				model.addAttribute("status", orders.getStatusString());
+				model.addAttribute("ordersId", ordersId);
+				model.addAttribute("goods", orders.getGoods());
+				model.addAttribute("custel", orders.getCustel());
+				model.addAttribute("exceData", orders.getExcedate());
+				String inspectTel=orders.getQualtel();
+				if("null".equals(inspectTel)) {
+					model.addAttribute("inspec", "请填写质检员号码");
+				}else
+					model.addAttribute("inspec", orders.getQualtel());
+				
+				
+				model.addAttribute("exceData", orders.getExcedate());
+				model.addAttribute("factoyName", orders.getFactoryname());
+				model.addAttribute("facAddress", orders.getFactoryaddress());
+				model.addAttribute("facMan", orders.getFactoryman());
+				model.addAttribute("facTel", orders.getFactorytel());
+				model.addAttribute("date", orders.getDate());
+				model.addAttribute("", orders.getExcedate());
+				String report=orders.getReportfile();
+				String reportuuid=orders.getReportfileuuid();
+				
+				if (report!=null&&!"".equals(report)&&!"null".equals(report)) {
+					model.addAttribute("report", report);
+				}else
+					model.addAttribute("report", "没有报告文件");
+					
+				if (reportuuid!=null&&!"".equals(reportuuid)&&!"null".equals(reportuuid)) {
+					model.addAttribute("reportuuid", reportuuid );
+				}else {
+					model.addAttribute("reportuuid", "null" );
+				}
+			
+			
+			}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+		
+			
+			return "order/orders-details2";
+		}
+		else
+			return "lose";
+		
+	}
+//	报告完成后的详情，已经不可以修改报告了
+	@RequestMapping(value = "/details3", method = RequestMethod.GET)
+	public String details3(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		// 获取用户是否登录
+		User user = (User) request.getSession().getAttribute("user");
+		if (user!=null) {
+			
+			String ordersId = request.getParameter("id").trim();// 备注
+			//先依据id查询该订单，再判断该订单是否是该用户的，防止恶意的爬虫
+			OrderService orderService = new OrderService();
+			try {
+			Orders orders=	orderService.selectAllById(ordersId);
+			if (orders!=null) {
+				model.addAttribute("status", orders.getStatusString());
+				model.addAttribute("ordersId", ordersId);
+				model.addAttribute("goods", orders.getGoods());
+				model.addAttribute("custel", orders.getCustel());
+				model.addAttribute("exceData", orders.getExcedate());
+				String inspectTel=orders.getQualtel();
+				if("null".equals(inspectTel)) {
+					model.addAttribute("inspec", "请填写质检员号码");
+				}else
+					model.addAttribute("inspec", orders.getQualtel());
+				
+				
+				model.addAttribute("exceData", orders.getExcedate());
+				model.addAttribute("factoyName", orders.getFactoryname());
+				model.addAttribute("facAddress", orders.getFactoryaddress());
+				model.addAttribute("facMan", orders.getFactoryman());
+				model.addAttribute("facTel", orders.getFactorytel());
+				model.addAttribute("date", orders.getDate());
+				model.addAttribute("", orders.getExcedate());
+				String report=orders.getReportfile();
+				String reportuuid=orders.getReportfileuuid();
+				
+				if (report!=null&&!"".equals(report)&&!"null".equals(report)) {
+					model.addAttribute("report", report);
+				}else
+					model.addAttribute("report", "没有报告文件");
+					
+				if (reportuuid!=null&&!"".equals(reportuuid)&&!"null".equals(reportuuid)) {
+					model.addAttribute("reportuuid", reportuuid );
+				}else {
+					model.addAttribute("reportuuid", "null" );
+				}
+			
+			
+			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+		
+			
+			return "order/orders-details-finished";
+		}
+		else
+			return "lose";
+		
+	}
 
 }
