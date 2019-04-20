@@ -25,10 +25,8 @@
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
     <link href="assets/weather/css/weather-icons.css" rel="stylesheet" />
     <link href="assets/calendar/fullcalendar.css" rel="stylesheet" />
-
     <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
-
     <script src="js/jquery-1.8.2.min.js"></script>
 
     <style>
@@ -140,6 +138,8 @@
                             </ul>
                         </div>
                     </li>
+                    <!-- 
+                    
                     <li class="nav-item menu-item-has-children">
                         <a class="nav-link" data-toggle="collapse" href="#evaluation" aria-haspopup="true"
                             aria-expanded="false" aria-controls="evaluation">
@@ -177,6 +177,8 @@
                             </ul>
                         </div>
                     </li>
+                     -->
+                    
                     <li class="nav-item menu-item-has-children">
                         <a class="nav-link" data-toggle="collapse" href="#account1" aria-haspopup="true"
                             aria-expanded="false" aria-controls="account1">
@@ -187,11 +189,14 @@
                             <ul class="nav flex-column sub-menu">
                                 <li><a href="wallet" target="myiframe">我的钱包</a></li>
                                 <li><a href="integral" target="myiframe">我的等级与积分</a></li>
+                                <!--  
                                 <li><a href="personal" target="myiframe">账户设置</a></li>
+                                -->
                             </ul>
                         </div>
                     </li>
 
+<!--  
                     <li class="nav-item menu-item">
                             <a class="nav-link" href="check-content" target="myiframe">
                                 <i class="menu-icon fa  fa-bell"></i>
@@ -221,6 +226,8 @@
                                 </ul>
                             </div>
                         </li>
+                        
+                        -->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

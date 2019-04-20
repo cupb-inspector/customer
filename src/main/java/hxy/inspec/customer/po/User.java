@@ -10,6 +10,7 @@ public class User {
 	private String cuspasswd;
 //	private String province;
 //	private String city;
+	private String email;
 	private String cusgrade;//等级，与信用相关
 	private String cusvip;
 	private String cusaddress;// 地址

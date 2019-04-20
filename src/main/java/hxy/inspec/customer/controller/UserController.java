@@ -2,6 +2,7 @@ package hxy.inspec.customer.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.UserService;
+import hxy.inspec.customer.util.CodeMd5;
 
 @Controller
 @RequestMapping("/")
@@ -49,7 +51,14 @@ public class UserController {
 			if (user != null) {
 				logger.info("用户存在" + user.getCusname());
 				// 检查密码
-				if (password.equals(user.getCuspasswd())) {
+				String newpasswd=null;
+				CodeMd5 codeMd5 = new CodeMd5();
+				try {
+					newpasswd=	codeMd5.codeMd5(password);
+				} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				if (newpasswd.equals(user.getCuspasswd())) {
 					// 匹配成功
 					resultCode = 200;
 					// 把用户对象存储到session
@@ -86,43 +95,74 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		String username = request.getParameter("username").trim();// 这个应该是电话号码
-		String password = request.getParameter("passwd").trim();
-		String tel = request.getParameter("tel").trim();
-		logger.info("register Post username is:" + username + tel + " register Post password is:" + password);
 
-		User user = new User();
-		user.setCusname(username);
-		user.setCuspasswd(password);
-		user.setCustel(tel);
-		if (username != null && password != null && !"".equals(username) && !"".equals(password)) {
-			UserService userService = new UserService();
-			// 检查用户是否存在
-			User user1 = userService.login(tel);
-			if (user1 != null) {
-				logger.info("用户存在" + user1.getCusname());
-				// 检查密码
-				if (password.equals(user1.getCuspasswd())) {
-					// 匹配成功
-					logger.info("密码正确");
-					request.getSession().setAttribute("user", user);
-					resultCode = 200;
-				} else {
-					// 提示密码不正确
-					logger.info("密码不正确");
-					resultCode = 101;// 用户已经存在，但是密码不正确
-				}
-
-			} else {
-				logger.info("用户未注册");
-				// 提示用户未注册
-				if (userService.insert(user)) {
-					logger.info("用户注册成功");
-					request.getSession().setAttribute("user", user);
-					resultCode = 200;
-				} else
-					;
+		boolean flag = false;
+		String username = null;
+		String password = null;
+		String tel = null;
+		String email = null;
+		String newpasswd=null;
+		try {
+			username = request.getParameter("username").trim();// 这个应该是电话号码
+			password = request.getParameter("passwd").trim();
+			tel = request.getParameter("tel").trim();
+			email = request.getParameter("email").trim();
+			flag = true;
+			CodeMd5 codeMd5 = new CodeMd5();
+			try {
+				newpasswd=	codeMd5.codeMd5(password);
+			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			
+			
+			
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		if (flag) {
+
+			logger.info("register Post username is:" + username + tel + " register Post password is:" + password);
+
+			if (username != null && password != null && !"".equals(username) && !"".equals(password)) {
+
+				User user = new User();
+				user.setCusname(username);
+				user.setCuspasswd(newpasswd);
+				user.setCustel(tel);
+				user.setEmail(email);
+				// 检查用户是否存在
+				UserService userService = new UserService();
+				User user1 = userService.login(tel);
+				if (user1 != null) {
+					logger.info("用户存在" + user1.getCusname());
+					// 检查密码
+					if (password.equals(user1.getCuspasswd())) {
+						// 匹配成功
+						logger.info("密码正确");
+						request.getSession().setAttribute("user", user);
+						resultCode = 200;
+					} else {
+						// 提示密码不正确
+						logger.info("密码不正确");
+						resultCode = 101;// 用户已经存在，但是密码不正确
+					}
+
+				} else {
+					logger.info("用户未注册");
+					// 提示用户未注册
+					if (userService.insert(user)) {
+						logger.info("用户注册成功");
+						request.getSession().setAttribute("user", user);
+						resultCode = 200;
+					} else
+						;
+				}
+			}
+
+		}else {
+			resultCode = 404;
 		}
 		logger.info("返回注册信息");
 

@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ela Admin - HTML5 Admin Template</title>
+<title>用户登录</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/css/normalize.css">
@@ -39,6 +39,9 @@
     	  var username =$("#tel").val()
     	  var passwd=$("#passwd").val()
     	  
+    	  var telReg =/^1\d{10}$/;
+    	  var remenber=document.getElementById("remenber").checked;
+    	  
     	  console.log(username+"\t"+passwd)
     	  
     	  if(username==""){
@@ -46,7 +49,15 @@
     			$('.alert').removeClass('alert-success')
 				$('.alert').html('请输入手机号码').addClass('alert-warning').show().delay(2000).fadeOut();
     		  return false;
-    	  }
+    	  }else{
+				var telResult=telReg.test(username);
+				console.log(tel+"\ttelResult:"+telResult)
+				if(telResult!=true){
+					$('.alert').removeClass('alert-success')
+					$('.alert').html('手机号码格式不正确').addClass('alert-warning').show().delay(2000).fadeOut();
+					return false;
+				}
+			}
     	  if(passwd==""){
   			$('.alert').removeClass('alert-success')
 				$('.alert').html('请输入密码').addClass('alert-warning').show().delay(2000).fadeOut();
@@ -106,7 +117,7 @@
 		<div class="container">
 			<div class="login-content">
 				<div class="login-logo">
-					<a href="index.html"> <img class="align-content"
+					<a href="#"> <img class="align-content"
 						src="images/logo2.png" alt="">
 					</a>
 				</div>
@@ -114,16 +125,15 @@
 					<div>
 						<div class="form-group">
 							<label>手机号码</label> <input type="email" id="tel"
-								class="form-control" placeholder="Email">
+								class="form-control" placeholder="手机号码">
 						</div>
 						<div class="form-group">
 							<label>密码</label> <input type="password" id="passwd"
-								class="form-control" placeholder="Password">
+								class="form-control" placeholder="密码">
 						</div>
 						<div class="checkbox">
-							<label> <input type="checkbox"> Remember Me
-							</label> <label class="pull-right"> <a href="#">Forgotten
-									Password?</a>
+							<label> <input id="remenber" type="checkbox"> 记住密码
+							</label> <label class="pull-right"> <a href="#">忘记密码?</a>
 							</label>
 
 						</div>

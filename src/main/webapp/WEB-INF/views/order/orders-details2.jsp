@@ -39,15 +39,11 @@ $(document).ready(function(){
 			
 			if(uuid=="null")
 			{
-
 				  $('#download').attr('disabled',"true");
 				  $('#download').attr('href', '#'); 
 				
 			}
 	});
-
-
-
 function js_method(){
 	var uuid = '${reportuuid}'
 	console.log(uuid.toString())
@@ -63,7 +59,6 @@ function js_method(){
 	$('.alert').html('正在下载').addClass('alert-success').show().delay(2000).fadeOut();
 	return true;
 	}
-	
 }
         function jqSubmit() {
            // {# $('#fafafa')[0]#}
@@ -134,9 +129,7 @@ function js_method(){
       				}else if (result.resultCode == 404) {
       					//	$(this).remove();
       					$('.alert').removeClass('alert-success')
-      					$('.alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();
-          				
-      					
+      					$('.alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();	
       				};
       			},
       			error : function() {
@@ -162,15 +155,18 @@ function js_method(){
 							<h4>详情</h4>
 						</div>
 						<div class="card-body">
-
-
-
 							<div class="col-md-12">
-								<div class="card border border-secondary">
+								<div class="card border"
+									style="background-color: #e2e3e5; border-color: #d6d8db; color: #383d41">
+									<!-- 
 									<div class="card-header">
 										<strong class="card-title">订单信息</strong>
 									</div>
+									 -->
 									<div class="card-body">
+										<p style="color: #383d41"">
+											<h4>订单信息</h4> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。 <code>重要</code>
+										</p>
 										<form action="#" method="post" class="form-horizontal">
 											<div class="row form-group">
 												<div class="col col-md-6">
@@ -249,35 +245,37 @@ function js_method(){
 									</div>
 								</div>
 							</div>
-
-
-
-
-
-							<div class="card">
-								<div class="card-header">
-									<strong>报告审核 </strong> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。
-										<code>重要</code>
-									</small>
+							<div class="col-md-12">
+								<div class="card border"
+									style="background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460">
+									<!-- 
+									<div class="card-header">
+										<strong>报告审核 </strong> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。
+											<code>重要</code>
+										</small>
+									</div>
+									 -->
+									<div class="card-body">
+										<p style="color: #0c5460"">
+											<h4>报告审核</h4> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。 <code>重要</code>
+										</p>
+										<p>
+											<i class="fa fa-envelope-o"></i> ${report} <a id="download"
+												href="${pageContext.request.contextPath}/downloadFile?fileuuid=${reportuuid}&filename=${report}"
+												onclick="js_method();"> <span class="pull-right">下载</span>
+											</a>
+										<p>
+										<hr />
+										<button type="button"
+											onclick="verifyReport2(this,${ordersId},'conform')"
+											class="btn btn-success btn-lg">通过</button>
+										<button type="button"
+											onclick="verifyReport2(this,${ordersId},'cancel')"
+											class="btn btn-danger btn-lg">拒绝</button>
+									</div>
 								</div>
-								<div class="card-body">
-
-									<p>
-										<i class="fa fa-envelope-o"></i> ${report} <a id="download"
-											href="${pageContext.request.contextPath}/downloadFile?fileuuid=${reportuuid}&filename=${report}"
-											onclick="js_method();"> <span class="pull-right">下载</span>
-										</a>
-									<p>
-									<hr />
-									<button type="button"
-										onclick="verifyReport2(this,${ordersId},'conform')"
-										class="btn btn-success btn-lg">通过</button>
-									<button type="button"
-										onclick="verifyReport2(this,${ordersId},'cancel')"
-										class="btn btn-danger btn-lg">拒绝</button>
-								</div>
+								<!-- /# card -->
 							</div>
-							<!-- /# card -->
 						</div>
 					</div>
 					<!-- /.card -->

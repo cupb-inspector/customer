@@ -7,9 +7,11 @@
 	<insert id="insert" parameterType="hxy.inspec.customer.po.User"
 		useGeneratedKeys="true">
 		insert into cususer(custel, cusname ,
-		cuspasswd ,cusaddress,cusdate,cusvip,custrade,cusgrade )
-		values(#{custel} ,#{cusname}, #{cuspasswd} ,
-		#{cusaddress},#{cusdate},#{cusvip},#{custrade},#{cusgrade})
+		cuspasswd
+		,cusaddress,cusdate,cusvip,custrade,cusgrade,email )
+		values(#{custel}
+		,#{cusname}, #{cuspasswd} ,
+		#{cusaddress},#{cusdate},#{cusvip},#{custrade},#{cusgrade},#{email})
 	</insert>
 	<select id="selectAll" resultType="hxy.inspec.customer.po.User">
 		select * from cususer
@@ -20,11 +22,13 @@
 	</select>
 	<!-- 删除 -->
 	<delete id="delete" parameterType="hxy.inspec.customer.po.User">
-		delete from cususer where custel=#{custel}
+		delete from cususer where
+		custel=#{custel}
 	</delete>
 	<!-- 修改用户 -->
 	<update id="update" parameterType="hxy.inspec.customer.po.User">
-		update cususer set cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
+		update cususer set
+		cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
 		where custel=#{custel}
 	</update>
 

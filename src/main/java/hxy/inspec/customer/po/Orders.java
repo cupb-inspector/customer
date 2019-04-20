@@ -14,12 +14,13 @@ public class Orders {
 	private String factoryman;
 	private String factorytel;
 	private String profile;
-	private String file;
+	private String file;//这个文件是客户下单的时候提交的
 	private String fileuuid;
 	private String reportfile;
 	private String reportfileuuid;
 	private String status;
-	private String fee;
+	private String type;//验货类型，不同的类型有不同的价格
+	private String fee;//付款多少，或者是是否付款。
 	private String cost;
 	private String othercost;
 	private String profit;
