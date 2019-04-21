@@ -1,6 +1,7 @@
 package hxy.inspec.customer.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -35,10 +36,13 @@ public class OrderService {
 		List<Orders> list = ordersDao.selectAllByTel(tel);
 		return list;
 	}
-	
-	
-	
-	
+
+	public List<Orders> findByPage(HashMap<String, Object> tel) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list = ordersDao.findByPage(tel);
+		return list;
+	}
+
 	public List<Orders> selectAllByTelAndStatus(Orders tel) throws IOException {
 		OrdersDao ordersDao = new OrdersDao();
 		List<Orders> list = ordersDao.selectAllByTelAndStatus(tel);
@@ -69,7 +73,7 @@ public class OrderService {
 
 	public void updateReport(Orders orders) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

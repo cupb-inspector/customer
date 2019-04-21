@@ -1,6 +1,7 @@
 package hxy.inspec.customer.dao;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -93,5 +94,14 @@ public class OrdersDao {
 		return goodsList;
 	
 	}
-
+	
+	public List<Orders> findByPage(HashMap<String, Object> map) throws IOException {
+		SqlSession sqlSession = DataConnection.getSqlSession();
+		List<Orders> goodsList = sqlSession.selectList("Orders.findByPage", map);
+		logger.info("查询结果条数"+goodsList.size());
+		sqlSession.commit();
+		sqlSession.close();
+		return goodsList;
+	}
+	
 }

@@ -1,7 +1,5 @@
 package hxy.inspec.customer.controller;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,13 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
@@ -29,13 +27,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.OrderService;
 import hxy.inspec.customer.util.Configration;
-
-
 
 @Controller
 @RequestMapping("/")
@@ -43,7 +39,8 @@ public class ReportController {
 	private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public void downloadReport(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void downloadReport(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 //		request.setCharacterEncoding("utf-8");
 		// 得到要下载的文件名
@@ -200,9 +197,7 @@ public class ReportController {
 		response.getWriter().append(jsonStr2);
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/verifyReport2", method = RequestMethod.POST)
 	public void conformOrders(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
@@ -214,26 +209,23 @@ public class ReportController {
 			String flag = request.getParameter("flag").trim();// 执行日期
 			Orders order = new Orders();
 			order.setOrderid(id);
-			
-			if("cancel".equals(flag))
-			{
+
+			if ("cancel".equals(flag)) {
 				logger.info("用户拒绝了报告");
-				order.setStatus("4");//报告不通过接着重新提交报告
+				order.setStatus("4");// 报告不通过接着重新提交报告
+			} else if ("conform".equals(flag)) {
+				logger.info("用户接受了报告");
+				order.setStatus("6");// 报告审核通过
 			}
-				else if("conform".equals(flag)) {
-					logger.info("用户接受了报告");
-					order.setStatus("6");//报告审核通过
-				}
-		
 
 //			为该用户更新订单，依据订单的id查找订单，修改质检员的电话号码
 			OrderService orderService = new OrderService();
-			if(orderService.updateStatus(order)) {
+			if (orderService.updateStatus(order)) {
 				resultCode = 200;
-			}else {
+			} else {
 				resultCode = 500;
-			};
-
+			}
+			;
 		} else {
 
 		}
@@ -249,8 +241,66 @@ public class ReportController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-		
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/selectReport", method = RequestMethod.GET)
+	public HashMap<String, Object> selectReport(ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 获取用户是否登录
+		User user = (User) request.getSession().getAttribute("user");
+		HashMap<String, Object> hashMap = new HashMap<>();
+		int resultCode = -1;
+		if (user != null) {
+			String fuzzySearch = request.getParameter("fuzzySearch").trim();// 执行日期
+			String startIndex = request.getParameter("startIndex").trim();// 执行日期
+			String pageSize = request.getParameter("pageSize").trim();// 执行日期
+			String draw = request.getParameter("draw").trim();// 执行日期
+			logger.info(String.format("%s\t%s\t%s\t%s", fuzzySearch, startIndex, pageSize, draw));
+			HashMap<String, Object> hashMap2 = new HashMap<>();
+			hashMap2.put("start", Integer.parseInt(startIndex));
+			hashMap2.put("size", Integer.parseInt(pageSize));
+			hashMap2.put("custel", user.getCustel());
+			hashMap2.put("status", "4");
+			logger.info(hashMap2.toString());
+//			查找该用户的报告，在订单表里面查找状态字和用户的tel
+			Orders orders = new Orders();
+			orders.setCustel(user.getCustel());
+			orders.setStatus("1");
+
+			OrderService orderService = new OrderService();
+			try {
+
+				List<Orders> list = orderService.findByPage(hashMap2);
+				logger.info("list" + list.toString());
+				List<HashMap<String, String>> list2 = new ArrayList<HashMap<String, String>>();
+				for (Orders orders2 : list) {
+					HashMap<String, String> hashMa2p = new HashMap<>();
+					hashMa2p.put("name", orders2.getFactoryname());
+					hashMa2p.put("date", orders2.getDate());
+					hashMa2p.put("goods", orders2.getGoods());
+					hashMa2p.put("excedate", orders2.getExcedate());
+					hashMa2p.put("reportfile", orders2.getReportfile());
+					hashMa2p.put("reportfileuuid", orders2.getReportfileuuid());
+					hashMa2p.put("id",orders2.getOrderid());
+//					hashMa2p.put("role",orders2.getExcedate());
+					list2.add(hashMa2p);
+				}
+				logger.info(list2.toString());
+				hashMap.put("pageData", list2);
+				hashMap.put("total", list.size());
+//				hashMap.put("draw", list.size());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
+		} else {
+			resultCode = 404;
+		}
+		logger.info("返回报告信息");
+		hashMap.put("resultCode", resultCode);
+
+		return hashMap;
+	}
+
 }

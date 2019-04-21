@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
-<!--<![endif]-->
-
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,42 +17,39 @@
 	<link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
 	<link rel="stylesheet" href="assets/css/lib/datatable/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-	<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-
 </head>
-
 <body>
-
-
 	<div class="content" style="background: #f1f2f7">
 		<div class="animated fadeIn">
 			<div class="row">
-
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
 							<strong class="card-title">全部订单</strong>
 						</div>
-						<div class="card-body">
-							<table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+						<div class="card-body"  id="div-table-container">
+							<table id="table-user" class="table table-striped table-bordered table-hover table-condensed">
 								<thead>
 									<tr>
-										<th>订单号</th>
-										<th>验货日期</th>
-										<th>工厂名称</th>
+									<th>订单号</th>
+									<th>产品</th>
+									<th>工厂名称</th>
+									<th>下单时间</th>
+									<th>报告</th>
+									<th>执行日期</th>
+										<!--  
 										<th>产品订单号</th>
 										<th>产品货号</th>
 										<th>产品名称</th>
 										<th>服务类型</th>
 										<th>状态</th>
 										<th>操作</th>
-
+										-->
 									</tr>
 								</thead>
 								<tbody>
+								<!--  
 									<tr>
 										<td>123</td>
 										<td>2018/12/09</td>
@@ -69,175 +60,25 @@
 										<td>已完成</td>
 										<td>1</td>
 									</tr>
-									<tr>
-										<td>1234</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>12345</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123456</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>1234</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>12345</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123456</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>1234</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>12345</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123456</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>1234</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>12345</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td>123456</td>
-										<td>2018/12/09</td>
-										<td>一</td>
-										<td>1</td>
-										<td>12</td>
-										<td>罐头</td>
-										<td>已完成</td>
-										<td>1</td>
-									</tr>
-
+									-->
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 		<!-- .animated -->
 	</div>
 	<!-- .content -->
 	<!-- Scripts -->
+	<script src="report/js/json2.js"></script>
 	<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/jquery.matchHeight.min.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="report/js/jquery.dataTables.js"></script>
 	<script src="assets/js/lib/data-table/datatables.min.js"></script>
 	<script src="assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
 	<script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
@@ -248,40 +89,70 @@
 	<script src="assets/js/lib/data-table/buttons.print.min.js"></script>
 	<script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
 	<script src="assets/js/init/datatables-init.js"></script>
-	<
+	<!-- SpinJS 遮罩层-->
+	<script src="js/jquery.spin.merge.js"></script>
+	<!-- DataTables JS end-->
+
+<!--  
+	<script src="report/js/constant.js"></script>
+	<script src="report/js/user-manage.js"></script>
+-->
+
+	<script src="report/js/constant.js"></script>
+	<script src="report/js/user-manage2.js"></script>
+<!-- 
 	<script type="text/javascript">
-	
-	var data = [
-	    [
-	        "Tiger Nixon",
-	        "System Architect",
-	        "Edinburgh",
-	        "5421",
-	        "2011/04/25",
-	        "$3,120",
-	        "好的",
-	        "编辑"
-	    ],
-	    [
-	        "Garrett Winters",
-	        "Director",
-	        "Edinburgh",
-	        "8422",
-	        "2011/07/25",
-	        "$5,300",
-	        "好的",
-	        "编辑"
-	    ]
-	]
 		$(document).ready(function() {
-			$('#bootstrap-data-table-export').DataTable(
+			var data = [
+			    [
+			        "Tiger Nixon",
+			        "System Architect",
+			        "Edinburgh",
+			        "5421",
+			        "2011/04/25",
+			        "$3,120",
+			        "1",
+			        "好的",
+			        "编辑"
+			    ],
+			    [
+			        "Garrett Winters",
+			        "Director",
+			        "Edinburgh",
+			        "8422",
+			        "2011/07/25",
+			        "$5,300",
+			        "2",
+			        "好的",
+			        "编辑"
+			    ]
+			]
+			for(var i=0;i<50;i++){
+				//push添加元素到数组
+				data.push(
+						 [
+						        "Garrett Winters",
+						        "Director",
+						        "Edinburgh",
+						        "8422",
+						        "2011/07/25",
+						        "$5,300",
+						        "9",
+						        "好的",
+						        "编辑"
+						    ]
+				);
+			}
+			//添加数据到表格
+			$('#table-user').DataTable(
 					 {
-						    data: data
+						 destroy:true,//防止多次初始化
+						 data: data
 						});
 		});
+		
 	</script>
-
+ -->
 
 </body>
-
 </html>
