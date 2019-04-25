@@ -40,16 +40,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<!-- jdbc:mysql://129.28.19.203:3306/anqing?characterEncoding=utf-8 authentication_string -->
 				<property name="url"
 					value="jdbc:mysql://localhost:3306/inspect?characterEncoding=utf-8" />
 				<property name="username" value="root" />
-				<property name="password" value="018299%zxw" />
+				<property name="password" value="95Hou,X07.Yi02" />
 			</dataSource>
 		</environment>
 	</environments>
 	<mappers>
 		<mapper resource="sqlmap/UserMapper.xml" />
+		<mapper resource="sqlmap/OrderMapper.xml" />
 		<!--  
 		<mapper resource="sqlmap/GoodsMapper.xml" />
 		<mapper resource="sqlmap/RawFileMapper.xml" />
