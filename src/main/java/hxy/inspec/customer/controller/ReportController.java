@@ -47,8 +47,9 @@ public class ReportController {
 		String fileName = request.getParameter("fileuuid"); // 2323928392489-美人鱼.avi
 		// 处理文件名
 		String realName = request.getParameter("filename");
-//        fileName = new String(fileName.getBytes("iso8859-1"), "UTF-8");
-//        realName = new String(realName.getBytes("iso8859-1"), "UTF-8");
+        fileName = new String(fileName.getBytes("iso8859-1"), "UTF-8");
+        logger.info("解析后的文件名："+fileName);
+        realName = new String(realName.getBytes("iso8859-1"), "UTF-8");
 		logger.info("下载文件名：" + fileName);
 		// 上传的文件都是保存在/WEB-INF/upload目录下的子目录当中
 //		String fileSaveRootPath = this.getServletContext().getRealPath("/WEB-INF/upload");
