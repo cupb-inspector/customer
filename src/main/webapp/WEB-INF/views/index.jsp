@@ -187,11 +187,9 @@
                         </a>
                         <div class="collapse" id="account1">
                             <ul class="nav flex-column sub-menu">
+                            	<li><a href="personal" target="myiframe">账户设置</a></li>
                                 <li><a href="wallet" target="myiframe">我的钱包</a></li>
                                 <li><a href="integral" target="myiframe">我的等级与积分</a></li>
-                                <!--  
-                                <li><a href="personal" target="myiframe">账户设置</a></li>
-                                -->
                             </ul>
                         </div>
                     </li>

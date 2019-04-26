@@ -232,6 +232,14 @@
 		<servlet-name>admin-lose</servlet-name>
 		<url-pattern>/admin-lose</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>payment</servlet-name>
+		<jsp-file>/WEB-INF/views/account/payment.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>payment</servlet-name>
+		<url-pattern>/payment</url-pattern>
+	</servlet-mapping>
 
 
 
