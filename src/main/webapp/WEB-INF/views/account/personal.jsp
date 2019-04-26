@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@page import="hxy.inspec.customer.po.User"%>
+<jsp:include page="/WEB-INF/views/commons.jsp"/>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -11,12 +13,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ela Admin - HTML5 Admin Template</title>
+    <title>个人中心</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -28,11 +27,16 @@
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
     <link href="assets/weather/css/weather-icons.css" rel="stylesheet" />
     <link href="assets/calendar/fullcalendar.css" rel="stylesheet" />
-
     <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
     <style>
+            html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
         #weatherWidget .currentDesc {
             color: #ffffff !important;
         }
@@ -83,9 +87,8 @@
 </head>
 
 <body>
-
         <!-- Content -->
-        <div class="content"  style="background:#f1f2f7">
+                <div class="content"  style="background:#f1f2f7;height: 100%;">
             <!-- Animated -->
             <div class="animated fadeIn">
                 <!-- Widgets  -->
@@ -131,194 +134,62 @@
                                                         <img class="rounded-circle mx-auto d-block"
                                                             src="images/admin.jpg" alt="Card image cap">
                                                         <br />
+                                                        
+                                                             <!--  
                                                         <div class="location text-sm-center">
                                                             <button type="submit" class="btn btn-primary btn-sm">
                                                                 <i class="fa fa-pencil-square-o"></i> 修改头像
                                                             </button>
                                                         </div>
+                                                   
                                                         <div class="text-sm-center mt-2 mb-1">
 
                                                             <i>请点击“保存”按钮保存头像</i>
                                                         </div>
+                                                        -->
                                                     </div>
                                                     <hr>
                                                     <div class="card-text text-sm-center">
-                                                        <form action="#" method="post" enctype="multipart/form-data"
-                                                            class="form-horizontal">
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label
-                                                                        class=" form-control-label">Static</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <p class="form-control-static">Username</p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="password-input"
-                                                                        class=" form-control-label">Password</label>
-                                                                </div>
-                                                                <div class="col-12 col-md-9"><input type="password"
-                                                                        id="password-input" name="password-input"
-                                                                        placeholder="Password"
-                                                                        class="form-control"><small
-                                                                        class="help-block form-text">Please enter a
-                                                                        complex password</small></div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="disabled-input"
-                                                                        class=" form-control-label">Disabled
-                                                                        Input</label></div>
-                                                                <div class="col-12 col-md-9"><input type="text"
-                                                                        id="disabled-input" name="disabled-input"
-                                                                        placeholder="Disabled" disabled=""
-                                                                        class="form-control"></div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="textarea-input"
-                                                                        class=" form-control-label">Textarea</label>
-                                                                </div>
-                                                                <div class="col-12 col-md-9"><textarea
-                                                                        name="textarea-input" id="textarea-input"
-                                                                        rows="9" placeholder="Content..."
-                                                                        class="form-control"></textarea></div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="select"
-                                                                        class=" form-control-label">Select</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <select name="select" id="select"
+                                                    
+                                            <table class="table">
+                                                <tr>
+                                                    <td><i class='fa fa-check-circle'
+                                                            style='color:forestgreen'></i> 用户名</td>
+                                                    <td >${name}</td>
+                                                    <td><a class='connect' href='#' style='color:mediumblue'></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class='fa fa-exclamation-circle'
+                                                            style='color:chocolate'></i> 登录密码</td>
+                                                    <td>********</td>
+                                                    <td><a class='connect' href='#' style='color:mediumblue'>修改登录密码</a>
+                                                    </td>
+                                                </tr>
+                                                <!-- 
+                                                <tr>
+                                                    <td><i class='fa fa-exclamation-circle'
+                                                            style='color:chocolate'></i> 币种选择</td>
+                                                    <td>      <select name="select" id="select"
                                                                         class="form-control">
                                                                         <option value="0">Please select</option>
-                                                                        <option value="1">Option #1</option>
-                                                                        <option value="2">Option #2</option>
-                                                                        <option value="3">Option #3</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="disabledSelect"
-                                                                        class=" form-control-label">Disabled
-                                                                        Select</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <select name="disabledSelect" id="disabledSelect"
-                                                                        disabled="" class="form-control">
-                                                                        <option value="0">Please select</option>
-                                                                        <option value="1">Option #1</option>
-                                                                        <option value="2">Option #2</option>
-                                                                        <option value="3">Option #3</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="multiple-select"
-                                                                        class=" form-control-label">Multiple
-                                                                        select</label></div>
-                                                                <div class="col col-md-9">
-                                                                    <select name="multiple-select" id="multiple-select"
-                                                                        multiple="" class="form-control">
-                                                                        <option value="1">Option #1</option>
-                                                                        <option value="2">Option #2</option>
-                                                                        <option value="3">Option #3</option>
-                                                                        <option value="4">Option #4</option>
-                                                                        <option value="5">Option #5</option>
-                                                                        <option value="6">Option #6</option>
-                                                                        <option value="7">Option #7</option>
-                                                                        <option value="8">Option #8</option>
-                                                                        <option value="9">Option #9</option>
-                                                                        <option value="10">Option #10</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label
-                                                                        class=" form-control-label">Radios</label></div>
-                                                                <div class="col col-md-9">
-                                                                    <div class="form-check">
-                                                                        <div class="radio">
-                                                                            <label for="radio1"
-                                                                                class="form-check-label ">
-                                                                                <input type="radio" id="radio1"
-                                                                                    name="radios" value="option1"
-                                                                                    class="form-check-input">Option 1
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="radio">
-                                                                            <label for="radio2"
-                                                                                class="form-check-label ">
-                                                                                <input type="radio" id="radio2"
-                                                                                    name="radios" value="option2"
-                                                                                    class="form-check-input">Option 2
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="radio">
-                                                                            <label for="radio3"
-                                                                                class="form-check-label ">
-                                                                                <input type="radio" id="radio3"
-                                                                                    name="radios" value="option3"
-                                                                                    class="form-check-input">Option 3
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label
-                                                                        class=" form-control-label">Inline
-                                                                        Radios</label></div>
-                                                                <div class="col col-md-9">
-                                                                    <div class="form-check-inline form-check">
-                                                                        <label for="inline-radio1"
-                                                                            class="form-check-label ">
-                                                                            <input type="radio" id="inline-radio1"
-                                                                                name="inline-radios" value="option1"
-                                                                                class="form-check-input">One
-                                                                        </label>
-                                                                        <label for="inline-radio2"
-                                                                            class="form-check-label ">
-                                                                            <input type="radio" id="inline-radio2"
-                                                                                name="inline-radios" value="option2"
-                                                                                class="form-check-input">Two
-                                                                        </label>
-                                                                        <label for="inline-radio3"
-                                                                            class="form-check-label ">
-                                                                            <input type="radio" id="inline-radio3"
-                                                                                name="inline-radios" value="option3"
-                                                                                class="form-check-input">Three
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="file-input"
-                                                                        class=" form-control-label">File input</label>
-                                                                </div>
-                                                                <div class="col-12 col-md-9"><input type="file"
-                                                                        id="file-input" name="file-input"
-                                                                        class="form-control-file"></div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label
-                                                                        for="file-multiple-input"
-                                                                        class=" form-control-label">Multiple File
-                                                                        input</label></div>
-                                                                <div class="col-12 col-md-9"><input type="file"
-                                                                        id="file-multiple-input"
-                                                                        name="file-multiple-input" multiple=""
-                                                                        class="form-control-file"></div>
-                                                            </div>
-                                                            <div>
-                                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                                    <i class="fa fa-dot-circle-o"></i> 提交
-                                                                </button>
-                                                                <button type="reset" class="btn btn-danger btn-sm">
-                                                                    <i class="fa fa-ban"></i> 重置
-                                                                </button>
-                                                            </div>
-                                                        </form>
+                                                                        <option value="1">人民币</option>
+                                                                        <option value="2">美元</option>
+                                                                    </select></td>
+                                                    <td><a class='connect' href='#' style='color:mediumblue'></a>
+                                                    </td>
+                                                </tr>
+                                                 -->
+                                                <tr>
+                                                    <td><i class='fa fa-check-circle' style='color:forestgreen'></i> 绑定邮箱
+                                                    </td>
+                                                    <td>${email}</td>
+                                                    <td><a class='connect' href='#' style='color:mediumblue'>修改邮箱</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                                    
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -599,7 +470,7 @@
     <script src="assets/weather/js/weather-init.js"></script>
     <script src="assets/js/lib/moment/moment.js"></script>
     <script src="assets/calendar/fullcalendar.min.js"></script>
-    <script src="assets/calendar/fullcalendar-init.js"></script>cript>
+    <script src="assets/calendar/fullcalendar-init.js"></script>
     <script src="assets/js/init/weather-init.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>

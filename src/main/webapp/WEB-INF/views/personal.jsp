@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <jsp:include page="/WEB-INF/views/commons.jsp"/>
+<jsp:include page="/WEB-INF/views/commons.jsp"/>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ela Admin - HTML5 Admin Template</title>
+    <title>我的信息</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,12 +34,6 @@
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
     <style>
-            html,
-        body {
-            margin: 0px;
-            width: 100%;
-            height: 100%;
-        }
         #weatherWidget .currentDesc {
             color: #ffffff !important;
         }
@@ -79,16 +73,20 @@
 
         #cellPaiChart {
             height: 160px;
+
+
+        }
+
+        #connect {
+            color: chocolate
         }
     </style>
 </head>
 
 <body>
- 
-
 
         <!-- Content -->
-        <div class="content"  style="background:#f1f2f7;height: 100%;">
+        <div class="content"  style="background:#f1f2f7">
             <!-- Animated -->
             <div class="animated fadeIn">
                 <!-- Widgets  -->
@@ -99,7 +97,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>我的积分</h4>
+                                <h4>个人中心</h4>
                             </div>
                             <div class="card-body">
                                 <div class="default-tab">
@@ -108,106 +106,172 @@
                                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
                                                 href="#nav-home" role="tab" aria-controls="nav-home"
                                                 aria-selected="true">
-                                                <h4>首页</h4>
+                                                <h4>基本信息</h4>
                                             </a>
                                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
                                                 href="#nav-profile" role="tab" aria-controls="nav-profile"
                                                 aria-selected="false">
-                                                <h4>积分记录</h4>
+                                                <h4>修改密码</h4>
+
                                             </a>
+                                            
 
                                         </div>
                                     </nav>
                                     <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                             aria-labelledby="nav-home-tab">
-                                            <div class="col-lg-6">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title box-title">分享链接赚积分</h4>
-                                                        <div class="card-content">
-                                                            <div class="messenger-box">
-                                                                <ul>
-                                                                    <li>
-                                                                        <div class="msg-received msg-container">
-                                                                            <div class="avatar">
-                                                                                <img src="images/figure.jpg" alt="">
+                                            <div class="card">
 
-                                                                            </div>
-                                                                            <div class="msg-box">
-                                                                                <div class="inner-box">
-                                                                                    <div class="name">
-                                                                                        推荐
-                                                                                    </div>
-                                                                                    <div class="meg">
-                                                                                        用户分享http://www.globalinsp.com此链接给身边的同事、朋友，即可获得+2积分哦！
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div><!-- /.msg-received -->
-                                                                    </li>
-
-                                                                </ul>
-                                                                <div class="send-mgs">
-                                                                    <div class="yourmsg">
-                                                                        <input class="form-control" type="text" value='分享链接 http://www.globalinsp.com'>
-                                                                    </div>
-                                                                    <button class="btn msg-send-btn">
-                                                                        <i class="pe-7s-paper-plane"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div><!-- /.messenger-box -->
+                                                <div class="card-body">
+                                                    <div class="mx-auto d-block">
+                                                        <img class="rounded-circle mx-auto d-block"
+                                                            src="images/admin.jpg" alt="Card image cap">
+                                                        <br />
+                                                        <div class="location text-sm-center">
+                                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                                <i class="fa fa-pencil-square-o"></i> 修改头像
+                                                            </button>
+                                                            
                                                         </div>
-                                                    </div> <!-- /.card-body -->
+                                                        <!-- 
+                                                        <div class="text-sm-center mt-2 mb-1">
+
+                                                            <i>请点击“保存”按钮保存头像</i>
+                                                        </div>
+                                                         -->
+                                                    </div>
+                                                    <hr>
+                                                    <div class="card-text text-sm-center">
+                                                        <form action="#" method="post" enctype="multipart/form-data"
+                                                            class="form-horizontal">
+                                                            
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label for="password-input"
+                                                                        class=" form-control-label">姓名</label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9"><input type="password"
+                                                                        id="password-input" name="password-input"
+                                                                        placeholder="请填写真实姓名"
+                                                                        class="form-control"></div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label
+                                                                        class=" form-control-label">性别</label></div>
+                                                                <div class="col col-md-9">
+                                                                    <div class="form-check-inline form-check"> 
+                                                                        <label for="inline-radio1"
+                                                                            class="form-check-label ">
+                                                                            <input type="radio" id="inline-radio1"
+                                                                                name="inline-radios" value="option1"
+                                                                                class="form-check-input">男
+                                                                        </label>
+                                                                        <label for="inline-radio2"
+                                                                            class="form-check-label ">
+                                                                            <input type="radio" id="inline-radio2"
+                                                                                name="inline-radios" value="option2"
+                                                                                class="form-check-input">女
+                                                                        </label>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label for="password-input"
+                                                                        class=" form-control-label">联系电话</label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9"><input type="password"
+                                                                        id="password-input" name="password-input"
+                                                                        placeholder="18175306923"
+                                                                        class="form-control"></div>
+                                                            </div>
+                                                            
+                                                            <div>
+                                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-dot-circle-o"></i> 提交
+                                                                </button>
+                                                                <button type="reset" class="btn btn-danger btn-sm">
+                                                                    <i class="fa fa-ban"></i> 重置
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-
-
-                                        </div>
+                                        </div><!--first_tab-->
 
                                         <div class="tab-pane fade" id="nav-profile" role="tabpanel"
                                             aria-labelledby="nav-profile-tab">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">时间</th>
-                                                        <th scope="col" colspan=‘2’>详情</th>
-                                                        <th scope="col">积分变化</th>
-                                                        <th scope="col">积分余额</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                </tbody>
-                                            </table>
-
-                                        </div>
+                                            <br/>
+                                            <form action="#" method="post" enctype="multipart/form-data"
+                                                            class="form-horizontal">
+                                                            
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label for="password-input"
+                                                                        class=" form-control-label">输入原密码</label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9"><input type="password"
+                                                                        id="password-input" name="password-input"
+                                                                        placeholder="请输入原密码"
+                                                                        class="form-control"></div>
+                                                            </div>
+                                                            
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label for="password-input"
+                                                                        class=" form-control-label">输入新密码</label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9"><input type="password"
+                                                                        id="password-input" name="password-input"
+                                                                        placeholder="请输入新密码"
+                                                                        class="form-control"></div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3"><label for="password-input"
+                                                                        class=" form-control-label">确认新密码</label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9"><input type="password"
+                                                                        id="password-input" name="password-input"
+                                                                        placeholder="请确认新密码"
+                                                                        class="form-control"></div>
+                                                            </div>
+                                                            
+                                                            <div>
+                                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-dot-circle-o"></i> 提交
+                                                                </button>
+                                                                <button type="reset" class="btn btn-danger btn-sm">
+                                                                    <i class="fa fa-ban"></i> 重置
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                        </div><!--second_tab-->
+                                        
 
                                     </div>
 
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <!--  /moneytable -->
-
-                <!-- Orders -->
-
-                <!-- /.orders -->
-                <!-- To Do and Live Chat -->
-
-                <!-- /To Do and Live Chat -->
-                <!-- Calender Chart Weather  -->
-
-                <!-- /Calender Chart Weather -->
-
             </div>
+
+
+            <!--  /moneytable -->
+
+            <!-- Orders -->
+
+            <!-- /.orders -->
+            <!-- To Do and Live Chat -->
+
+            <!-- /To Do and Live Chat -->
+            <!-- Calender Chart Weather  -->
+
+            <!-- /Calender Chart Weather -->
+
         </div>
- 
+
 
     <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
@@ -231,6 +295,8 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
     <script src="assets/js/init/fullcalendar-init.js"></script>
 
+           
+    </script>
     <!--Local Stuff-->
     <script>
         jQuery(document).ready(function ($) {
