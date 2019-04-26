@@ -90,7 +90,7 @@
             fd.append('value', value)
             fd.append('notes', notes)
             fd.append('file', file_obj);
-
+            document.getElementById("btn").setAttribute("disabled", true);
             $.ajax({
                 url:'account-charge',
                 type:'POST',
@@ -168,7 +168,7 @@
 
 								<div>
 									<a href='#'>
-										<button type="submit" onclick="jqSubmit();" id="btn"  class="btn btn-primary">
+										<button  onclick="jqSubmit();" id="btn"  class="btn btn-primary">
 											<i class="fa fa-lock fa-lg"></i>&nbsp; 充值
 										</button>
 									</a>

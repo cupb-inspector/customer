@@ -38,11 +38,10 @@ public class AccountController {
 	private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@RequestMapping(value = "/account-charge", method = RequestMethod.POST)
-	public void cusInsertOrder(ModelMap model, HttpServletRequest request, HttpServletResponse response)
-			  {
+	public void cusInsertOrder(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
-		int resultCode=0;
+		int resultCode = 0;
 		if (user != null) {
 			Account account = new Account();
 			account.setUserTel(user.getCustel());
@@ -53,10 +52,10 @@ public class AccountController {
 			String StartTime = dateFormat.format(now);
 			logger.info(String.format("现在时间：%s", StartTime));
 			account.setTime(StartTime);
-			account.setType("charge");//充值
-			
-			logger.info("开始接收模板");
-//		doGet(request, response);
+			account.setType("charge");// 充值
+			account.setStatus("0");
+
+			logger.info("开始接收凭证");
 			// 使用Apache文件上传组件处理文件上传步骤：
 			// 1、创建一个DiskFileItemFactory工厂
 			DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -75,7 +74,7 @@ public class AccountController {
 			List<FileItem> list = null;
 
 			// 解决：https://blog.csdn.net/sinat_34104446/article/details/82755403
-			
+
 			RequestContext context = new ServletRequestContext(request);
 			try {
 				list = upload.parseRequest(context);
@@ -86,10 +85,6 @@ public class AccountController {
 
 			for (FileItem item : list) {
 				logger.info("遍历文件");
-
-				// 如果fileitem中封装的是普通输入项的数据
-				// System.out.println("名字："+item.getName());
-
 				if (item.isFormField()) {
 					String key = item.getFieldName();
 					String value = null;
@@ -129,7 +124,6 @@ public class AccountController {
 						out.close(); // 删除处理文件上传时生成的临时文件
 						item.delete();
 						resultCode = 200;
-
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 						resultCode = 601;// 错误
@@ -137,29 +131,36 @@ public class AccountController {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					File file = new File(Configration.FILE_ROOT_DIR,fileName);
+					File file = new File(Configration.FILE_ROOT_DIR, fileName);
 					account.setFile(fileName);
-					String uuid = UUID.randomUUID().toString().replace("-", "");;// 全球唯一标识码
-
+					String uuid = UUID.randomUUID().toString().replace("-", "");
+					// 全球唯一标识码
 					String fileUuid = uuid + fileName;
-					logger.info("Length of fileUuid:"+fileUuid.length());
+					logger.info("Length of fileUuid:" + fileUuid.length());
 					account.setFileUuid(fileUuid);
-					
 					logger.info("文件名路径：" + file.getAbsolutePath());
-					
 				}
 			}
 			AccountService accountService = new AccountService();
-			
+			logger.info(user.getCusMoney());
+			logger.info(account.getValue());
+			float a = Float.parseFloat(user.getCusMoney())+ Float.parseFloat(account.getValue());
+			account.setSurplus(String.valueOf(a));
+
 			try {
 				if (accountService.insert(account)) {
-					resultCode=200;
-				}else
-					resultCode=599;//数据库内部操作异常
+					resultCode = 200;
+					// 充值成功。获取用户的货币余额，处理下
+					// 应该由管理员通过后再加上去。
+					// int money =Integer.parseInt(
+					// account.getValue())+Integer.parseInt(user.getCusMoney());
+					// 更新用户的余额
+				} else
+					resultCode = 599;// 数据库内部操作异常
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				resultCode=598;//数据库内部错误
+				resultCode = 598;// 数据库内部错误
 			}
 		}
 		// 返回信息

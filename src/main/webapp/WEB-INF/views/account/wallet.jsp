@@ -1,6 +1,15 @@
+<%@page import="hxy.inspec.customer.po.User"%>
+<%@page import="hxy.inspec.customer.service.AccountService"%>
+<%@page import="hxy.inspec.customer.po.Account"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/commons.jsp" />
+
+<%
+request.setCharacterEncoding("utf-8");
+User user = (User) request.getSession().getAttribute("user");
+%>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -189,7 +198,9 @@
 											data-toggle="tab" href="#nav-home" role="tab"
 											aria-controls="nav-home" aria-selected="true">
 											<h4>钱包明细</h4>
-										</a> <a class="nav-item nav-link" id="nav-profile-tab"
+										</a> 
+											<!-- 
+										<a class="nav-item nav-link" id="nav-profile-tab"
 											data-toggle="tab" href="#nav-profile" role="tab"
 											aria-controls="nav-profile" aria-selected="false">
 											<h4>钱包收入</h4>
@@ -197,7 +208,9 @@
 											data-toggle="tab" href="#nav-contact" role="tab"
 											aria-controls="nav-contact" aria-selected="false">
 											<h4>钱包支出</h4>
+											
 										</a>
+										 -->
 									</div>
 								</nav>
 								<div class="tab-content pl-3 pt-2" id="nav-tabContent">
@@ -211,24 +224,35 @@
 													<th scope="col" colspan=‘2’>详情</th>
 													<th scope="col">钱包变化</th>
 													<th scope="col">钱包余额</th>
+													<th scope="col">状态</th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<th scope="row">1</th>
-													<td>2018/12/09</td>
-													<td>支付宝充值100</td>
-													<td>+100</td>
-													<td>200</td>
+											
+												<%
+												AccountService accountService = new AccountService();
+												
+												List<Account>  ls = accountService.selectAllByTel(user.getCustel());
+												
+												
+													if(ls!=null&&ls.size()!=0){
+														for(int i=0;i<ls.size();i++){
+															Account a = ls.get(i);
+														%>
+														<tr>
+													<th scope="row"><%=i+1 %></th>
+													<td><%=a.getTime() %></td>
+														<td><%=a.getTypeString() %></td>
+													<td><%=a.getOperateString()+a.getValue() %></td>
+													<td><%=a.getSurplus() %></td>
+													<td><%=a.getStatusString() %></td>
 												</tr>
-												<tr>
-													<th scope="row">2</th>
-													<td>2018/12/08</td>
-													<td>支付宝充值100</td>
-													<td>+100</td>
-													<td>100</td>
-												</tr>
-
+														
+														
+														<% 
+														}
+													}
+												%>
 											</tbody>
 										</table>
 									</div>

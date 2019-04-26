@@ -8,10 +8,10 @@
 		useGeneratedKeys="true">
 		insert into cususer(custel, cusname ,
 		cuspasswd
-		,cusaddress,cusdate,cusvip,custrade,cusgrade,email )
+		,cusaddress,cusdate,cusvip,custrade,cusgrade,email,cusOrders ,cusMoney)
 		values(#{custel}
 		,#{cusname}, #{cuspasswd} ,
-		#{cusaddress},#{cusdate},#{cusvip},#{custrade},#{cusgrade},#{email})
+		#{cusaddress},#{cusdate},#{cusvip},#{custrade},#{cusgrade},#{email},#{cusOrders},#{cusMoney})
 	</insert>
 	<select id="selectAll" resultType="hxy.inspec.customer.po.User">
 		select * from cususer

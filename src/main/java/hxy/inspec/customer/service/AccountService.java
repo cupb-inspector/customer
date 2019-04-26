@@ -1,12 +1,15 @@
 package hxy.inspec.customer.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import hxy.inspec.customer.dao.AccountDao;
+import hxy.inspec.customer.dao.OrdersDao;
 import hxy.inspec.customer.po.Account;
+import hxy.inspec.customer.po.Orders;
 
 public class AccountService {
 	
@@ -23,6 +26,11 @@ public class AccountService {
 			}
 		
 		return false;
+	}
+	public List<Account> selectAllByTel(String tel) throws IOException {
+		AccountDao orderDao = new AccountDao();
+		List<Account> list = orderDao.selectAllByTel(tel);
+		return list;
 	}
 
 }

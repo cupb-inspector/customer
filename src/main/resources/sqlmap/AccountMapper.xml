@@ -10,9 +10,9 @@
 		parameterType="hxy.inspec.customer.po.Account" useGeneratedKeys="true">
 		insert
 		into account
-		(userTel,operate,value,surplus,time,type,file,fileUuid,adminTel,notes)
+		(userTel,operate,value,surplus,time,type,file,fileUuid,adminTel,notes,status)
 		values
-		(#{userTel},#{operate},#{value},#{surplus},#{time},#{type},#{file},#{fileUuid},#{adminTel},#{notes})
+		(#{userTel},#{operate},#{value},#{surplus},#{time},#{type},#{file},#{fileUuid},#{adminTel},#{notes},#{status})
 	</insert>
 
 
