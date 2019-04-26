@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:include page="/WEB-INF/views/commons.jsp"/>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -11,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ela Admin - HTML5 Admin Template</title>
+    <title>首页内容</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/normalize.css">
@@ -79,6 +80,7 @@
             <div class="animated fadeIn">
                 <!-- Widgets  -->
                 <div class="row">
+                <!--
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body">
@@ -96,6 +98,7 @@
                             </div>
                         </div>
                     </div>
+                      -->
 
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
@@ -106,7 +109,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text">￥<span class="count">3435</span></div>
+                                            <div class="stat-text">￥<span class="">3435</span></div>
                                             <div class="stat-heading">人民币余额</div>
                                         </div>
                                     </div>
@@ -143,7 +146,25 @@
                                     <div class="stat-content">
                                         <div class="text-left dib">
                                             <div class="stat-text"><span class="count">2986</span></div>
-                                            <div class="stat-heading">我的订单数</div>
+                                            <div class="stat-heading">处理中订单</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                       <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-1">
+                                        <i class="pe-7s-cash"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text"><span class="count">23569</span></div>
+                                            <div class="stat-heading">总订单</div>
                                         </div>
                                     </div>
                                 </div>
