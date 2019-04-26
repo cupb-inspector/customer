@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/commons.jsp"/>
+<%@page import="hxy.inspec.customer.po.User"%>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -8,6 +9,17 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
 <!--<![endif]-->
+
+<%
+//查询个人信息
+request.setCharacterEncoding("utf-8");
+User user = (User) request.getSession().getAttribute("user");
+if(user!=null){
+	
+}
+
+
+%>
 
 <head>
     <meta charset="utf-8">
@@ -109,7 +121,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text">￥<span class="">3435</span></div>
+                                            <div class="stat-text">￥<span class=""><%=user.getCusMoney() %></span></div>
                                             <div class="stat-heading">人民币余额</div>
                                         </div>
                                     </div>
@@ -127,7 +139,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">349</span></div>
+                                            <div class="stat-text"><span class="count"><%=user.getCusgrade() %></span></div>
                                             <div class="stat-heading">我的积分</div>
                                         </div>
                                     </div>
@@ -145,7 +157,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">2986</span></div>
+                                            <div class="stat-text"><span class="count"><%=user.getCusOrders() %></span></div>
                                             <div class="stat-heading">处理中订单</div>
                                         </div>
                                     </div>
@@ -163,7 +175,7 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">23569</span></div>
+                                            <div class="stat-text"><span class="count"><%=user.getCusOrders() %></span></div>
                                             <div class="stat-heading">总订单</div>
                                         </div>
                                     </div>

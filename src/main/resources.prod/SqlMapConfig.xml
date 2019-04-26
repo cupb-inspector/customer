@@ -48,8 +48,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="sqlmap/UserMapper.xml" />
+				<mapper resource="sqlmap/UserMapper.xml" />
 		<mapper resource="sqlmap/OrderMapper.xml" />
+				<mapper resource="sqlmap/AccountMapper.xml" />
 		<!--  
 		<mapper resource="sqlmap/GoodsMapper.xml" />
 		<mapper resource="sqlmap/RawFileMapper.xml" />

@@ -132,6 +132,9 @@ public class UserController {
 				user.setCuspasswd(newpasswd);
 				user.setCustel(tel);
 				user.setEmail(email);
+				user.setCusgrade("0");
+				user.setCusMoney("0");
+				user.setCusOrders("0");
 				// 检查用户是否存在
 				UserService userService = new UserService();
 				User user1 = userService.login(tel);

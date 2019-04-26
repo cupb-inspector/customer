@@ -29,6 +29,7 @@
 
 <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
 <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
 
 <style>
         html,
@@ -78,6 +79,44 @@
 	height: 160px;
 }
 </style>
+ <script type="text/javascript">  
+        function jqSubmit() {
+           // {# $('#fafafa')[0]#}
+            var file_obj = document.getElementById('file').files[0];
+            var value =$("#value").val()
+            var notes =$("#notes").val()
+            console.log(value+"\t"+notes)
+            var fd = new FormData();
+            fd.append('value', value)
+            fd.append('notes', notes)
+            fd.append('file', file_obj);
+
+            $.ajax({
+                url:'account-charge',
+                type:'POST',
+                data:fd,
+                dataType : "json",//预期服务器返回的数据类型
+                processData:false,  //tell jQuery not to process the data
+                contentType: false,  //tell jQuery not to set contentType
+                //这儿的三个参数其实就是XMLHttpRequest里面带的信息。
+                success:function (result,arg,a1,a2) {
+                	 console.log(result);
+                    console.log(arg);
+                    console.log(a1);
+                    console.log(a2);
+            		if (result.resultCode == 200) {
+        				//thisE.previousElementSibling.innerHTML = "允许"
+        					//自动消失的消息
+        					$('.alert').removeClass('alert-warning')
+        					$('.alert').html('提交成功').addClass('alert-success').show().delay(2000).fadeOut();
+            		}
+                    
+                }
+
+            })
+        }
+</script>    
+
 </head>
 
 <body>
@@ -95,15 +134,14 @@
 							<h4>充值</h4>
 						</div>
 						<div class="card-body">
-							<form action="#" method="post" enctype="multipart/form-data"
-								class="form-horizontal">
+							<div class="form-horizontal">
 
 								<div class="row form-group">
 									<div class="col col-md-3">
 										<label for="text-input" class=" form-control-label">充值金额</label>
 									</div>
 									<div class="col-12 col-md-9">
-										<input type="number" id="text-input" name="text-input"
+										<input type="number" id="value" name="text-input"
 											placeholder="金额数值为整数" class="form-control" value="100.00">
 									</div>
 								</div>
@@ -113,8 +151,7 @@
 										<label for="text-input" class=" form-control-label">充值凭证</label>
 									</div>
 									<div class="col-12 col-md-9">
-										<input type="file" id="file" name="text-input"
-											placeholder="金额数值为整数" class="form-control" value="100.00">
+										<input type="file" id="file" name="text-input" class="form-control">
 									</div>
 								</div>
 								
@@ -123,7 +160,7 @@
 										<label for="text-input" class=" form-control-label">备注</label>
 									</div>
 									<div class="col-12 col-md-9">
-										<input type="text" id="file" name="text-input"
+										<input type="text" id="notes" name="notes"
 											placeholder="时间" class="form-control" >
 									</div>
 								</div>
@@ -131,13 +168,13 @@
 
 								<div>
 									<a href='#'>
-										<button type="submit" class="btn btn-primary">
+										<button type="submit" onclick="jqSubmit();" id="btn"  class="btn btn-primary">
 											<i class="fa fa-lock fa-lg"></i>&nbsp; 充值
 										</button>
 									</a>
 								</div>
 
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>

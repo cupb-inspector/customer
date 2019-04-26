@@ -110,6 +110,17 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
+		
+		String sql1 = "create table IF NOT EXISTS  account (cusid int not null primary key  AUTO_INCREMENT, `userTel` VARCHAR(15) NULL, `operate` VARCHAR(10) NULL,`value` VARCHAR(25) NULL ,`surplus` VARCHAR(15) NULL ,`time` VARCHAR(45) NULL ,`type` VARCHAR(15) NULL ,`file` VARCHAR(45) NULL ,`fileUuid` VARCHAR(155) NULL ,`adminTel` VARCHAR(15) NULL,  `notes` VARCHAR(55) NULL)default charset=utf8; ";
+		PreparedStatement preparedStatement1 = ConnectionUtil.getPreparedStatement(connection, sql1);
+		try {
+			logger.info("尝试新建account表");
+			preparedStatement1.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.error("数据库连接失败！");
+		}
+		
 		/*
 		 * String sql1 =
 		 * "create table IF NOT EXISTS  net_type_and_province (id int not null primary key  AUTO_INCREMENT, `ttkduserid` VARCHAR(45) NULL, `netType` VARCHAR(45) NULL,`province` VARCHAR(45) NULL,`ceiling` VARCHAR(45) NULL,`floor` VARCHAR(45) NULL,`price` VARCHAR(45) NULL,`added` VARCHAR(45) NULL,`profile` VARCHAR(45) NULL  )default charset=utf8; "
