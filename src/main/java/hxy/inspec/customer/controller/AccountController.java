@@ -52,7 +52,7 @@ public class AccountController {
 			String StartTime = dateFormat.format(now);
 			logger.info(String.format("现在时间：%s", StartTime));
 			account.setTime(StartTime);
-			account.setType("charge");// 充值
+			account.setType("1");// 充值 1充值 
 			account.setStatus("0");
 
 			logger.info("开始接收凭证");
