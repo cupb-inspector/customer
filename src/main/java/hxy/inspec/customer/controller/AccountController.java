@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import hxy.inspec.customer.po.Account;
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.AccountService;
+import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configration;
 
 @Controller
@@ -43,6 +44,11 @@ public class AccountController {
 		User user = (User) request.getSession().getAttribute("user");
 		int resultCode = 0;
 		if (user != null) {
+			//查询最新的个人信息
+			UserService userService = new UserService();
+			user=userService.selectUserByTel(user.getCustel());
+			
+			
 			Account account = new Account();
 			account.setUserTel(user.getCustel());
 			account.setOperate("add");

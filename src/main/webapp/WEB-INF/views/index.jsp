@@ -119,7 +119,7 @@
                         <div class="collapse" id="bill">
                             <ul class="nav flex-column sub-menu">
                                     <li><a href="orders-all-content" target="myiframe">全部</a></li>
-                                    <li><a href="orders-draft" target="myiframe">草稿</a></li>
+                                  <!-- <li><a href="orders-draft" target="myiframe">草稿</a></li>  -->  
                                     <li><a href="orders-finished" target="myiframe">已完成</a></li>
                                     <li><a href="orders-unfinished" target="myiframe">未完成</a></li>
                                     <li><a href="orders-cancel" target="myiframe">已取消</a></li>

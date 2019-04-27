@@ -44,6 +44,8 @@
 	<sql id="Base_Column_List">
 		excedate, goods, factoryname, reportfile, reportfileuuid
 	</sql>
+	
+	
 	<!-- 根据分页数据start 和size查询数据 -->
 	<select id="findByPage" parameterType="Map" resultType="hxy.inspec.customer.po.Orders">
 		select * from orders WHERE custel=#{custel} and status=#{status}
@@ -52,6 +54,13 @@
 		</if>
 	</select>
 	
+		<!-- 查询未完成的最近的订单，根据分页数据start 和size查询数据 -->
+	<select id="findOrdersByStatusJudge" parameterType="Map" resultType="hxy.inspec.customer.po.Orders">
+		select * from orders WHERE custel=#{custel} and status &lt; #{status}
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
 	
 	
 

@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
     <%@page import="hxy.inspec.customer.po.User"%>
 <jsp:include page="/WEB-INF/views/commons.jsp"/>
+<%
+request.setCharacterEncoding("utf-8");
+User user = (User) request.getSession().getAttribute("user");
+%>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -110,6 +114,7 @@
                                                 aria-selected="true">
                                                 <h4>基本资料</h4>
                                             </a>
+                                            <!-- 
                                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
                                                 href="#nav-profile" role="tab" aria-controls="nav-profile"
                                                 aria-selected="false">
@@ -121,7 +126,7 @@
                                                 aria-selected="false">
                                                 <h4>公司资料</h4>
                                             </a>
-
+ -->
                                         </div>
                                     </nav>
                                     <div class="tab-content pl-3 pt-2" id="nav-tabContent">
@@ -155,7 +160,14 @@
                                                 <tr>
                                                     <td><i class='fa fa-check-circle'
                                                             style='color:forestgreen'></i> 用户名</td>
-                                                    <td >${name}</td>
+                                                    <td ><%=user.getCusname() %></td>
+                                                    <td><a class='connect' href='#' style='color:mediumblue'></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class='fa fa-check-circle' style='color:forestgreen'></i> 手机号码
+                                                    </td>
+                                                    <td><%=user.getCustel() %></td>
                                                     <td><a class='connect' href='#' style='color:mediumblue'></a>
                                                     </td>
                                                 </tr>
@@ -183,7 +195,7 @@
                                                 <tr>
                                                     <td><i class='fa fa-check-circle' style='color:forestgreen'></i> 绑定邮箱
                                                     </td>
-                                                    <td>${email}</td>
+                                                    <td><%=user.getEmail() %></td>
                                                     <td><a class='connect' href='#' style='color:mediumblue'>修改邮箱</a>
                                                     </td>
                                                 </tr>

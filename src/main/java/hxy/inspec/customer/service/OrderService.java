@@ -42,6 +42,14 @@ public class OrderService {
 		List<Orders> list = ordersDao.findByPage(tel);
 		return list;
 	}
+	
+	public List<Orders> findOrdersByStatusJudge(HashMap<String, Object> tel) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list = ordersDao.findOrdersByStatusJudge(tel);
+		return list;
+	}
+	
+	
 
 	public List<Orders> selectAllByTelAndStatus(Orders tel) throws IOException {
 		OrdersDao ordersDao = new OrdersDao();

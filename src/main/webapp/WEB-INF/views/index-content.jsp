@@ -1,3 +1,7 @@
+<%@page import="hxy.inspec.customer.po.Orders"%>
+<%@page import="java.util.List"%>
+<%@page import="hxy.inspec.customer.service.OrderService"%>
+<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/commons.jsp"/>
@@ -86,12 +90,17 @@ if(user!=null){
 
         #cellPaiChart {
             height: 160px;
+        }     html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 
         <!-- Content -->
-        <div class="content" style="background:#f1f2f7">
+        <div class="content" style="background:#f1f2f7;height: 100%;">
             <!-- Animated -->
             <div class="animated fadeIn">
                 <!-- Widgets  -->
@@ -143,7 +152,7 @@ if(user!=null){
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><%=u.getCusgrade() %></span></div>
+                                            <div class="stat-text"><span class=""><%=u.getCusgrade() %></span></div>
                                             <div class="stat-heading">我的积分</div>
                                         </div>
                                     </div>
@@ -161,7 +170,7 @@ if(user!=null){
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><%=u.getCusOrders() %></span></div>
+                                            <div class="stat-text"><span class=""><%=u.getCusOrders() %></span></div>
                                             <div class="stat-heading">处理中订单</div>
                                         </div>
                                     </div>
@@ -179,7 +188,7 @@ if(user!=null){
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><%=u.getCusOrders() %></span></div>
+                                            <div class="stat-text"><span class=""><%=u.getCusOrders() %></span></div>
                                             <div class="stat-heading">总订单</div>
                                         </div>
                                     </div>
@@ -206,17 +215,40 @@ if(user!=null){
                                             <th>订单号</th>
                                             <th>验货日期</th>
                                             <th>工厂名称</th>
-                                            <th>产品订单号</th>
-                                            <th>产品货号</th>
                                             <th>产品名称</th>
-                                            <th>服务类型</th>
                                             <th>状态</th>
-                                            <th>操作</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                    <%
+                                    //列举最近的5条
+                                    HashMap<String,Object> hashMap2 = new HashMap<String,Object>();
+                                    
+											hashMap2.put("start", 0);
+											hashMap2.put("size", 5);
+											hashMap2.put("custel", user.getCustel());
+											hashMap2.put("status", "9");
+											
+											OrderService orderService = new OrderService();
+											List<Orders> ls =	orderService.findOrdersByStatusJudge(hashMap2);
+                                    		if(ls != null&& ls.size()!=0){
+                                    			for(int i=0;i<ls.size();i++){
+                                    				Orders os = ls.get(i);
+                                    				%>
+                                    					<tr>
+													<th scope="row"><%=os.getOrderid() %></th>
+													<td><%=os.getExcedate() %></td>
+													<td><%=os.getFactoryname() %></td>
+													<td><%=os.getGoods() %></td>
+													<td><%=os.getStatusString() %></td>
+												</tr>
+                                    				<% 
+                                    			}
+                                    		}
+                                    
+                                    
+                                    %>
                                     </tbody>
                                 </table>
                             </div>
@@ -226,6 +258,8 @@ if(user!=null){
                 </div>
                 <!--/table-->
                 <!--fast-orders-->
+                
+                <!--  
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">
@@ -287,7 +321,6 @@ if(user!=null){
                                 </form>
                             </div>
                         </div>
-                        <!--/card-->
                     </div>
                     <div class="col-md-4">
                         <div class="card">
@@ -315,6 +348,8 @@ if(user!=null){
 
                     </div>
                 </div>
+                
+                -->
 
                 <!--/fast-orders-->
 

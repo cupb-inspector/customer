@@ -43,7 +43,7 @@ public class UserController {
 			logger.warn("传入的是一个null");
 		}
 
-		logger.info("login Post tel is:" + tel + "Post password is:" + password);
+//		logger.info("login Post tel is:" + tel + "Post password is:" + password);
 		UserService userService = new UserService();
 		if (tel != null && password != null && !"".equals(tel) && !"".equals(password)) {
 

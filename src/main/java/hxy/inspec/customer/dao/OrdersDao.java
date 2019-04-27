@@ -75,8 +75,6 @@ public class OrdersDao {
 		sqlSession.commit();//清空缓存
 		sqlSession.close();
 		return flag;
-	
-		
 	}
 
 
@@ -103,5 +101,16 @@ public class OrdersDao {
 		sqlSession.close();
 		return goodsList;
 	}
+	public List<Orders> findOrdersByStatusJudge(HashMap<String, Object> map) throws IOException {
+		logger.info("查询参数"+map);
+		SqlSession sqlSession = DataConnection.getSqlSession();
+		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByStatusJudge", map);
+		logger.info("查询结果条数"+goodsList.size());
+		sqlSession.commit();
+		sqlSession.close();
+		return goodsList;
+	}
+	
+	
 	
 }
