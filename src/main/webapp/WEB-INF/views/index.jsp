@@ -28,7 +28,7 @@
     <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <script src="js/jquery-1.8.2.min.js"></script>
-
+User
     <style>
         html,
         body {
@@ -388,7 +388,7 @@
     <script src="assets/js/lib/moment/moment.js"></script>
 
     <script src="assets/calendar/fullcalendar.min.js"></script>
-    <script src="assets/calendar/fullcalendar-init.js"></script>cript>
+    <script src="assets/calendar/fullcalendar-init.js"></script>
     <script src="assets/js/init/weather-init.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
