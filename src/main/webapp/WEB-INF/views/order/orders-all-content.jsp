@@ -48,12 +48,20 @@ if (user == null) {
 	 ls=o.selectAllByTel(user.getCustel());
 }
 %>
+<style>
+        html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+</style>
 
 </head>
 <body>
 	<!-- Right Panel -->
-	<div>
-		<div class="content" style="background: #f1f2f7">
+
+	<div class="content" style="background: #f1f2f7;height:100%;width:100%">
 			<div class="animated fadeIn">
 				<div class="row">
 					<div class="col-md-12">
@@ -109,8 +117,7 @@ if (user == null) {
 		<div class="clearfix"></div>
 
 
-	</div>
-	<!-- /#right-panel -->
+
 
 	<!-- Right Panel -->
 

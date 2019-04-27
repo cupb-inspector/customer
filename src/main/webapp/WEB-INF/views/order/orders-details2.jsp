@@ -142,6 +142,14 @@ function js_method(){
       }
 </script>
 
+<style>
+        html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+</style>
 </head>
 
 <body style="background: #f1f2f7">

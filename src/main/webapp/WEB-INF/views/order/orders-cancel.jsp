@@ -26,12 +26,20 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+<style>
+        html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+</style>
 
 </head>
 <body>
    
 
-        <div class="content" style="background:#f1f2f7">
+        <div class="content" style="background:#f1f2f7;height:100%">
             <div class="animated fadeIn">
                 <div class="row">
 

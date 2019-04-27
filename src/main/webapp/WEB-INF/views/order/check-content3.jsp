@@ -181,13 +181,20 @@
 
 				});
 	</script>
-
+<style>
+        html,
+        body {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+</style>
 </head>
 
 <body>
 	<div class="alert"></div>
 	<!-- Header-->
-	<div class="content" style="background: #f1f2f7">
+	<div class="content" style="background: #f1f2f7;width:100%">
 		<div class="animated fadeIn">
 			<div class="row">
 				<div class="col-md-12">
