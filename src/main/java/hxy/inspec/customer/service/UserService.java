@@ -10,11 +10,11 @@ import hxy.inspec.customer.po.User;
 
 public class UserService {
 	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
-	public User login(String phone) {
+	public User login(String custel) {
 		//依据电话号码查询数据库，返回对象，比对是否正确
-		logger.info("查询是否存在:"+phone);
+		logger.info("查询是否存在:"+custel);
 		UserDao userDao = new UserDao();
-		return userDao.selectUserByPhone(phone);
+		return userDao.selectUserByPhone(custel);
 	}
 	public boolean insert(User user) {
 		UserDao userDao = new UserDao();
@@ -27,6 +27,23 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return false;
+		
+	}
+	public User selectUserByTel(String custel) {
+		// TODO Auto-generated method stub
+		//依据电话号码查询数据库，返回对象，比对是否正确
+		logger.info("查询是否存在:"+custel);
+		UserDao userDao = new UserDao();
+		return userDao.selectUserByPhone(custel);
+	
+	}
+	public int updateOrders(User user) {
+		// TODO Auto-generated method stub
+		UserDao userDao = new UserDao();
+		return  userDao.updateOrders(user);
+		
+		
+		
 		
 	}
 

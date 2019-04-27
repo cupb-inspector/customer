@@ -64,7 +64,9 @@ $("#form-date").datetimepicker(
 											var factel = $("#factel").val();
 											var profile = $("#profile").val();
 											var goods = $("#goods").val();
-											//	var file = $("#file").val();
+											var type = $("#select").val();
+											var goodsType = $("#goodsselect").val();
+											
 											console.log(excdate + "\t"
 													+ facname)
 
@@ -109,8 +111,9 @@ $("#form-date").datetimepicker(
 															"facman" : facman,
 															"factel" : factel,
 															"profile" : profile,
-															"goods" : goods
-														//	"file":file
+															"goods" : goods,
+															"type":type,
+															"goodsType":goodsType
 														},//这个是发送给服务器的数据
 
 														success : function(
@@ -206,7 +209,7 @@ $("#form-date").datetimepicker(
 <body>
 	<div class="alert"></div>
 	<!-- Header-->
-	<div class="content" style="background: #f1f2f7;width:100%">
+	<div class="content" style="background: #f1f2f7;;height:100%width:100%">
 		<div class="animated fadeIn">
 			<div class="row">
 				<div class="col-md-12">
@@ -267,7 +270,7 @@ $("#form-date").datetimepicker(
 										<option value="1">监柜</option>
 										<option value="2">抽样</option>
 										<option value="3">验货加监柜</option>
-										<option value="3">工厂审核</option>
+										<option value="4">工厂审核</option>
 									</select>
 								</div>
 							</div>
@@ -278,6 +281,20 @@ $("#form-date").datetimepicker(
 								<div class="col-12 col-md-9">
 									<input name="text" id="goods" rows="5" placeholder="产品名称，货号"
 										class="form-control"></input>
+								</div>
+							</div>
+								<div class="row form-group">
+								<div class="col col-md-3">
+									<label for="select" class=" form-control-label">产品类型</label>
+								</div>
+								<div class="col-12 col-md-9">
+									<select name="select" id="goodsselect" class="form-control">
+										<option value="0">电子</option>
+										<option value="1">食品</option>
+										<option value="2">交通工具</option>
+										<option value="3">零食</option>
+										<option value="4">家具</option>
+									</select>
 								</div>
 							</div>
 							<div class="row form-group">

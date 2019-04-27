@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.OrderService;
+import hxy.inspec.customer.service.UserService;
 
 @Controller
 @RequestMapping("/")
@@ -36,7 +37,7 @@ public class OrderController {
 			String facman = null;
 			String factel = null;
 			String profile = null;
-			String file = null;
+			String type = null;
 			String reports = null;
 			String status = null;
 			String fee = null;
@@ -44,6 +45,7 @@ public class OrderController {
 			String otherCost = null;
 			String profit = null;
 			String goods = null;
+			String goodsType=null;
 			boolean flag = false;
 			try {
 				excdate = request.getParameter("excdate").trim();// 执行日期
@@ -53,17 +55,38 @@ public class OrderController {
 				factel = request.getParameter("factel").trim();// 联系人电话
 				profile = request.getParameter("profile").trim();// 备注
 				goods = request.getParameter("goods").trim();// 备注
-//			file = request.getParameter("file").trim();// 附件
+				type = request.getParameter("type").trim();// 验货类型
+				goodsType = request.getParameter("goodsType").trim();// 商品类型
+				
 				flag = true;
 			} catch (NullPointerException e) {
 				logger.warn("传入的是一个null");
 			}
 			if (flag) {
+				//依据订单的价格，和用户账户余额作对比
+				UserService userService = new UserService();
+				user=	userService.selectUserByTel(user.getCustel());
+				
+				Float money = Float.parseFloat(user.getCusMoney());
+//				Float cost = Float.parseFloat("")
+				float costs = 100;
+				if (money>costs) {
+					//订单正常提交，正常扣费
+					status = "3";// 1.提交成功 2.正在验货员正在接单 3.验货员已经出发，4.报告撰写中，5，已完成
+					money =money-costs;
+					user.setCusMoney(String.valueOf(money));
+				}else
+					status="2";
+				
+				
+				
+				
+				
 //			获取时间
 				Date now = new Date();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
 				String date = dateFormat.format(now);
-				status = "1";// 1.提交成功 2.正在验货员正在接单 3.验货员已经出发，4.报告撰写中，5，已完成
+		
 				Orders order = new Orders();
 				order.setCustel(user.getCustel());
 				order.setCost(cost);
@@ -73,14 +96,27 @@ public class OrderController {
 				order.setFactoryman(facman);
 				order.setFactoryname(facname);
 				order.setFactorytel(factel);
-				order.setFile(file);
+				order.setFile(type);
 				order.setReportfile(reports);
 				order.setProfile(profile);
 				order.setStatus(status);
 				order.setGoods(goods);
+				order.setGoodsType(goodsType);
 				OrderService orderService = new OrderService();
 				if (orderService.insert(order)) {
 					resultCode = 200;
+					//更新订单总数
+					int a =Integer.parseInt(user.getCusOrders())+1;
+					user.setCusOrders(String.valueOf(a));
+					
+				if (userService.updateOrders(user)==1) {
+					logger.info("修改用户的钱包与用户的订单数成功");
+				}	else {
+					logger.info("修改用户的钱包与用户的订单数失败");
+				}
+					
+					
+					
 				} else {
 					resultCode = 500;
 				}

@@ -1,3 +1,4 @@
+<%@page import="hxy.inspec.customer.service.UserService"%>
 <%@page import="hxy.inspec.customer.po.User"%>
 <%@page import="hxy.inspec.customer.service.AccountService"%>
 <%@page import="hxy.inspec.customer.po.Account"%>
@@ -24,9 +25,6 @@ User user = (User) request.getSession().getAttribute("user");
 <title>我的钱包</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
 <link rel="stylesheet" href="assets/css/normalize.css">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -92,6 +90,17 @@ User user = (User) request.getSession().getAttribute("user");
 	height: 160px;
 }
 </style>
+<%
+	//查询最新的金额数字
+	UserService s = new UserService();
+
+User u =	s.login(user.getCustel());
+
+
+%>
+
+
+
 </head>
 
 <body>
@@ -131,7 +140,7 @@ User user = (User) request.getSession().getAttribute("user");
 								<div class="stat-content">
 									<div class="text-left dib">
 										<div class="stat-text">
-											￥<span class="count">${rmb}</span>
+											￥<span class=""><%=u.getCusMoney() %></span>
 										</div>
 										<div class="stat-heading">人民币余额</div>
 									</div>
@@ -233,8 +242,6 @@ User user = (User) request.getSession().getAttribute("user");
 												AccountService accountService = new AccountService();
 												
 												List<Account>  ls = accountService.selectAllByTel(user.getCustel());
-												
-												
 													if(ls!=null&&ls.size()!=0){
 														for(int i=0;i<ls.size();i++){
 															Account a = ls.get(i);
@@ -247,8 +254,6 @@ User user = (User) request.getSession().getAttribute("user");
 													<td><%=a.getSurplus() %></td>
 													<td><%=a.getStatusString() %></td>
 												</tr>
-														
-														
 														<% 
 														}
 													}

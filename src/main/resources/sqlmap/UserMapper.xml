@@ -31,5 +31,9 @@
 		cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
 		where custel=#{custel}
 	</update>
-
+	
+	<!-- 修改用户 -->
+	<update id="updateOrders" parameterType="hxy.inspec.customer.po.User">
+		update cususer set cusOrders=#{cusOrders},cusMoney=#{cusMoney} where custel=#{custel}
+	</update>
 </mapper>

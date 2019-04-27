@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>详情</title>
+<title>付款详情</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/css/normalize.css">
@@ -173,7 +173,7 @@ function js_method(){
 									 -->
 									<div class="card-body">
 										<p style="color: #383d41"">
-											<h4>订单信息</h4> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。 </small><code>重要</code>
+											<h4>订单信息</h4> <small>支付成功后的订单方可</small> <code>重要</code>
 										</p>
 										<form action="#" method="post" class="form-horizontal">
 											<div class="row form-group">
@@ -265,7 +265,7 @@ function js_method(){
 									 -->
 									<div class="card-body">
 										<p style="color: #0c5460"">
-											<h4>报告审核</h4> <small>订单可以在验货日期的24小时前取消。24小时内取消会扣分。</small> <code>重要</code>
+											<h4>支付金额</h4> <small></small> <code>重要</code>
 										</p>
 										<p>
 											<i class="fa fa-envelope-o"></i> ${report} <a id="download"

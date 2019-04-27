@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import hxy.inspec.customer.datasource.DataConnection;
+import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
 
 public class UserDao {
@@ -30,5 +31,22 @@ public class UserDao {
 		logger.info("插入后结果：" + flag);
 		return flag;
 	}
+	public int updateOrders(User user) {
+		// TODO Auto-generated method stub
 
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = DataConnection.getSqlSession();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int flag=sqlSession.update("User.updateOrders", user);
+		logger.info("修改订单的质检员号码,结果为："+flag);
+		sqlSession.commit();//清空缓存
+		sqlSession.close();
+		return flag;
+	
+		
+	}
+	
 }

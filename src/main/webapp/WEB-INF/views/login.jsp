@@ -124,7 +124,7 @@
 				<div class="login-form">
 					<div>
 						<div class="form-group">
-							<label>手机号码</label> <input type="email" id="tel"
+							<label>手机号码</label> <input type="text" id="tel"
 								class="form-control" placeholder="手机号码">
 						</div>
 						<div class="form-group">

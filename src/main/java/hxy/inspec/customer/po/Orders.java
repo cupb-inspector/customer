@@ -25,6 +25,8 @@ public class Orders {
 	private String othercost;
 	private String profit;
 	private String goods;//产品名称
+	private String goodsType;//产品类型
+	
 	
 	
 	public String getStatusString() {
@@ -34,22 +36,29 @@ public class Orders {
 			value="提交成功";
 			break;
 		case "2":
-			value="订单已分配";
+			value="提交成功未付款";
 			break;
 		case "3":
-			value="正在验货";
+			value="已付款";
 			break;
+	
 		case "4":
-			value="报告已提交";
+			value="正在分配中";
 			break;
 		case "5":
-			value="报告已审核";
+			value="已分配质检员";
 			break;
 		case "6":
-			value="报告已通过";
+			value="质检员确认验货";
 			break;
 		case "7":
-			value="投诉中";
+			value="报告已提交";
+			break;
+		case "8":
+			value="报告已审核";
+			break;
+		case "9":
+			value="报告审核通过";
 			break;
 		default:
 			value="未知";
