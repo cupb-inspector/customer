@@ -126,6 +126,7 @@ if(user!=null){
                       -->
 
                     <div class="col-lg-3 col-md-6">
+                    <a href ="wallet">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-five">
@@ -141,6 +142,7 @@ if(user!=null){
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
@@ -180,6 +182,7 @@ if(user!=null){
                     </div>
                     
                        <div class="col-lg-3 col-md-6">
+                       <a href='orders-all-content'>
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-five">
@@ -195,6 +198,7 @@ if(user!=null){
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
                 </div>
                 <!-- /Widgets -->

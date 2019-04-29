@@ -21,16 +21,20 @@ public class AccountDao {
 		logger.info("插入后结果：" + flag);
 		return flag;
 	}
-	public List<Account> selectAllByTel(String tel) throws IOException {
+	public List<Account> selectAllByUserId(String id) throws IOException {
 		// TODO Auto-generated method stub
 
 		SqlSession sqlSession = DataConnection.getSqlSession();
-		List<Account> goodsList = sqlSession.selectList("Account.findOrdersByTel", tel);
+		List<Account> goodsList = sqlSession.selectList("Account.findOrdersByUserId", id);
 		logger.info("查询结果条数"+goodsList.size());
 	
 		sqlSession.commit();
 		sqlSession.close();
 		return goodsList;
 	
+	}
+	public List<Account> selectAllByTel(String tel) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

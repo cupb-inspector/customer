@@ -12,7 +12,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>财富充值</title>
+<title>财富提现</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/css/normalize.css">
@@ -83,43 +83,34 @@
 </style>
  <script type="text/javascript">  
         function jqSubmit() {
-           // {# $('#fafafa')[0]#}
-            var file_obj = document.getElementById('file').files[0];
-            console.log("file"+file_obj)
-            if(file_obj==undefined){
-            	console.log("no file")
-            	$('.alert').removeClass('alert-success')
-        		$('.alert').html('请选择凭证').addClass('alert-warning').show().delay(2000).fadeOut();
-            	return false;
-            }
             var value =$("#value").val()
             var notes =$("#notes").val()
             console.log(value+"\t"+notes)
-            var fd = new FormData();
-            fd.append('value', value)
-            fd.append('notes', notes)
-            fd.append('file', file_obj);
             document.getElementById("btn").setAttribute("disabled", true);
             $.ajax({
-                url:'account-charge',
+                url:'account-withdraw',
                 type:'POST',
-                data:fd,
+                async: false,
+                data:{"value":value,"notes":notes},
                 dataType : "json",//预期服务器返回的数据类型
-                processData:false,  //tell jQuery not to process the data
-                contentType: false,  //tell jQuery not to set contentType
+              //  processData:false,  //tell jQuery not to process the data
+                //contentType: false,  //tell jQuery not to set contentType
                 //这儿的三个参数其实就是XMLHttpRequest里面带的信息。
-                success:function (result,arg,a1,a2) {
+                success:function (result) {
                 	 console.log(result);
-                    console.log(arg);
-                    console.log(a1);
-                    console.log(a2);
+               
             		if (result.resultCode == 200) {
         				//thisE.previousElementSibling.innerHTML = "允许"
         					//自动消失的消息
         					$('.alert').removeClass('alert-warning')
-        					$('.alert').html('提交成功，等待审核').addClass('alert-success').show().delay(2000).fadeOut();
+        					$('.alert').html('提现成功，等待审核').addClass('alert-success').show().delay(2000).fadeOut();
             		}
-                    
+            		else 	if (result.resultCode == 665) {
+        				//thisE.previousElementSibling.innerHTML = "允许"
+    					//自动消失的消息
+    					$('.alert').removeClass('alert-success')
+    					$('.alert').html('账户可用余额不足').addClass('alert-warning').show().delay(2000).fadeOut();
+        		}
                 }
 
             })
@@ -139,27 +130,18 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h4>充值</h4>
+							<h4>提现</h4>
 						</div>
 						<div class="card-body">
 							<div class="form-horizontal">
 
 								<div class="row form-group">
 									<div class="col col-md-2">
-										<label for="text-input" class=" form-control-label" style="float:right">充值金额</label>
+										<label for="text-input" class=" form-control-label" style="float:right">提现金额</label>
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="number" id="value" name="text-input"
-											placeholder="金额数值为整数" class="form-control" value="0.00">
-									</div>
-								</div>
-
-								<div class="row form-group">
-									<div class="col col-md-2">
-										<label for="text-input" class=" form-control-label" style="float:right">充值凭证</label>
-									</div>
-									<div class="col-12 col-md-9">
-										<input type="file" id="file" name="text-input" class="form-control">
+											placeholder="金额数值为整数" class="form-control" value="">
 									</div>
 								</div>
 								
@@ -177,7 +159,7 @@
 								<div>
 									
 										<button  onclick="jqSubmit();" id="btn"  class="btn btn-primary">
-											<i class="fa fa-lock fa-lg"></i>&nbsp; 充值
+											<i class="fa fa-lock fa-lg"></i>&nbsp; 提现
 										</button>
 								
 								</div>

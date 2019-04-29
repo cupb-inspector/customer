@@ -63,6 +63,7 @@ public class UserController {
 					resultCode = 200;
 					// 把用户对象存储到session
 					request.getSession().setAttribute("user", user);
+					logger.info("成功登录用户："+user.getCusname()+"\t"+user.getCustel()+"\t"+user.getCusid());
 				} else {
 					// 提示密码不正确
 					resultCode = 601;

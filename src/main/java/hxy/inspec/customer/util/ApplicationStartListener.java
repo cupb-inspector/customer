@@ -101,7 +101,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			logger.error("数据库连接失败！");
 		}
 
-		String sql0 = "create table IF NOT EXISTS  cususer (cusid int not null primary key  AUTO_INCREMENT, `custel` VARCHAR(15) NULL, `cusname` VARCHAR(45) NULL,`cuspasswd` VARCHAR(24) NULL ,`cusgrade` VARCHAR(15) default '0' ,`cusvip` VARCHAR(15) default '0',`cusaddress` VARCHAR(45) NULL ,`cusdate` VARCHAR(45) NULL ,`custrade` VARCHAR(5) NULL ,`email` VARCHAR(30) NULL,`cusMoney` VARCHAR(30) default '0',`cusOrders` VARCHAR(30) default '0')default charset=utf8; ";
+		String sql0 = "create table IF NOT EXISTS  cususer (cusid int not null primary key  AUTO_INCREMENT, `custel` VARCHAR(15) NULL, `cusname` VARCHAR(45) NULL,`cuspasswd` VARCHAR(24) NULL ,`cusgrade` VARCHAR(15) default '0' ,`cusvip` VARCHAR(15) default '0',`cusaddress` VARCHAR(45) NULL ,`cusdate` VARCHAR(45) NULL ,`custrade` VARCHAR(5) NULL ,`email` VARCHAR(30) NULL,`cusMoney` VARCHAR(30) default '0',`cusTempMoney` VARCHAR(15) default '0',`cusOrders` VARCHAR(30) default '0')default charset=utf8; ";
 		PreparedStatement preparedStatement0 = ConnectionUtil.getPreparedStatement(connection, sql0);
 		try {
 			logger.info("尝试新建user表");
@@ -111,7 +111,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			logger.error("数据库连接失败！");
 		}
 		
-		String sql1 = "create table IF NOT EXISTS  account (id int not null primary key  AUTO_INCREMENT, `userTel` VARCHAR(15) NULL, `operate` VARCHAR(10) NULL,`value` VARCHAR(25) default '0' ,`surplus` VARCHAR(15) default '0' ,`time` VARCHAR(45) NULL ,`type` VARCHAR(2) NULL ,`file` VARCHAR(45) NULL ,`fileUuid` VARCHAR(155) NULL ,`adminTel` VARCHAR(15) NULL,  `notes` VARCHAR(55) NULL,  `status` VARCHAR(2) NULL)default charset=utf8; ";
+		String sql1 = "create table IF NOT EXISTS  account (id int not null primary key  AUTO_INCREMENT, `userId` VARCHAR(15) default '0', `operate` VARCHAR(10) NULL,`value` VARCHAR(25) default '0' ,`surplus` VARCHAR(15) default '0' ,`time` VARCHAR(45) NULL ,`type` VARCHAR(2) default '0' ,`file` VARCHAR(45) default '0' ,`fileUuid` VARCHAR(155) default '0' ,`adminId` VARCHAR(15) default '0',  `notes` VARCHAR(55) default '0',  `status` VARCHAR(2) default '0')default charset=utf8; ";
 		PreparedStatement preparedStatement1 = ConnectionUtil.getPreparedStatement(connection, sql1);
 		try {
 			logger.info("尝试新建account表");
