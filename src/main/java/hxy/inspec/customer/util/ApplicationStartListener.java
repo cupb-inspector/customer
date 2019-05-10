@@ -1,10 +1,12 @@
 package hxy.inspec.customer.util;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
@@ -22,6 +24,10 @@ import javax.servlet.http.HttpSessionBindingListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.apache.ibatis.io.Resources;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +85,33 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 	public void contextInitialized(ServletContextEvent sce) {
 		logger.info("应用开始启动，正在新建一个用于保存文件的文件夹，在当前系统用户的目录下");
 		// 再当前用户的目录下面新建一个文件夹，然后从中获取文件
-		String fileSaveRootPath = "file";
+		//读取配置文件
+		try {
+			File f = new File("sqlConfig.xml");
+			logger.info("配置文件路径" + f.getAbsolutePath());
+			
+			String resource = "sqlConfig.xml";
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			SAXReader reader = new SAXReader();
+			Document doc = reader.read(inputStream);
+			Element root = doc.getRootElement();
+			Element foo;
+			root.getName();
+			for (Iterator i = root.elementIterator("VALUES"); i.hasNext();) {
+				foo = (Element) i.next();
+				Configration.MYSQL_USER = foo.elementText("KEY");
+				Configration.MYSQL_PASSWD = foo.elementText("VALUE");
+				Configration.MYSQL_HOST = foo.elementText("HOST");
+				Configration.IMAGE_URL = foo.elementText("IMAGE");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		String fileSaveRootPath = "inspect";
 		File fileFolder = new File(fileSaveRootPath);
 		if (!fileFolder.exists()) {
 			fileFolder.mkdirs();

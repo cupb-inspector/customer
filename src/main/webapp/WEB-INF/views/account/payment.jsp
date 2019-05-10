@@ -30,7 +30,8 @@
 <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
 <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 <script src="js/jquery.min.js"></script>
-
+  <link rel="stylesheet" href="hxy/css/hxy-alert.css">
+  <script src="hxy/js/hxy-alert.js"></script>
 <style>
         html,
         body {
@@ -121,7 +122,7 @@
 
 <body>
 
-
+<div class="alert"></div>
 	<!-- Content -->
         <div class="content"  style="background:#f1f2f7;height: 100%;">
 		<!-- Animated -->

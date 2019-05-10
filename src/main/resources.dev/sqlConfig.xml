@@ -4,5 +4,6 @@
     <KEY>root</KEY>　　     
     <VALUE>newpass</VALUE>  
      <HOST>localhost</HOST>
+     <IMAGE>http://localhost:8079/admin/copy-file</IMAGE>
    </VALUES>  
 </RESULT>
