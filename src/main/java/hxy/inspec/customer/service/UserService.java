@@ -37,6 +37,16 @@ public class UserService {
 		return userDao.selectUserByPhone(custel);
 	
 	}
+	
+	public User selectUserById(String id) {
+		// TODO Auto-generated method stub
+		//依据电话号码查询数据库，返回对象，比对是否正确
+		logger.info("查询是否存在:"+id);
+		UserDao userDao = new UserDao();
+		return userDao.selectUserById(id);
+	
+	}
+	
 	public int updateOrders(User user) {
 		// TODO Auto-generated method stub
 		UserDao userDao = new UserDao();
@@ -44,6 +54,12 @@ public class UserService {
 		
 		
 		
+		
+	}
+	public int update(User user) {
+		// TODO Auto-generated method stub
+		UserDao userDao = new UserDao();
+	return	userDao.update(user);
 		
 	}
 

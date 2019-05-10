@@ -32,5 +32,10 @@ public class AccountService {
 		List<Account> list = orderDao.selectAllByTel(tel);
 		return list;
 	}
-
+	
+	public List<Account> selectAllByUserId(String tel) throws IOException {
+		AccountDao orderDao = new AccountDao();
+		List<Account> list = orderDao.selectAllByUserId(tel);
+		return list;
+	}
 }

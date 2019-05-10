@@ -108,6 +108,19 @@
         });
       
     });
+    
+    function KeyDown()
+    {
+      if (event.keyCode == 13)
+      {
+        event.returnValue=false;
+        event.cancel = true;
+        $("#btn1").click()
+        //Form1.btnsubmit.click();
+      }
+    }
+    
+    
     </script>
 
 </head>
@@ -125,11 +138,11 @@
 					<div>
 						<div class="form-group">
 							<label>手机号码</label> <input type="text" id="tel"
-								class="form-control" placeholder="手机号码">
+								class="form-control" placeholder="手机号码" onkeydown=KeyDown()>
 						</div>
 						<div class="form-group">
 							<label>密码</label> <input type="password" id="passwd"
-								class="form-control" placeholder="密码">
+								class="form-control" placeholder="密码" onkeydown=KeyDown()>
 						</div>
 						<div class="checkbox">
 							<label> <input id="remenber" type="checkbox"> 记住密码

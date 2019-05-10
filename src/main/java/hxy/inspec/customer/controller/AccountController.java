@@ -58,8 +58,8 @@ public class AccountController {
 			user = userService.selectUserByTel(user.getCustel());
 
 			Account account = new Account();
-			account.setUserTel(user.getCustel());
-			account.setOperate("add");
+			account.setUserId(user.getCusid());
+			account.setOperate("1");
 			Date now = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
 
@@ -156,12 +156,19 @@ public class AccountController {
 			AccountService accountService = new AccountService();
 			logger.info(user.getCusMoney());
 			logger.info(account.getValue());
-			float a = Float.parseFloat(user.getCusMoney()) + Float.parseFloat(account.getValue());
+
+//			float a = Float.parseFloat(user.getCusMoney())+ Float.parseFloat(account.getValue());
+			// 获取上一次的余额
+			float a = Float.parseFloat(user.getCusTempMoney()) + Float.parseFloat(account.getValue());
+
 			account.setSurplus(String.valueOf(a));
 
 			try {
 				if (accountService.insert(account)) {
 					resultCode = 200;
+					// 处理用户的临时余额
+					user.setCusTempMoney(String.valueOf(a));
+					userService.update(user);
 					// 充值成功。获取用户的货币余额，处理下
 					// 应该由管理员通过后再加上去。
 					// int money =Integer.parseInt(
@@ -246,4 +253,84 @@ public class AccountController {
 		}
 		return result;
 	}
+
+	@RequestMapping(value = "/account-withdraw", method = RequestMethod.POST)
+	public void cusWithdraw(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		logger.info("提现响应");
+		// 获取用户是否登录
+		User user = (User) request.getSession().getAttribute("user");
+		int resultCode = 0;
+		if (user != null) {
+			String value = request.getParameter("value").trim();
+			String notes = request.getParameter("notes").trim();
+			logger.info("提现的信息："+value+"\t"+notes);
+			//查询用户的实际金额是否充足！
+			if (value!=null&&!"null".equals(value)) {
+				UserService userService=new UserService();
+				user=	userService.selectUserById(user.getCusid());
+				float money = Float.parseFloat(user.getCusMoney());
+				float temMoney = Float.parseFloat(user.getCusTempMoney());
+				float valuef = Float.parseFloat(value);
+				if(money>=valuef) {
+					logger.info("符合提现");
+					//说明可以提现
+					float a = money -valuef;//实际剩下余额
+					float b = temMoney-valuef;
+					user.setCusMoney(String.valueOf(a));
+					user.setCusTempMoney(String.valueOf(b));
+					userService.update(user);
+					
+					resultCode=200;
+					
+					AccountService accountService = new AccountService();
+					Account account= new Account();
+					account.setNotes(notes);
+					account.setValue(value);
+					account.setSurplus(String.valueOf(b));
+					account.setType("2");//提现
+					account.setUserId(user.getCusid());
+					account.setOperate("2");
+					account.setStatus("0");
+					
+					
+					Date now = new Date();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
+					String StartTime = dateFormat.format(now);
+					logger.info(String.format("现在时间：%s", StartTime));
+					account.setTime(StartTime);
+					try {
+						accountService.insert(account);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				}else {
+					logger.info("余额不足");
+					//返回逻辑错误提示，余额不够提现这么多。
+					resultCode=665;//余额不足提示
+				}
+			}
+			
+			
+		}else {
+			resultCode=404;//用户未登录
+		}
+		
+		// 返回信息
+		org.json.JSONObject user_data = new org.json.JSONObject();
+		user_data.put("resultCode", resultCode);
+		user_data.put("key2", "today4");
+		user_data.put("key3", "today2");
+		String jsonStr2 = user_data.toString();
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().append(jsonStr2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

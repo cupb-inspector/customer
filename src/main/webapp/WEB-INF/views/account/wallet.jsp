@@ -179,7 +179,7 @@ User u =	s.login(user.getCustel());
 								</div>
 								<div class="stat-content">
 									<div>
-										<a href="payment">
+										<a href="withdraw">
 											<button type="button" class="btn btn-outline-primary">提现</button>
 										</a>
 
@@ -241,7 +241,7 @@ User u =	s.login(user.getCustel());
 												<%
 												AccountService accountService = new AccountService();
 												
-												List<Account>  ls = accountService.selectAllByTel(user.getCustel());
+												List<Account>  ls = accountService.selectAllByUserId(user.getCusid());
 													if(ls!=null&&ls.size()!=0){
 														for(int i=0;i<ls.size();i++){
 															Account a = ls.get(i);

@@ -10,9 +10,9 @@
 		parameterType="hxy.inspec.customer.po.Account" useGeneratedKeys="true">
 		insert
 		into account
-		(userTel,operate,value,surplus,time,type,file,fileUuid,adminTel,notes,status)
+		(userId,operate,value,surplus,time,type,file,fileUuid,adminId,notes,status)
 		values
-		(#{userTel},#{operate},#{value},#{surplus},#{time},#{type},#{file},#{fileUuid},#{adminTel},#{notes},#{status})
+		(#{userId},#{operate},#{value},#{surplus},#{time},#{type},#{file},#{fileUuid},#{adminId},#{notes},#{status})
 	</insert>
 
 
@@ -21,9 +21,9 @@
 		resultType="hxy.inspec.customer.po.Account">
 		select * from account
 	</select>
-	<select id="findOrdersByTel" parameterType="String"
+	<select id="findOrdersByUserId" parameterType="String"
 		resultType="hxy.inspec.customer.po.Account">
-		SELECT * FROM account WHERE userTel=#{userTel}
+		SELECT * FROM account WHERE userId=#{userId}
 	</select>
 
 
