@@ -156,14 +156,7 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- tomcat自带的上传文件需要的包 -->
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-coyote</artifactId>
-			<version>9.0.19</version>
-			<scope>provided</scope>
-		</dependency>
+		
 
 	</dependencies>
 	<build>

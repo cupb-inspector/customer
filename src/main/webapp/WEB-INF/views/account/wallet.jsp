@@ -93,18 +93,10 @@ User user = (User) request.getSession().getAttribute("user");
 <%
 	//查询最新的金额数字
 	UserService s = new UserService();
-
-User u =	s.login(user.getCustel());
-
-
+	User u =	s.login(user.getCustel());
 %>
-
-
-
 </head>
-
 <body>
-
 	<!-- Content -->
         <div class="content"  style="background:#f1f2f7;height: 100%;">
 		<!-- Animated -->
@@ -143,6 +135,25 @@ User u =	s.login(user.getCustel());
 											￥<span class=""><%=u.getCusMoney() %></span>
 										</div>
 										<div class="stat-heading">人民币余额</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+					<div class="col-lg-3 col-md-6">
+					<div class="card">
+						<div class="card-body">
+							<div class="stat-widget-five">
+								<div class="stat-icon dib flat-color-2">
+									<i class="pe-7s-cash"></i>
+								</div>
+								<div class="stat-content">
+									<div class="text-left dib">
+										<div class="stat-text">
+											￥<span class=""><%=u.getCusTempMoney() %></span>
+										</div>
+										<div class="stat-heading">过渡货币</div>
 									</div>
 								</div>
 							</div>
@@ -208,7 +219,7 @@ User u =	s.login(user.getCustel());
 											aria-controls="nav-home" aria-selected="true">
 											<h4>钱包明细</h4>
 										</a> 
-											<!-- 
+										<!-- 
 										<a class="nav-item nav-link" id="nav-profile-tab"
 											data-toggle="tab" href="#nav-profile" role="tab"
 											aria-controls="nav-profile" aria-selected="false">
@@ -217,7 +228,6 @@ User u =	s.login(user.getCustel());
 											data-toggle="tab" href="#nav-contact" role="tab"
 											aria-controls="nav-contact" aria-selected="false">
 											<h4>钱包支出</h4>
-											
 										</a>
 										 -->
 									</div>
@@ -232,12 +242,12 @@ User u =	s.login(user.getCustel());
 													<th scope="col">时间</th>
 													<th scope="col" colspan=‘2’>详情</th>
 													<th scope="col">钱包变化</th>
-													<th scope="col">钱包余额</th>
+												<!--  
+													<th scope="col">钱包余额</th>-->
 													<th scope="col">状态</th>
 												</tr>
 											</thead>
 											<tbody>
-											
 												<%
 												AccountService accountService = new AccountService();
 												
@@ -251,7 +261,9 @@ User u =	s.login(user.getCustel());
 													<td><%=a.getTime() %></td>
 														<td><%=a.getTypeString() %></td>
 													<td><%=a.getOperateString()+a.getValue() %></td>
+													<!--  
 													<td><%=a.getSurplus() %></td>
+													-->
 													<td><%=a.getStatusString() %></td>
 												</tr>
 														<% 
