@@ -152,7 +152,7 @@
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="number" id="value" name="text-input"
-											placeholder="金额数值为整数" class="form-control" value="0.00">
+											placeholder="金额数值为整数" class="form-control" >
 									</div>
 								</div>
 

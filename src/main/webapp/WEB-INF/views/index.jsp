@@ -273,7 +273,7 @@ User
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>账户设置</a>
+                            <a class="nav-link" target="myiframe"  href="personal"><i class="fa fa- user"></i>账户设置</a>
 
                             <a class="nav-link" href="user-login-out"><i class="fa fa- user"></i>安全退出</a>
 
