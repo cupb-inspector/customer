@@ -1,7 +1,5 @@
 package hxy.inspec.customer.datasource;
 
-
-
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -19,52 +17,51 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class ConnectionUtil {
 	private final static Logger logger = LoggerFactory.getLogger(ConnectionUtil.class);
 	private static String dbDriver = "com.mysql.jdbc.Driver";
-	//Serverip：129.28.19.203
+	// Serverip：129.28.19.203
 	private static String url = "jdbc:mysql://localhost:3306/ttkd?useUnicode=true&useSSL=true&characterEncoding=UTF8";
 	// 登录数据库的用户名
 	private static String user = "root";
 	// 我的manjaro密码
-	private static String pwd = "newpass";
-	private static String host = "localhost";
+	private static String pwd = "";
+	private static String host = "";
 	// 客户服务器密码
 //	private static String pwd = "018299%zxw";
-	//远程连接数据的密码
+	// 远程连接数据的密码
 //	private static String pwd = "authentication_string";
 
 	public static Connection getConnection() {
 		Connection connection = null;
-		//获取用户名和密码
+		// 获取用户名和密码
 
-		
-	    try {   
-	     File f = new File("sqlConfig.xml");
-	     String resource = "sqlConfig.xml";
-	 	InputStream inputStream = Resources.getResourceAsStream(resource);
-	     logger.info("配置文件路径"+f.getAbsolutePath());
-	     SAXReader reader = new SAXReader();   
-	     Document doc = reader.read(inputStream);   
-	     Element root = doc.getRootElement();   
-	     Element foo;   
-	     root.getName();
-	   for (Iterator i = root.elementIterator("VALUES"); i.hasNext();) {   
-	      foo = (Element) i.next();   
-	       user = foo.elementText("KEY");
-	       pwd=foo.elementText("VALUE");
-	       host=foo.elementText("HOST");
-	       logger.info("数据库用户名和密码"+user+"\t"+pwd);
-	     }   
-	    } catch (Exception e) {   
-	     e.printStackTrace();   
-	    }   
+		try {
+			File f = new File("sqlConfig.xml");
+			logger.info("配置文件路径" + f.getAbsolutePath());
+			
+			String resource = "sqlConfig.xml";
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			SAXReader reader = new SAXReader();
+			Document doc = reader.read(inputStream);
+			Element root = doc.getRootElement();
+			Element foo;
+			root.getName();
+			for (Iterator i = root.elementIterator("VALUES"); i.hasNext();) {
+				foo = (Element) i.next();
+				user = foo.elementText("KEY");
+				pwd = foo.elementText("VALUE");
+				host = foo.elementText("HOST");
+				logger.info("数据库用户名和密码" + user + "\t" + pwd);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
 			// 设置驱动
 			Class.forName(dbDriver);
-			url="jdbc:mysql://"+host+":3306/inspect?useUnicode=true&useSSL=true&characterEncoding=UTF8";
+			url = "jdbc:mysql://" + host + ":3306/inspect?useUnicode=true&useSSL=true&characterEncoding=UTF8";
 			connection = DriverManager.getConnection(url, user, pwd);
 			return connection;
 		} catch (SQLException | ClassNotFoundException e) {

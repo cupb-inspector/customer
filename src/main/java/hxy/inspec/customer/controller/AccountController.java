@@ -32,6 +32,14 @@ import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.AccountService;
 import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configration;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -43,12 +51,12 @@ public class AccountController {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
 		int resultCode = 0;
+		String fileUuid = null;
 		if (user != null) {
-			//查询最新的个人信息
+			// 查询最新的个人信息
 			UserService userService = new UserService();
-			user=userService.selectUserByTel(user.getCustel());
-			
-			
+			user = userService.selectUserByTel(user.getCustel());
+
 			Account account = new Account();
 			account.setUserId(user.getCusid());
 			account.setOperate("1");
@@ -58,7 +66,7 @@ public class AccountController {
 			String StartTime = dateFormat.format(now);
 			logger.info(String.format("现在时间：%s", StartTime));
 			account.setTime(StartTime);
-			account.setType("1");// 充值 1充值 
+			account.setType("1");// 充值 1充值
 			account.setStatus("0");
 
 			logger.info("开始接收凭证");
@@ -97,7 +105,6 @@ public class AccountController {
 					try {
 						value = item.getString("UTF-8");
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					logger.info(key);
@@ -115,9 +122,13 @@ public class AccountController {
 
 				} else {
 					String fileName = item.getName();
+					String uuid = UUID.randomUUID().toString().replace("-", "");
+					// 全球唯一标识码
+					fileUuid = uuid + fileName;
+					File file = new File(Configration.FILE_ROOT_DIR, fileUuid);
 					try { // 创建一个文件输出流
 						InputStream in = item.getInputStream();
-						FileOutputStream out = new FileOutputStream(fileName);
+						FileOutputStream out = new FileOutputStream(file);
 						// 创建一个缓冲区
 						byte buffer[] = new byte[1024]; // 判断输入流中的数据是否已经读完的标识
 						int len = 0;
@@ -134,14 +145,9 @@ public class AccountController {
 						e.printStackTrace();
 						resultCode = 601;// 错误
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					File file = new File(Configration.FILE_ROOT_DIR, fileName);
 					account.setFile(fileName);
-					String uuid = UUID.randomUUID().toString().replace("-", "");
-					// 全球唯一标识码
-					String fileUuid = uuid + fileName;
 					logger.info("Length of fileUuid:" + fileUuid.length());
 					account.setFileUuid(fileUuid);
 					logger.info("文件名路径：" + file.getAbsolutePath());
@@ -150,18 +156,17 @@ public class AccountController {
 			AccountService accountService = new AccountService();
 			logger.info(user.getCusMoney());
 			logger.info(account.getValue());
+
 //			float a = Float.parseFloat(user.getCusMoney())+ Float.parseFloat(account.getValue());
-			//获取上一次的余额
-			
-			
-			float a = Float.parseFloat(user.getCusTempMoney())+ Float.parseFloat(account.getValue());
+			// 获取上一次的余额
+			float a = Float.parseFloat(user.getCusTempMoney()) + Float.parseFloat(account.getValue());
 
 			account.setSurplus(String.valueOf(a));
 
 			try {
 				if (accountService.insert(account)) {
 					resultCode = 200;
-					//处理用户的临时余额
+					// 处理用户的临时余额
 					user.setCusTempMoney(String.valueOf(a));
 					userService.update(user);
 					// 充值成功。获取用户的货币余额，处理下
@@ -172,11 +177,13 @@ public class AccountController {
 				} else
 					resultCode = 599;// 数据库内部操作异常
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				resultCode = 598;// 数据库内部错误
 			}
 		}
+		String param = "fileUuid=" + fileUuid;
+		sendPost(Configration.IMAGE_URL, param);
+
 		// 返回信息
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
@@ -191,6 +198,60 @@ public class AccountController {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * 向指定 URL 发送POST方法的请求
+	 * 
+	 * @param url   发送请求的 URL
+	 * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+	 * @return 所代表远程资源的响应结果
+	 */
+	public static String sendPost(String url, String param) {
+		PrintWriter out = null;
+		BufferedReader in = null;
+		String result = "";
+		try {
+			URL realUrl = new URL(url);
+			// 打开和URL之间的连接
+			URLConnection conn = realUrl.openConnection();
+			// 设置通用的请求属性
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("connection", "Keep-Alive");
+			conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+			// 发送POST请求必须设置如下两行
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			// 获取URLConnection对象对应的输出流
+			out = new PrintWriter(conn.getOutputStream());
+			// 发送请求参数
+			out.print(param);
+			// flush输出流的缓冲
+			out.flush();
+			// 定义BufferedReader输入流来读取URL的响应
+			in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+			while ((line = in.readLine()) != null) {
+				result += line;
+			}
+		} catch (Exception e) {
+			System.out.println("发送 POST 请求出现异常！" + e);
+			e.printStackTrace();
+		}
+		// 使用finally块来关闭输出流、输入流
+		finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+				if (in != null) {
+					in.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	@RequestMapping(value = "/account-withdraw", method = RequestMethod.POST)
@@ -271,5 +332,5 @@ public class AccountController {
 			e.printStackTrace();
 		}
 	}
-		
+
 }
