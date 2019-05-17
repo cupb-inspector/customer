@@ -121,7 +121,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 
 		logger.info("启动应用，开始数据库建表！注意修改java文件的代码，这个是建表的密码");
 		Connection connection = ConnectionUtil.getConnection();
-		String sql = "create table IF NOT EXISTS  orders (orderid int not null primary key  AUTO_INCREMENT,  `custel` VARCHAR(45) NULL, `qualtel` VARCHAR(45) NULL,  `excedate` VARCHAR(45) NULL,  `date` VARCHAR(45) NULL,\n"
+		String sql = "create table IF NOT EXISTS  orders (orderid int not null primary key  AUTO_INCREMENT,  `cusId` VARCHAR(45) NULL, `qualId` VARCHAR(45) NULL,  `excedate` VARCHAR(45) NULL,  `date` VARCHAR(45) NULL,\n"
 				+ "  `factoryname` VARCHAR(45) NULL,\n" + "  `factoryaddress` VARCHAR(45) NULL,\n"
 				+ "  `factoryman` VARCHAR(45) NULL,`factorytel` VARCHAR(45) NULL,`profile` VARCHAR(45) NULL,`file` VARCHAR(200) NULL,`reportfile` VARCHAR(200) NULL,`fileuuid` VARCHAR(200) NULL,`reportfileuuid` VARCHAR(200) NULL,`status` VARCHAR(45) NULL,`fee` VARCHAR(45) default '0',`cost` VARCHAR(45) default '0',`othercost` VARCHAR(45) default '0',`profit` VARCHAR(45) default '0',`goods` VARCHAR(45) NULL,`goodsType` VARCHAR(1) default '0')default charset=utf8mb4;";
 		PreparedStatement preparedStatement = ConnectionUtil.getPreparedStatement(connection, sql);

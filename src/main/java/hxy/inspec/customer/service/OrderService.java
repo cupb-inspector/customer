@@ -36,6 +36,12 @@ public class OrderService {
 		List<Orders> list = ordersDao.selectAllByTel(tel);
 		return list;
 	}
+	public List<Orders> selectAllByCusId(String tel) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list = ordersDao.selectAllByCusId(tel);
+		return list;
+	}
+	
 
 	public List<Orders> findByPage(HashMap<String, Object> tel) throws IOException {
 		OrdersDao ordersDao = new OrdersDao();

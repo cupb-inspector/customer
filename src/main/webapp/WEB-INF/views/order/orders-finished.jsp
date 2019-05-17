@@ -5,13 +5,7 @@
 <%@page import="hxy.inspec.customer.service.OrderService"%>
 <%@page import="hxy.inspec.customer.po.User"%>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
-<!--<![endif]-->
-
 <%
 	request.setCharacterEncoding("utf-8");
 	User user = (User) request.getSession().getAttribute("user");
@@ -23,7 +17,7 @@
 	} else {
 		OrderService o = new OrderService();
 		Orders orders = new Orders();
-		orders.setCustel(user.getCustel());
+		orders.setCusId(user.getCusid());
 		orders.setStatus("6");
 		ls = o.selectAllByTelAndStatus(orders);
 	}
@@ -33,7 +27,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ela Admin - HTML5 Admin Template</title>
+<title>完成订单</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

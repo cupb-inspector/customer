@@ -14,7 +14,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ela Admin - HTML5 Admin Template</title>
+<title>全部订单</title>
 <meta name="description" content="Ela Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/css/normalize.css">
@@ -45,7 +45,7 @@ if (user == null) {
 	//request.getRequestDispatcher("/WEB-INF/a.jsp").forward(request, response);
 } else {
 	OrderService o = new OrderService();
-	 ls=o.selectAllByTel(user.getCustel());
+	 ls=o.selectAllByCusId(user.getCusid());
 }
 %>
 <style>

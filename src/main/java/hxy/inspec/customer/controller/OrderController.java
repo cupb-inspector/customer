@@ -29,8 +29,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.core.sym.Name;
 
+import hxy.inspec.customer.datasource.DataConnection;
+import hxy.inspec.customer.po.DataStatistic;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
+import hxy.inspec.customer.service.DataStatisticService;
 import hxy.inspec.customer.service.OrderService;
 import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configration;
@@ -203,7 +206,7 @@ public class OrderController {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
 				String date = dateFormat.format(now);
 				Orders order = new Orders();
-				order.setCustel(user.getCustel());
+				order.setCusId(user.getCusid());
 				order.setCost(cost);
 				order.setDate(date);
 				order.setExcedate(excdate);
@@ -225,6 +228,22 @@ public class OrderController {
 					// 更新订单总数
 					int a = Integer.parseInt(user.getCusOrders()) + 1;
 					user.setCusOrders(String.valueOf(a));
+					DataStatisticService dataStatisticService = new DataStatisticService();
+					DataStatistic dataStatistic = dataStatisticService.select();
+					int b = dataStatistic.getTotal();
+					b = b + 1;
+					dataStatistic.setTotal(b);
+					int c =dataStatistic.getUnfinishedBill();
+					c = c +1;
+					dataStatistic.setUnfinishedBill(c);
+					
+					try {
+						//更新订单
+						dataStatisticService.update(dataStatistic);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 					if (userService.updateOrders(user) == 1) {
 						logger.info("修改用户的钱包与用户的订单数成功");
@@ -277,13 +296,13 @@ public class OrderController {
 					model.addAttribute("status", orders.getStatusString());
 					model.addAttribute("ordersId", ordersId);
 					model.addAttribute("goods", orders.getGoods());
-					model.addAttribute("custel", orders.getCustel());
+					model.addAttribute("custel", orders.getCusId());
 					model.addAttribute("exceData", orders.getExcedate());
-					String inspectTel = orders.getQualtel();
+					String inspectTel = orders.getQualId();
 					if ("null".equals(inspectTel)) {
 						model.addAttribute("inspec", "请填写质检员号码");
 					} else
-						model.addAttribute("inspec", orders.getQualtel());
+						model.addAttribute("inspec", orders.getQualId());
 
 					model.addAttribute("exceData", orders.getExcedate());
 					model.addAttribute("factoyName", orders.getFactoryname());
@@ -334,13 +353,13 @@ public class OrderController {
 					model.addAttribute("status", orders.getStatusString());
 					model.addAttribute("ordersId", ordersId);
 					model.addAttribute("goods", orders.getGoods());
-					model.addAttribute("custel", orders.getCustel());
+					model.addAttribute("custel", orders.getCusId());
 					model.addAttribute("exceData", orders.getExcedate());
-					String inspectTel = orders.getQualtel();
+					String inspectTel = orders.getQualId();
 					if ("null".equals(inspectTel)) {
 						model.addAttribute("inspec", "请填写质检员号码");
 					} else
-						model.addAttribute("inspec", orders.getQualtel());
+						model.addAttribute("inspec", orders.getQualId());
 
 					model.addAttribute("exceData", orders.getExcedate());
 					model.addAttribute("factoyName", orders.getFactoryname());

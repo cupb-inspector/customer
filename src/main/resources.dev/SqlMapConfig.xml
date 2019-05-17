@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
-		<setting name="logImpl" value="LOG4J" />
+		<setting name="logImpl" value="LOG4J2" />
 	</settings>
 	<!-- 和spring整合后 environments配置将废除 -->
 	<!-- 下面是本地的开发环境 -->
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				<property name="password" value="newpass" />
 			</dataSource>
 		</environment>
-			<!-- 下面是测试的线上环境 -->
+		<!-- 下面是测试的线上环境 -->
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
@@ -51,14 +51,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="sqlmap/UserMapper.xml" />
 		<mapper resource="sqlmap/OrderMapper.xml" />
-				<mapper resource="sqlmap/AccountMapper.xml" />
-		<!--  
-		<mapper resource="sqlmap/GoodsMapper.xml" />
-		<mapper resource="sqlmap/RawFileMapper.xml" />
-		<mapper resource="sqlmap/NetTypeMapper.xml" />
-		<mapper resource="sqlmap/PriceofNetTypeAndProvince.xml" />
-		<mapper resource="sqlmap/TransferBillMapper.xml" />
-		<mapper resource="sqlmap/NetBeanMapper.xml" />
-		-->
+		<mapper resource="sqlmap/AccountMapper.xml" />
+		<mapper resource="sqlmap/DataStatisticMapper.xml" />
+		<!-- <mapper resource="sqlmap/GoodsMapper.xml" /> <mapper resource="sqlmap/RawFileMapper.xml" 
+			/> <mapper resource="sqlmap/NetTypeMapper.xml" /> <mapper resource="sqlmap/PriceofNetTypeAndProvince.xml" 
+			/> <mapper resource="sqlmap/TransferBillMapper.xml" /> <mapper resource="sqlmap/NetBeanMapper.xml" 
+			/> -->
 	</mappers>
 </configuration>  

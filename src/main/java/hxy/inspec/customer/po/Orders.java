@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class Orders {
 	private String orderid;//订单号
-	private String custel;//用户信息
-	private String qualtel;//质检员信息
+	private String cusId;//用户信息
+	private String qualId;//质检员信息
 	private String excedate;//质检日期
 	private String date;//下单日期
 	private String factoryname;
