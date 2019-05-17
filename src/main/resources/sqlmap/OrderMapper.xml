@@ -10,20 +10,21 @@
 		parameterType="hxy.inspec.customer.po.Orders" useGeneratedKeys="true">
 		insert
 		into orders
-		(custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,reportfile,status,fee,cost,othercost,profit,goods,goodsType)
+		(cusId,qualId,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,fileuuid,reportfile,status,fee,cost,othercost,profit,goods,goodsType)
 		values
-		(#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods},#{goodsType})
+		(#{cusId},#{qualId},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{fileuuid},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods},#{goodsType})
 	</insert>
 
 
 
 	<select id="selectAll"
 		resultType="hxy.inspec.customer.po.Orders">
+
 		select * from orders
 	</select>
 	<select id="findOrdersByTel" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
-		SELECT * FROM orders WHERE custel=#{custel}
+		SELECT * FROM orders WHERE cusId=#{cusId}
 	</select>
 
 
@@ -31,38 +32,40 @@
 
 	<select id="findAllByTelAndStatus" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
-		SELECT * FROM orders WHERE custel=#{custel} and
+		SELECT * FROM orders WHERE cusId=#{cusId} and
 		status=#{status}
 	</select>
-	
+
 	<select id="findOrdersByTelAndStatus" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
-		SELECT * FROM orders WHERE custel=#{custel} and
+		SELECT * FROM orders WHERE cusId=#{cusId} and
 		status=#{status}
 	</select>
-	
+
 	<sql id="Base_Column_List">
 		excedate, goods, factoryname, reportfile, reportfileuuid
 	</sql>
-	
-	
+
+
 	<!-- 根据分页数据start 和size查询数据 -->
-	<select id="findByPage" parameterType="Map" resultType="hxy.inspec.customer.po.Orders">
-		select * from orders WHERE custel=#{custel} and status=#{status}
+	<select id="findByPage" parameterType="Map"
+		resultType="hxy.inspec.customer.po.Orders">
+		select * from orders WHERE cusId=#{cusId} and status=#{status}
 		<if test="start!=null and size!=null">
 			limit #{start},#{size}
 		</if>
 	</select>
-	
-		<!-- 查询未完成的最近的订单，根据分页数据start 和size查询数据 -->
-	<select id="findOrdersByStatusJudge" parameterType="Map" resultType="hxy.inspec.customer.po.Orders">
-		select * from orders WHERE custel=#{custel} and status &lt; #{status}
+
+	<!-- 查询未完成的最近的订单，根据分页数据start 和size查询数据 -->
+	<select id="findOrdersByStatusJudge" parameterType="Map"
+		resultType="hxy.inspec.customer.po.Orders">
+		select * from orders WHERE cusId=#{cusId} and status &lt; #{status}
 		<if test="start!=null and size!=null">
 			limit #{start},#{size}
 		</if>
 	</select>
-	
-	
+
+
 
 	<select id="findUserByOrdersId" parameterType="String"
 		resultType="hxy.inspec.customer.po.Orders">
@@ -72,16 +75,23 @@
 		resultType="hxy.inspec.customer.po.Orders">
 		SELECT * FROM orders WHERE orderid=#{orderid}
 	</select>
+	<!-- 依据用户id查询所有订单 -->
+	<select id="findOrdersByCusId" parameterType="String"
+		resultType="hxy.inspec.customer.po.Orders">
+		SELECT * FROM orders WHERE cusId=#{cusId}
+	</select>
+	
+
 	<delete id="delete"
 		parameterType="hxy.inspec.customer.po.Orders">
 		delete from orders where
-		custel=#{custel}
+		cusId=#{cusId}
 	</delete>
 	<update id="update"
 		parameterType="hxy.inspec.customer.po.Orders">
 		update orders set
 		cusname=#{cusname},cususerid=#{cususerid},ttkdpasswd1=#{ttkdpasswd1},ttkdpasswd=#{ttkdpasswd},passwd=#{passwd},date=#{date},address=#{address}
-		where custel=#{custel}
+		where cusId=#{cusId}
 	</update>
 	<update id="updateStatus"
 		parameterType="hxy.inspec.customer.po.Orders">

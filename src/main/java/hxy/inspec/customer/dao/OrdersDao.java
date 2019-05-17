@@ -110,6 +110,19 @@ public class OrdersDao {
 		sqlSession.close();
 		return goodsList;
 	}
+
+
+	public List<Orders> selectAllByCusId(String cusId) throws IOException {
+		SqlSession sqlSession = DataConnection.getSqlSession();
+		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByCusId", cusId);
+		logger.info("查询结果条数"+goodsList.size());
+		for (Orders good : goodsList) {
+//			System.out.format("%s\n", good.getNetName());
+		}
+		sqlSession.commit();
+		sqlSession.close();
+		return goodsList;
+	}
 	
 	
 	

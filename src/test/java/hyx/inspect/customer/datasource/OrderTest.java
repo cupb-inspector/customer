@@ -8,7 +8,7 @@ public class OrderTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Orders order = new Orders();
-		order.setCustel("1");
+		order.setCusId("1");
 //		order.setQualtel("1");
 //		order.setCost("1");
 //		order.setDate("1");

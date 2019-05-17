@@ -55,8 +55,7 @@
 					function () {
 						var excdate = $("#excdate").val();
 						var facname = $("#facname").val();
-						var facaddress = $("#facaddress")
-							.val();
+						var facaddress = $("#facaddress").val();
 						var facman = $("#facman").val();
 						var factel = $("#factel").val();
 						var profile = $("#profile").val();
@@ -64,80 +63,56 @@
 						var type = $("#select").val();
 						var goodsType = $("#goodsselect").val();
 
-						console.log(excdate + "\t"
-							+ facname)
+						console.log(excdate + "\t"+ facname+ "\t"+facaddress+ "\t"+facman+ "\t"+factel+ "\t"+profile+ "\t"+goods+ "\t"+type+ "\t"+goodsType)
 
 						if (excdate == "") {
 
-							$('.alert').removeClass(
-								'alert-success')
-							$('.alert')
-								.html('请选择验货日期')
-								.addClass(
-									'alert-warning')
-								.show().delay(2000)
-								.fadeOut();
+							$('.alert').removeClass('alert-success')
+							$('.alert').html('请选择验货日期').addClass('alert-warning').show().delay(2000).fadeOut();
 							return false;
 						}
 						if (facname == "") {
-							$('.alert').removeClass(
-								'alert-success')
-							$('.alert')
-								.html('请填写工厂名称')
-								.addClass(
-									'alert-warning')
-								.show().delay(2000)
-								.fadeOut();
-
+							$('.alert').removeClass('alert-success')
+							$('.alert').html('请填写工厂名称').addClass('alert-warning').show().delay(2000).fadeOut();
 							return false;
 						}
+						var file_obj = document.getElementById('afile').files[0];
+					       var fd = new FormData();
+				            fd.append('excdate', excdate)
+				            fd.append('facname', facname);
+				            fd.append("facaddress",facaddress );
+				            fd.append("facman", facman);
+				            fd.append("factel", factel);
+				            fd.append( "profile", profile);
+				            fd.append("goods",goods );
+				            fd.append("type", type );
+				            fd.append("goodsType", goodsType );
+				            fd.append("file", file_obj );
+						
 
 						$.ajax({
 							//几个参数需要注意一下
 							url: "${pageContext.request.contextPath}/cusInsertOrder",//url
 							type: "POST",//方法类型
 							async: false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
-
 							dataType: "json",//预期服务器返回的数据类型
 							cache: false,
-							data: {
-								"excdate": excdate,
-								"facname": facname,
-								"facaddress": facaddress,
-								"facman": facman,
-								"factel": factel,
-								"profile": profile,
-								"goods": goods,
-								"type": type,
-								"goodsType": goodsType
-							},//这个是发送给服务器的数据
-
-							success: function (
-								result) {
+							data: fd,//这个是发送给服务器的数据
+						    processData:false,  //tell jQuery not to process the data
+			                contentType: false,  //tell jQuery not to set contentType
+							success: function (result) {
 								console.log(result);//打印服务端返回的数据(调试用)
 								if (result.resultCode == 200) {
 									//跳转到首页	$('.alert').removeClass('alert-success')
-									$('.alert')
-										.html(
-											'提交成功')
-										.addClass(
-											'alert-success')
-										.show()
-										.delay(
-											2000)
-										.fadeOut();
-									document
-										.getElementById("facname").value = ''
-									document
-										.getElementById("facaddress").value = ''
-									document
-										.getElementById("facman").value = ''
-									document
-										.getElementById("factel").value = ''
-									document
-										.getElementById("profile").value = ''
-									document
-										.getElementById("goods").value = ''
+									$('.alert').html('提交成功').addClass('alert-success').show().delay(2000).fadeOut();
+									document.getElementById("excdate").value = ''
+									document.getElementById("facname").value = ''
+									document.getElementById("facaddress").value = ''
+									document.getElementById("facman").value = ''
+									document.getElementById("factel").value = ''
+									document.getElementById("profile").value = ''
+									document.getElementById("goods").value = ''
+									document.getElementById("afile").value = ''
 								} else if (result.resultCode == 601) {
 									//	$(this).remove();
 									$('.alert')
@@ -183,8 +158,6 @@
 					});
 
 			$("#btn2").click(function () {
-
-
 				document.getElementById("excdate").value = ''
 				document.getElementById("facname").value = ''
 				document.getElementById("facaddress").value = ''
@@ -219,7 +192,7 @@
 							<strong class="card-title">自助下单</strong>
 						</div>
 						<div class="card-body">
-							<div action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+							<div class="form-horizontal">
 								<div class="row form-group">
 									<div class="col col-md-2">
 										<label for="text-input" class=" form-control-label"
@@ -322,143 +295,14 @@
 										placeholder="请填写一些注意事项或者要求，建议等" class="form-control"></textarea>
 								</div>
 							</div>
-							<!-- 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="select" class=" form-control-label">Select</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="select" id="select" class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Option #1</option>
-                                                <option value="2">Option #2</option>
-                                                <option value="3">Option #3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="selectLg" class=" form-control-label">Select Large</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="selectLg" id="selectLg" class="form-control-lg form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Option #1</option>
-                                                <option value="2">Option #2</option>
-                                                <option value="3">Option #3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="selectSm" class=" form-control-label">Select Small</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="selectSm" id="selectSm" class="form-control-sm form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Option #1</option>
-                                                <option value="2">Option #2</option>
-                                                <option value="3">Option #3</option>
-                                                <option value="4">Option #4</option>
-                                                <option value="5">Option #5</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="disabledSelect" class=" form-control-label">Disabled Select</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="disabledSelect" id="disabledSelect" disabled="" class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">Option #1</option>
-                                                <option value="2">Option #2</option>
-                                                <option value="3">Option #3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">Radios</label></div>
-                                        <div class="col col-md-9">
-                                            <div class="form-check">
-                                                <div class="radio">
-                                                    <label for="radio1" class="form-check-label ">
-                                                        <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Option 1
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label for="radio2" class="form-check-label ">
-                                                        <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Option 2
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label for="radio3" class="form-check-label ">
-                                                        <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">Inline Radios</label></div>
-                                        <div class="col col-md-9">
-                                            <div class="form-check-inline form-check">
-                                                <label for="inline-radio1" class="form-check-label ">
-                                                    <input type="radio" id="inline-radio1" name="inline-radios" value="option1" class="form-check-input">One
-                                                </label>
-                                                <label for="inline-radio2" class="form-check-label ">
-                                                    <input type="radio" id="inline-radio2" name="inline-radios" value="option2" class="form-check-input">Two
-                                                </label>
-                                                <label for="inline-radio3" class="form-check-label ">
-                                                    <input type="radio" id="inline-radio3" name="inline-radios" value="option3" class="form-check-input">Three
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">Checkboxes</label></div>
-                                        <div class="col col-md-9">
-                                            <div class="form-check">
-                                                <div class="checkbox">
-                                                    <label for="checkbox1" class="form-check-label ">
-                                                        <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">Option 1
-                                                    </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label for="checkbox2" class="form-check-label ">
-                                                        <input type="checkbox" id="checkbox2" name="checkbox2" value="option2" class="form-check-input"> Option 2
-                                                    </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label for="checkbox3" class="form-check-label ">
-                                                        <input type="checkbox" id="checkbox3" name="checkbox3" value="option3" class="form-check-input"> Option 3
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                              
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">Inline Checkboxes</label></div>
-                                        <div class="col col-md-9">
-                                            <div class="form-check-inline form-check">
-                                                <label for="inline-checkbox1" class="form-check-label ">
-                                                    <input type="checkbox" id="inline-checkbox1" name="inline-checkbox1" value="option1" class="form-check-input">One
-                                                </label>
-                                                <label for="inline-checkbox2" class="form-check-label ">
-                                                    <input type="checkbox" id="inline-checkbox2" name="inline-checkbox2" value="option2" class="form-check-input">Two
-                                                </label>
-                                                <label for="inline-checkbox3" class="form-check-label ">
-                                                    <input type="checkbox" id="inline-checkbox3" name="inline-checkbox3" value="option3" class="form-check-input">Three
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                         
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="file-input" name="file-input" class="form-control-file"></div>
-                                    </div>
-                                      -->
+					
 							<div class="row form-group">
 								<div class="col col-md-2">
 									<label for="file-multiple-input" class=" form-control-label"
 										style="float:right">资料</label>
 								</div>
 								<div class="col-12 col-md-9">
-									<input type="file" id="file" name="file-multiple-input" multiple=""
+									<input type="file" id="afile" name="file-multiple-input"
 										class="form-control-file">
 								</div>
 							</div>
@@ -481,7 +325,7 @@
 		</div>
 	</div>
 	<!-- .animated -->
-	</div>
+
 	<!-- .content -->
 
 	<!-- Scripts -->
@@ -490,21 +334,8 @@
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/jquery.matchHeight.min.js"></script>
 	<script src="assets/js/main.js"></script>
-	<script src="assets/js/lib/data-table/datatables.min.js"></script>
-	<script src="assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
-	<script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
-	<script src="assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
-	<script src="assets/js/lib/data-table/jszip.min.js"></script>
-	<script src="assets/js/lib/data-table/vfs_fonts.js"></script>
-	<script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
-	<script src="assets/js/lib/data-table/buttons.print.min.js"></script>
-	<script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
-	<script src="assets/js/init/datatables-init.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#bootstrap-data-table-export').DataTable();
-		});
-	</script>
+
+
 
 
 </body>
