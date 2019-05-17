@@ -10,15 +10,16 @@
 		parameterType="hxy.inspec.customer.po.Orders" useGeneratedKeys="true">
 		insert
 		into orders
-		(custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,reportfile,status,fee,cost,othercost,profit,goods,goodsType)
+		(custel,qualtel,excedate,date,factoryname,factoryaddress,factoryman,factorytel,profile,file,fileuuid,reportfile,status,fee,cost,othercost,profit,goods,goodsType)
 		values
-		(#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods},#{goodsType})
+		(#{custel},#{qualtel},#{excedate},#{date},#{factoryname},#{factoryaddress},#{factoryman},#{factorytel},#{profile},#{file},#{fileuuid},#{reportfile},#{status},#{fee},#{cost},#{othercost},#{profit},#{goods},#{goodsType})
 	</insert>
 
 
 
 	<select id="selectAll"
 		resultType="hxy.inspec.customer.po.Orders">
+		
 		select * from orders
 	</select>
 	<select id="findOrdersByTel" parameterType="String"
