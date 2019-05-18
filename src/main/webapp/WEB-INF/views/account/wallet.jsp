@@ -1,3 +1,4 @@
+<jsp:include page="/WEB-INF/views/commons.jsp" />
 <%@page import="hxy.inspec.customer.service.UserService"%>
 <%@page import="hxy.inspec.customer.po.User"%>
 <%@page import="hxy.inspec.customer.service.AccountService"%>
@@ -5,8 +6,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/commons.jsp" />
-
 <%
 request.setCharacterEncoding("utf-8");
 User user = (User) request.getSession().getAttribute("user");

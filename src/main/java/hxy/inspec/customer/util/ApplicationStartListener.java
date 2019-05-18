@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
@@ -118,6 +119,11 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 		}
 		// 获取当前目录的绝对路径
 		Configration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
+		
+		
+//		代码新建数据库  CREATE SCHEMA `inspect` DEFAULT CHARACTER SET utf8mb4 ;
+
+		
 
 		logger.info("启动应用，开始数据库建表！注意修改java文件的代码，这个是建表的密码");
 		Connection connection = ConnectionUtil.getConnection();
@@ -152,6 +158,42 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
+		String sql3 = "create table IF NOT EXISTS  data_statistic (dataId int not null primary key, `total` INT(11) default '0', `today` INT(11) default '0',`users` INT(11) default '0' ,`unfinishedBill` INT(11) default '0' ,`finishedBill` INT(11) default '0' ,`unfinishedReport` INT(11) default '0' ,`finishedReport` INT(11) default '0')default charset=utf8; ";
+		PreparedStatement preparedStatement3 = ConnectionUtil.getPreparedStatement(connection, sql3);
+		try {
+			logger.info("尝试新建data_statistic表");
+			preparedStatement3.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.error("数据库连接失败！");
+		}
+		//先查询是否存在，如果不存在就新建一条
+		String sql4 = "select * from data_statistic where dataId = 1 ";
+		//新建表之后需要存入一条数据。id=1
+		PreparedStatement preparedStatement4 = ConnectionUtil.getPreparedStatement(connection, sql4);
+		ResultSet resultSet = null;
+		try {
+			logger.info("查询表是否存在数据");
+			resultSet=	preparedStatement4.executeQuery();
+			if (resultSet.next()) {
+				logger.info("说明表里的数据存在id为1的");
+			}else {
+				//插入数据
+				String sql5="INSERT INTO data_statistic (dataId,total,today,users,unfinishedBill,finishedBill,unfinishedReport,finishedReport) VALUES (1,0,0,0,0,0,0,0) ";
+				PreparedStatement preparedStatement5 = ConnectionUtil.getPreparedStatement(connection, sql5);
+				
+				int resultSet2 = preparedStatement5.executeUpdate();
+				if (resultSet2==1) {
+					logger.info("插入id为1的数据成功");
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.error("数据库连接失败！");
+		}
+		
+		
 		
 		/*
 		 * String sql1 =

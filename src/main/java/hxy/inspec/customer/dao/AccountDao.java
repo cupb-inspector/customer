@@ -22,19 +22,15 @@ public class AccountDao {
 		return flag;
 	}
 	public List<Account> selectAllByUserId(String id) throws IOException {
-		// TODO Auto-generated method stub
-
 		SqlSession sqlSession = DataConnection.getSqlSession();
 		List<Account> goodsList = sqlSession.selectList("Account.findOrdersByUserId", id);
 		logger.info("查询结果条数"+goodsList.size());
-	
 		sqlSession.commit();
 		sqlSession.close();
 		return goodsList;
 	
 	}
 	public List<Account> selectAllByTel(String tel) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
