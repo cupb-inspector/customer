@@ -182,6 +182,7 @@ public class AccountController {
 			}
 		}
 		String param = "fileUuid=" + fileUuid;
+	
 		sendPost(Configration.IMAGE_URL, param);
 
 		// 返回信息
@@ -208,6 +209,7 @@ public class AccountController {
 	 * @return 所代表远程资源的响应结果
 	 */
 	public static String sendPost(String url, String param) {
+		logger.info("发送图片迁移指令的url"+url+"param"+param);
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String result = "";
@@ -235,7 +237,8 @@ public class AccountController {
 				result += line;
 			}
 		} catch (Exception e) {
-			System.out.println("发送 POST 请求出现异常！" + e);
+			logger.info("发送 POST 请求出现异常！" + e);
+//			System.out.println("发送 POST 请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输出流、输入流
@@ -273,10 +276,13 @@ public class AccountController {
 				float valuef = Float.parseFloat(value);
 				if(money>=valuef) {
 					logger.info("符合提现");
-					//说明可以提现
-					float a = money -valuef;//实际剩下余额
+					//第一步检查是判断是否提现合理，但是这个时候还不去减少真正的余额，也就是可以继续消费。
+					//等管理员审核的时候，再次检查提现额度是否合理，合理就提现成功，不合理就提现失败。
+					
+//					说明可以提现
+//					float a = money -valuef;//实际剩下余额
 					float b = temMoney-valuef;
-					user.setCusMoney(String.valueOf(a));
+//					user.setCusMoney(String.valueOf(a));
 					user.setCusTempMoney(String.valueOf(b));
 					userService.update(user);
 					

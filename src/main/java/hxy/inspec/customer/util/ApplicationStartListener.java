@@ -143,7 +143,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			logger.error("数据库连接失败！");
 		}
 		
-		String sql1 = "create table IF NOT EXISTS  account (id int not null primary key  AUTO_INCREMENT, `userId` VARCHAR(15) default '0', `operate` VARCHAR(10) NULL,`value` VARCHAR(25) default '0' ,`surplus` VARCHAR(15) default '0' ,`time` VARCHAR(45) NULL ,`type` VARCHAR(2) default '0' ,`file` VARCHAR(45) default '0' ,`fileUuid` VARCHAR(155) default '0' ,`adminId` VARCHAR(15) default '0',  `notes` VARCHAR(55) default '0',  `status` VARCHAR(2) default '0')default charset=utf8; ";
+		String sql1 = "create table IF NOT EXISTS  account (id int not null primary key  AUTO_INCREMENT, `userId` VARCHAR(15) default '0', `operate` VARCHAR(10) NULL,`value` VARCHAR(25) default '0' ,`surplus` VARCHAR(15) default '0' ,`time` VARCHAR(45) NULL ,`type` VARCHAR(2) default '0' ,`file` VARCHAR(45) default '0' ,`fileUuid` VARCHAR(155) default '0' ,`adminId` VARCHAR(15) default '0',  `notes` VARCHAR(55) default '0',  `status` VARCHAR(2) default '0',  `result` INT(11) default '0')default charset=utf8; ";
 		PreparedStatement preparedStatement1 = ConnectionUtil.getPreparedStatement(connection, sql1);
 		try {
 			logger.info("尝试新建account表");
