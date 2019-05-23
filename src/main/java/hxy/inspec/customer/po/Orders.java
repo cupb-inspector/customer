@@ -1,5 +1,6 @@
 package hxy.inspec.customer.po;
 
+import hxy.inspec.customer.util.Configration;
 import lombok.Data;
 
 @Data
@@ -28,17 +29,17 @@ public class Orders {
 	private String goodsType;//产品类型
 	
 	
-	
+	//下面应该设置全局静态变量，全局设置？
 	public String getStatusString() {
 		String value="未知";
 		switch (this.status) {
-		case "1":
+		case Configration.BILL_SUBMITTED:
 			value="提交成功";
 			break;
-		case "2":
+		case Configration.BILL_UNPAY:
 			value="提交成功未付款";
 			break;
-		case "3":
+		case Configration.BILL_PAY:
 			value="已付款";
 			break;
 	

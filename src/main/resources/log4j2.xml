@@ -3,7 +3,7 @@
 	<properties>
 		<property name="LOG_HOME">.</property>
 		<property name="FILE_NAME">inspec</property>
-		<property name="log.sql.level">INFO</property>
+		<property name="log.sql.level">ALL</property>
 	</properties>
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">

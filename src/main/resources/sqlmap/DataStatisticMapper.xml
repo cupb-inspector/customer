@@ -17,7 +17,7 @@
 	<!-- 统计数据,可能只有一条 -->
 	<select id="select"
 		resultType="hxy.inspec.customer.po.DataStatistic">
-		select * from data_statistic
+		select * from data_statistic where dataId = 1
 	</select>
 	<select id="findOrdersByTel" parameterType="String"
 		resultType="hxy.inspec.customer.po.DataStatistic">

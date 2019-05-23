@@ -51,10 +51,10 @@ public class UserController {
 			if (user != null) {
 				logger.info("用户存在" + user.getCusname());
 				// 检查密码
-				String newpasswd=null;
+				String newpasswd = null;
 				CodeMd5 codeMd5 = new CodeMd5();
 				try {
-					newpasswd=	codeMd5.codeMd5(password);
+					newpasswd = codeMd5.codeMd5(password);
 				} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
@@ -63,7 +63,7 @@ public class UserController {
 					resultCode = 200;
 					// 把用户对象存储到session
 					request.getSession().setAttribute("user", user);
-					logger.info("成功登录用户："+user.getCusname()+"\t"+user.getCustel()+"\t"+user.getCusid());
+					logger.info("成功登录用户：" + user.getCusname() + "\t" + user.getCustel() + "\t" + user.getCusid());
 				} else {
 					// 提示密码不正确
 					resultCode = 601;
@@ -102,7 +102,7 @@ public class UserController {
 		String password = null;
 		String tel = null;
 		String email = null;
-		String newpasswd=null;
+		String newpasswd = null;
 		try {
 			username = request.getParameter("username").trim();// 这个应该是电话号码
 			password = request.getParameter("passwd").trim();
@@ -111,14 +111,11 @@ public class UserController {
 			flag = true;
 			CodeMd5 codeMd5 = new CodeMd5();
 			try {
-				newpasswd=	codeMd5.codeMd5(password);
+				newpasswd = codeMd5.codeMd5(password);
 			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 		}
@@ -136,6 +133,7 @@ public class UserController {
 				user.setCusgrade("0");
 				user.setCusMoney("0");
 				user.setCusOrders("0");
+				user.setCusTempMoney("0");
 				// 检查用户是否存在
 				UserService userService = new UserService();
 				User user1 = userService.login(tel);
@@ -165,7 +163,7 @@ public class UserController {
 				}
 			}
 
-		}else {
+		} else {
 			resultCode = 404;
 		}
 		logger.info("返回注册信息");
