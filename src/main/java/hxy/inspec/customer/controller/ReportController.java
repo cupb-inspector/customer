@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.OrderService;
-import hxy.inspec.customer.util.Configration;
+import hxy.inspec.customer.util.Configuration;
 
 @Controller
 @RequestMapping("/")
@@ -57,9 +57,9 @@ public class ReportController {
 		if (!fileFolder.exists()) {
 			fileFolder.mkdirs();
 		}
-		Configration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
+		Configuration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
 		// 得到要下载的文件
-		File file = new File(Configration.FILE_ROOT_DIR + "/" + fileName);
+		File file = new File(Configuration.FILE_ROOT_DIR + "/" + fileName);
 		logger.info("下载文件：" + file);
 		// 如果文件不存在
 		if (!file.exists()) {
@@ -152,9 +152,9 @@ public class ReportController {
 				if (!fileFolder.exists()) {
 					fileFolder.mkdirs();
 				}
-				Configration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
+				Configuration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
 
-				File file = new File(Configration.FILE_ROOT_DIR, reportfileuuid);
+				File file = new File(Configuration.FILE_ROOT_DIR, reportfileuuid);
 
 				try { // 创建一个文件输出流
 					InputStream in = item.getInputStream();
@@ -177,7 +177,7 @@ public class ReportController {
 					orders.setOrderid(ordersId);
 					orders.setReportfile(fileName);
 					orders.setReportfileuuid(reportfileuuid);
-					orders.setStatus("4");
+					orders.setStatus(Configuration.BILL_SUBMITTED);
 					OrderService orderService = new OrderService();
 					orderService.updateReport(orders);
 
@@ -213,10 +213,10 @@ public class ReportController {
 
 			if ("cancel".equals(flag)) {
 				logger.info("用户拒绝了报告");
-				order.setStatus("4");// 报告不通过接着重新提交报告
+				order.setStatus(Configuration.BILL_REPORT_UNPASSED);// 报告不通过接着重新提交报告
 			} else if ("conform".equals(flag)) {
 				logger.info("用户接受了报告");
-				order.setStatus("6");// 报告审核通过
+				order.setStatus(Configuration.BILL_REPORT_PASSED);// 报告审核通过
 			}
 
 //			为该用户更新订单，依据订单的id查找订单，修改质检员的电话号码
@@ -267,7 +267,7 @@ public class ReportController {
 //			查找该用户的报告，在订单表里面查找状态字和用户的tel
 			Orders orders = new Orders();
 			orders.setCusId(user.getCusid());
-			orders.setStatus("1");
+			orders.setStatus(Configuration.BILL_REPORT_SUBMIT);
 
 			OrderService orderService = new OrderService();
 			try {

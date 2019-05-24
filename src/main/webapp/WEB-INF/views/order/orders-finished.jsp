@@ -1,3 +1,4 @@
+<%@page import="hxy.inspec.customer.util.Configuration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="hxy.inspec.customer.po.Orders"%>
@@ -18,7 +19,7 @@
 		OrderService o = new OrderService();
 		Orders orders = new Orders();
 		orders.setCusId(user.getCusid());
-		orders.setStatus("6");
+		orders.setStatus(Configuration.BILL_REPORT_PASSED);
 		ls = o.selectAllByTelAndStatus(orders);
 	}
 %>

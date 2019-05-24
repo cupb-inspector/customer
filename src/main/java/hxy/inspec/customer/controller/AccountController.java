@@ -31,7 +31,7 @@ import hxy.inspec.customer.po.Account;
 import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.AccountService;
 import hxy.inspec.customer.service.UserService;
-import hxy.inspec.customer.util.Configration;
+import hxy.inspec.customer.util.Configuration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,7 +125,7 @@ public class AccountController {
 					String uuid = UUID.randomUUID().toString().replace("-", "");
 					// 全球唯一标识码
 					fileUuid = uuid + fileName;
-					File file = new File(Configration.FILE_ROOT_DIR, fileUuid);
+					File file = new File(Configuration.FILE_ROOT_DIR, fileUuid);
 					try { // 创建一个文件输出流
 						InputStream in = item.getInputStream();
 						FileOutputStream out = new FileOutputStream(file);
@@ -183,7 +183,7 @@ public class AccountController {
 		}
 		String param = "fileUuid=" + fileUuid;
 	
-		sendPost(Configration.IMAGE_URL, param);
+		sendPost(Configuration.IMAGE_URL, param);
 
 		// 返回信息
 		org.json.JSONObject user_data = new org.json.JSONObject();

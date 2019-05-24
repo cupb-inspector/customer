@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import hxy.inspec.customer.datasource.ConnectionUtil;
 import hxy.inspec.customer.util.ApplicationStartListener;
-import hxy.inspec.customer.util.Configration;
+import hxy.inspec.customer.util.Configuration;
 
 public class CreateTable {
 	private final static Logger logger = LoggerFactory.getLogger(ApplicationStartListener.class);
@@ -25,7 +25,7 @@ public class CreateTable {
 			fileFolder.mkdirs();
 		}
 		//获取当前目录的绝对路径
-		Configration.FILE_ROOT_DIR=fileFolder.getAbsolutePath();
+		Configuration.FILE_ROOT_DIR=fileFolder.getAbsolutePath();
 		
 		logger.info("启动应用，开始数据库建表！注意修改java文件的代码，这个是建表的密码");
 		Connection connection = ConnectionUtil.getConnection();

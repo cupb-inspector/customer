@@ -36,7 +36,7 @@ import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.DataStatisticService;
 import hxy.inspec.customer.service.OrderService;
 import hxy.inspec.customer.service.UserService;
-import hxy.inspec.customer.util.Configration;
+import hxy.inspec.customer.util.Configuration;
 
 @Controller
 @RequestMapping("/")
@@ -58,7 +58,7 @@ public class OrderController {
 			String profile = null;
 			String type = null;
 			String reports = null;
-			String status = null;
+			int status = 0;
 			String fee = null;
 			String cost = null;
 			String otherCost = null;
@@ -155,7 +155,7 @@ public class OrderController {
 						// 生成随机数和id，文件重新命名为id+原来名字，存入数据库.
 						fileName = item.getName();
 						fileUuidName = uuid + fileName;
-						File file = new File(Configration.FILE_ROOT_DIR, fileUuidName);
+						File file = new File(Configuration.FILE_ROOT_DIR, fileUuidName);
 						try { // 创建一个文件输出流
 							InputStream in = item.getInputStream();
 							FileOutputStream out = new FileOutputStream(file);
@@ -195,11 +195,11 @@ public class OrderController {
 				float costs = 100;
 				if (money > costs) {
 					// 订单正常提交，正常扣费
-					status = "3";// 1.提交成功 2.正在验货员正在接单 3.验货员已经出发，4.报告撰写中，5，已完成
+					status = Configuration.BILL_PAY;// 1.提交成功 2.正在验货员正在接单 3.验货员已经出发，4.报告撰写中，5，已完成
 					money = money - costs;
 					user.setCusMoney(String.valueOf(money));
 				} else
-					status = "2";
+					status = Configuration.BILL_UNPAY;
 
 //			获取时间
 				Date now = new Date();

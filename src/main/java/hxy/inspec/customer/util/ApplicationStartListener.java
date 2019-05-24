@@ -100,10 +100,10 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			root.getName();
 			for (Iterator i = root.elementIterator("VALUES"); i.hasNext();) {
 				foo = (Element) i.next();
-				Configration.MYSQL_USER = foo.elementText("KEY");
-				Configration.MYSQL_PASSWD = foo.elementText("VALUE");
-				Configration.MYSQL_HOST = foo.elementText("HOST");
-				Configration.IMAGE_URL = foo.elementText("IMAGE");
+				Configuration.MYSQL_USER = foo.elementText("KEY");
+				Configuration.MYSQL_PASSWD = foo.elementText("VALUE");
+				Configuration.MYSQL_HOST = foo.elementText("HOST");
+				Configuration.IMAGE_URL = foo.elementText("IMAGE");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			fileFolder.mkdirs();
 		}
 		// 获取当前目录的绝对路径
-		Configration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
+		Configuration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
 		
 		
 //		代码新建数据库  CREATE SCHEMA `inspect` DEFAULT CHARACTER SET utf8mb4 ;
