@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="hxy.inspec.customer.po.Orders"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="hxy.inspec.customer.service.OrderService"%>
 <%@page import="hxy.inspec.customer.po.User"%>
 <!doctype html>
@@ -17,10 +18,10 @@
 		//request.getRequestDispatcher("/WEB-INF/a.jsp").forward(request, response);
 	} else {
 		OrderService o = new OrderService();
-		Orders orders = new Orders();
-		orders.setCusId(user.getCusid());
-		orders.setStatus(Configuration.BILL_REPORT_PASSED);
-		ls = o.selectAllByTelAndStatus(orders);
+		HashMap<String, Object> map =new HashMap<String, Object> ();
+		map.put("status", Configuration.BILL_REPORT_PASSED);
+		map.put("cusId", user.getCusid());
+		ls = o.selectAllByIdAndStatus(map);
 	}
 %>
 

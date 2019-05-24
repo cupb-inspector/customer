@@ -78,11 +78,11 @@ public class OrdersDao {
 	}
 
 
-	public List<Orders> selectAllByTelAndStatus(Orders tel) throws IOException {
+	public List<Orders> selectAllByIdAndStatus(HashMap<String, Object>  tel) throws IOException {
 		// TODO Auto-generated method stub
 
 		SqlSession sqlSession = DataConnection.getSqlSession();
-		List<Orders> goodsList = sqlSession.selectList("Orders.findAllByTelAndStatus", tel);
+		List<Orders> goodsList = sqlSession.selectList("Orders.findAllByIdAndStatus", tel);
 		logger.info("查询结果条数"+goodsList.size());
 		for (Orders good : goodsList) {
 //			System.out.format("%s\n", good.getNetName());

@@ -383,14 +383,16 @@ User
     <script src="assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
     <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
     <script src="assets/weather/js/jquery.simpleWeather.min.js"></script>
+    <!-- 
     <script src="assets/weather/js/weather-init.js"></script>
-
+ -->
     <script src="assets/js/lib/moment/moment.js"></script>
 
     <script src="assets/calendar/fullcalendar.min.js"></script>
     <script src="assets/calendar/fullcalendar-init.js"></script>
+    <!-- 
     <script src="assets/js/init/weather-init.js"></script>
-
+ -->
     <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
     <script src="assets/js/init/fullcalendar-init.js"></script>
