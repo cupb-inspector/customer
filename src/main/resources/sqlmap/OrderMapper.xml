@@ -36,7 +36,7 @@
 		status=#{status}
 	</select>
 
-	<select id="findOrdersByTelAndStatus" parameterType="String"
+	<select id="findAllByIdAndStatus" parameterType="Map"
 		resultType="hxy.inspec.customer.po.Orders">
 		SELECT * FROM orders WHERE cusId=#{cusId} and
 		status=#{status}

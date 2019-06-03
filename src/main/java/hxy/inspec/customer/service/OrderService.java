@@ -57,9 +57,9 @@ public class OrderService {
 	
 	
 
-	public List<Orders> selectAllByTelAndStatus(Orders tel) throws IOException {
+	public List<Orders> selectAllByIdAndStatus(HashMap<String, Object> tel) throws IOException {
 		OrdersDao ordersDao = new OrdersDao();
-		List<Orders> list = ordersDao.selectAllByTelAndStatus(tel);
+		List<Orders> list = ordersDao.selectAllByIdAndStatus(tel);
 		return list;
 	}
 
