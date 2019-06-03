@@ -86,7 +86,61 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	@RequestMapping(value = "/modify-passwd", method = RequestMethod.POST)
+	public void modify(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+		int resultCode = 0;
+		if(user!=null) {
+			String origin=null;
+			String new2=null;		
+			try {
+				origin = request.getParameter("origin").trim();// 这个应该是电话号码
+				new2 = request.getParameter("new2").trim();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if(origin!=null&&new2!=null) {
+				//先比对原密码是否一致
+				CodeMd5 codeMd5 = new CodeMd5();
+				try {
+					origin = codeMd5.codeMd5(origin);
+					new2 = codeMd5.codeMd5(new2);
+					if (user.getCuspasswd().equals(origin)) {
+						//更新密码
+						user.setCuspasswd(new2);
+						UserService userService =new UserService();
+						userService.update(user);
+						resultCode=200;
+					}else {
+						resultCode=502;//原密码错误
+					}
+				} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+			}else {
+				resultCode=601;
+			}
+		}else {
+			resultCode=404;
+		}
+		logger.info("返回注册信息");
+		org.json.JSONObject user_data = new org.json.JSONObject();
+		user_data.put("resultCode", resultCode);
+		String jsonStr2 = user_data.toString();
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().append(jsonStr2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@RequestMapping(value = "/register-user", method = RequestMethod.POST)
 	public void userRegister(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		int resultCode = 0;
@@ -167,7 +221,6 @@ public class UserController {
 			resultCode = 404;
 		}
 		logger.info("返回注册信息");
-
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
 		user_data.put("key2", "today4");

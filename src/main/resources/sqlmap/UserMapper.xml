@@ -39,9 +39,12 @@
 			cusMoney=#{cusMoney} ,
 		</if>
 		<if test="cusTempMoney!=null">
-			cusTempMoney=#{cusTempMoney}
+			cusTempMoney=#{cusTempMoney},
 		</if>
-		where cusid=#{cusid}
+		<if test="cuspasswd!=null">
+			cuspasswd=#{cuspasswd},
+		</if>
+		cusid=#{cusid} where cusid=#{cusid}
 	</update>
 
 	<!-- 修改用户 -->
