@@ -84,6 +84,7 @@ if (user == null) {
 											<th>工厂名称</th>
 											<th>产品名称</th>
 											<th>状态</th>
+											<th>下单日期</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -99,6 +100,7 @@ if (user == null) {
 										<td><%=orders.getFactoryname() %></td>
 										<td><%=orders.getGoods() %></td>
 										<td><%=orders.getStatusString() %></td>
+										<td><%=orders.getDate()%></td>
 											<td><a href="details2?id=<%=orders.getOrderid() %>">详情</a></td>
 									</tr>
 										<% 
