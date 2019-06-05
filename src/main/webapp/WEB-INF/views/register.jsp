@@ -38,34 +38,34 @@
 			var emailReg=/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
 			var telReg =/^1\d{10}$/;
 			if (username == "") {
-												$('.alert').removeClass(
-														'alert-success')
-												$('.alert')
+												$('.hxy-alert').removeClass(
+														'hxy-alert-success')
+												$('.hxy-alert')
 														.html('请输入手机号码')
 														.addClass(
-																'alert-warning')
+																'hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
 											}
 											if (passwd == "") {
-												$('.alert').removeClass(
-														'alert-success')
-												$('.alert')
+												$('.hxy-alert').removeClass(
+														'hxy-alert-success')
+												$('.hxy-alert')
 														.html('请输入密码')
 														.addClass(
-																'alert-warning')
+																'hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
 											}
 											if (tel == "") {
-												$('.alert').removeClass(
-														'alert-success')
-												$('.alert')
+												$('.hxy-alert').removeClass(
+														'hxy-alert-success')
+												$('.hxy-alert')
 														.html('请输入手机号')
 														.addClass(
-																'alert-warning')
+																'hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
@@ -73,18 +73,18 @@
 												var telResult=telReg.test(tel);
 												console.log(tel+"\ttelResult:"+telResult)
 												if(telResult!=true){
-													$('.alert').removeClass('alert-success')
-													$('.alert').html('手机号码格式不正确').addClass('alert-warning').show().delay(2000).fadeOut();
+													$('.hxy-alert').removeClass('hxy-alert-success')
+													$('.hxy-alert').html('手机号码格式不正确').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 													return false;
 												}
 											}
 											if (email == "") {
-												$('.alert').removeClass(
-														'alert-success')
-												$('.alert')
+												$('.hxy-alert').removeClass(
+														'hxy-alert-success')
+												$('.hxy-alert')
 														.html('请输入邮箱')
 														.addClass(
-																'alert-warning')
+																'hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
@@ -92,26 +92,26 @@
 												var emailResult = emailReg.test(email)
 												console.log(emailResult)
 												if(emailResult!=true){
-													$('.alert').removeClass('alert-success')
-													$('.alert').html('邮箱格式不正确').addClass('alert-warning').show().delay(2000).fadeOut();
+													$('.hxy-alert').removeClass('hxy-alert-success')
+													$('.hxy-alert').html('邮箱格式不正确').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 													return false;
 												}
 											}
 											if (passwd1 == "") {
-												$('.alert').removeClass('alert-success')
-												$('.alert').html('请输入密码')
-														.addClass('alert-warning')
+												$('.hxy-alert').removeClass('hxy-alert-success')
+												$('.hxy-alert').html('请输入密码')
+														.addClass('hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
 											}
 											if (passwd1 != passwd) {
-												$('.alert').removeClass(
-														'alert-success')
-												$('.alert')
+												$('.hxy-alert').removeClass(
+														'hxy-alert-success')
+												$('.hxy-alert')
 														.html('两次输入密码不一样')
 														.addClass(
-																'alert-warning')
+																'hxy-alert-warning')
 														.show().delay(2000)
 														.fadeOut();
 												return false;
@@ -120,18 +120,18 @@
 												//document.getElementById('xx').value.length
 												console.log("密码长度是："+passwd.length)
 												if(passwd.length<8||passwd.length>16){
-													$('.alert').removeClass('alert-success')
-													$('.alert').html('密码长度8到16位').addClass('alert-warning').show().delay(2000).fadeOut();
+													$('.hxy-alert').removeClass('hxy-alert-success')
+													$('.hxy-alert').html('密码长度8到16位').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 													return false;
 												}
 											}
 											if(userAgree!=true){
-												$('.alert').removeClass(
-												'alert-success')
-										$('.alert')
+												$('.hxy-alert').removeClass(
+												'hxy-alert-success')
+										$('.hxy-alert')
 												.html('不同意协议无法使用本网站服务')
 												.addClass(
-														'alert-warning')
+														'hxy-alert-warning')
 												.show().delay(2000)
 												.fadeOut();
 										return false;
@@ -158,32 +158,32 @@
 															if (result.resultCode == 200) {
 																//thisE.previousElementSibling.innerHTML = "允许"
 																//自动消失的消息
-																$('.alert')
+																$('.hxy-alert')
 																		.removeClass(
-																				'alert-warning')
-																$('.alert')
+																				'hxy-alert-warning')
+																$('.hxy-alert')
 																		.html(
 																				'操作成功')
 																		.addClass(
-																				'alert-success')
+																				'hxy-alert-success')
 																		.show()
 																		.delay(
 																				2000)
 																		.fadeOut();
-																//	$('.alert').success_prompt('操作成功',1500)
+																//	$('.hxy-alert').success_prompt('操作成功',1500)
 																//跳转到首页
 																window.location.href = 'index';
 
 															} else if (result.resultCode == 101) {
 																//	$(this).remove();
-																$('.alert')
+																$('.hxy-alert')
 																		.removeClass(
-																				'alert-success')
-																$('.alert')
+																				'hxy-alert-success')
+																$('.hxy-alert')
 																		.html(
 																				'手机号码已经注册')
 																		.addClass(
-																				'alert-warning')
+																				'hxy-alert-warning')
 																		.show()
 																		.delay(
 																				2000)
@@ -194,14 +194,14 @@
 
 															} else if (result.resultCode == 404) {
 																//	$(this).remove();
-																$('.alert')
+																$('.hxy-alert')
 																		.removeClass(
-																				'alert-success')
-																$('.alert')
+																				'hxy-alert-success')
+																$('.hxy-alert')
 																		.html(
 																				'手机号未注册')
 																		.addClass(
-																				'alert-warning')
+																				'hxy-alert-warning')
 																		.show()
 																		.delay(
 																				2000)
@@ -212,14 +212,14 @@
 														},
 														error : function() {
 															//console.log(data);
-															$('.alert')
+															$('.hxy-alert')
 																	.removeClass(
-																			'alert-success')
-															$('.alert')
+																			'hxy-alert-success')
+															$('.hxy-alert')
 																	.html(
 																			'检查网络是否连接')
 																	.addClass(
-																			'alert-warning')
+																			'hxy-alert-warning')
 																	.show()
 																	.delay(2000)
 																	.fadeOut();
@@ -232,7 +232,7 @@
 </script>
 </head>
 <body class="bg-dark">
-	<div class="alert"></div>
+	<div class="hxy-alert"></div>
 	<div class="sufee-login d-flex align-content-center flex-wrap">
 		<div class="container">
 			<div class="login-content">

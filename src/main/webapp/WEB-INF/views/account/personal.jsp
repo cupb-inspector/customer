@@ -217,8 +217,9 @@ User user = (User) request.getSession().getAttribute("user");
                                                 <tr>
                                                     <td><i class='fa fa-check-circle' style='color:forestgreen'></i> 绑定邮箱
                                                     </td>
-                                                    <td><%=user.getEmail() %></td>
-                                                    <td><a class='connect' href='#' style='color:mediumblue'>修改邮箱</a>
+                                                    <td><div id ="displayEmail"><%=user.getEmail() %></div></td>
+                                                    <td><a class='connect' href = "JavaScript:void(0)" onclick = "openEmail()" style='color:mediumblue'>修改邮箱</a>
+                                                   
                                                     </td>
                                                 </tr>
                                             </table>
@@ -432,8 +433,6 @@ User user = (User) request.getSession().getAttribute("user");
                                                             </div>
                                                         </div>
                                                     </div>
-
-
                                                     <div class="row form-group">
                                                         <div class="col col-md-3"><label for="file-input"
                                                                 class=" form-control-label">File input</label>
@@ -460,36 +459,19 @@ User user = (User) request.getSession().getAttribute("user");
                                                 </form>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <!--  /moneytable -->
-
-            <!-- Orders -->
-
-            <!-- /.orders -->
-            <!-- To Do and Live Chat -->
-
-            <!-- /To Do and Live Chat -->
-            <!-- Calender Chart Weather  -->
-
-            <!-- /Calender Chart Weather -->
-
         </div>
-        
         <!-- 弹窗 -->
         <div>
         
-                        <!--点击添加管理员-->
+                        <!--点击修改密码-->
         <div id="light" class="white_content">
                 <div class="card">
                         <div class="card-header">
@@ -530,8 +512,40 @@ User user = (User) request.getSession().getAttribute("user");
                
             </div> 
             <div id="fade" class="black_overlay"></div> 
-        <!--/点击添加管理员-->
-        
+        <!--/点击修改密码-->
+             <!--点击修改邮箱-->
+        <div id="mail" class="white_content">
+                <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">修改邮箱</strong>
+                        </div>
+                        <div class="card-body">
+                            <div action="register-user" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="row form-group">
+                                        <div class="col col-md-3"><label style="float:right" for="text-input" class=" form-control-label">新邮箱</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="email"  class="form-control"></div>
+                                    </div>
+                                            <div class="form-actions form-group">
+                                               
+                                                    <button id = 'submitbtn2' class="btn btn-primary btn-sm">
+                                                            <i class="fa fa-dot-circle-o"></i> 提交
+                                                        </button>
+                                                        <a href = "javascript:void(0)" onclick = "closeEmail()">
+                                                        <button type="reset" class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-ban"></i> 取消
+                                                        </button>
+                                                    </a>
+                                                    
+                                                </div>
+
+                            </div>
+
+                        </div><!--/.card-body-->
+                    </div> <!-- /.card -->
+               
+            </div> 
+              <div id="fade1" class="black_overlay"></div> 
+        <!--/点击修改邮箱-->
         </div>
         
 
@@ -567,6 +581,14 @@ User user = (User) request.getSession().getAttribute("user");
     function closeDialog(){
         document.getElementById('light').style.display='none';
         document.getElementById('fade').style.display='none'
+    }
+    function openEmail(){
+        document.getElementById('mail').style.display='block';
+        document.getElementById('fade1').style.display='block'
+    }
+    function closeEmail(){
+        document.getElementById('mail').style.display='none';
+        document.getElementById('fade1').style.display='none'
     }
     
 
@@ -645,6 +667,64 @@ User user = (User) request.getSession().getAttribute("user");
     			}
     		});
         });
+      
+      $("#submitbtn2").click(function () {
+    	  var email=$("#email").val()
+    	  console.log(email+"\t")
+    	
+    	  if(email==""){
+  			$('.hxy-alert').removeClass('hxy-alert-success')
+			$('.hxy-alert').html('请输入邮箱').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+  		  	return false;
+  	  }
+    		$.ajax({
+    			//几个参数需要注意一下
+    			url : "${pageContext.request.contextPath}/modify-email",//url
+    			type : "POST",//方法类型
+    			async : false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
+    			dataType : "json",//预期服务器返回的数据类型
+    			cache : false,
+    			data : {
+    				'email':email
+    			},//这个是发送给服务器的数据
+
+    			success : function(result) {
+    				console.log(result);//打印服务端返回的数据(调试用)
+    				if (result.resultCode == 200) {
+    					closeEmail()
+    					
+    					$('#displayEmail').html(email);
+    					$('.hxy-alert').removeClass('hxy-alert-warning')
+    					$('.hxy-alert').html('修改成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
+    				} else if (result.resultCode == 601) {
+    					//	$(this).remove();
+    					$('.hxy-alert').removeClass('hxy-alert-success')
+    					$('.hxy-alert').html('修改失败').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+    				
+    				}else if (result.resultCode == 404) {
+    					//	$(this).remove();
+    					$('.hxy-alert').removeClass('hxy-alert-success')
+    					$('.hxy-alert').html('手机号未注册').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+    				}else if (result.resultCode == 101) {
+    					//	$(this).remove();
+    					$('.hxy-alert').removeClass('hxy-alert-success')
+    					$('.hxy-alert').html('账号已经存在').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+    				}else if (result.resultCode == 502) {
+    					//	$(this).remove();
+    					console.log('原密码不正确');
+    					$('.hxy-alert').removeClass('hxy-alert-success')
+    					$('.hxy-alert').html('原密码不正确').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+    				};
+    			},
+    			error : function() {
+    				//console.log(data);
+    				
+    				$('.hxy-alert').removeClass('hxy-alert-success')
+					$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+    			}
+    		});
+        });
+      
     });
     </script>
 </body>

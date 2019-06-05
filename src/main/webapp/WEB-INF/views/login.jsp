@@ -46,21 +46,21 @@
     	  
     	  if(username==""){
     		  
-    			$('.alert').removeClass('alert-success')
-				$('.alert').html('请输入手机号码').addClass('alert-warning').show().delay(2000).fadeOut();
+    			$('.hxy-alert').removeClass('alert-success')
+				$('.hxy-alert').html('请输入手机号码').addClass('alert-warning').show().delay(2000).fadeOut();
     		  return false;
     	  }else{
 				var telResult=telReg.test(username);
 				console.log(tel+"\ttelResult:"+telResult)
 				if(telResult!=true){
-					$('.alert').removeClass('alert-success')
-					$('.alert').html('手机号码格式不正确').addClass('alert-warning').show().delay(2000).fadeOut();
+					$('.hxy-alert').removeClass('alert-success')
+					$('.hxy-alert').html('手机号码格式不正确').addClass('alert-warning').show().delay(2000).fadeOut();
 					return false;
 				}
 			}
     	  if(passwd==""){
-  			$('.alert').removeClass('alert-success')
-				$('.alert').html('请输入密码').addClass('alert-warning').show().delay(2000).fadeOut();
+  			$('.hxy-alert').removeClass('alert-success')
+				$('.hxy-alert').html('请输入密码').addClass('alert-warning').show().delay(2000).fadeOut();
 				
   		  return false;
   	  }
@@ -85,23 +85,23 @@
     					window.location.href = 'index';
     				} else if (result.resultCode == 601) {
     					//	$(this).remove();
-    					$('.alert').removeClass('alert-success')
-    					$('.alert').html('密码错误').addClass('alert-warning').show().delay(2000).fadeOut();
+    					$('.hxy-alert').removeClass('alert-success')
+    					$('.hxy-alert').html('密码错误').addClass('alert-warning').show().delay(2000).fadeOut();
         				
     					document.getElementById("passwd").value=''
     					
     				}else if (result.resultCode == 404) {
     					//	$(this).remove();
-    					$('.alert').removeClass('alert-success')
-    					$('.alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();
+    					$('.hxy-alert').removeClass('alert-success')
+    					$('.hxy-alert').html('手机号未注册').addClass('alert-warning').show().delay(2000).fadeOut();
         				
     					
     				};
     			},
     			error : function() {
     				//console.log(data);
-    				$('.alert').removeClass('alert-success')
-					$('.alert').html('检查网络是否连接').addClass('alert-warning').show().delay(2000).fadeOut();
+    				$('.hxy-alert').removeClass('alert-success')
+					$('.hxy-alert').html('检查网络是否连接').addClass('alert-warning').show().delay(2000).fadeOut();
     				
     			}
     		});
@@ -125,7 +125,7 @@
 
 </head>
 <body class="bg-dark">
-<div class="alert"></div>
+<div class="hxy-alert"></div>
 	<div class="sufee-login d-flex align-content-center flex-wrap">
 		<div class="container">
 			<div class="login-content">

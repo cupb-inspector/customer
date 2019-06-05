@@ -261,8 +261,8 @@ public class ReportController {
 			HashMap<String, Object> hashMap2 = new HashMap<>();
 			hashMap2.put("start", Integer.parseInt(startIndex));
 			hashMap2.put("size", Integer.parseInt(pageSize));
-			hashMap2.put("cusId", user.getCustel());
-			hashMap2.put("status", "4");
+			hashMap2.put("cusId", user.getCusid());
+			hashMap2.put("status", Configuration.BILL_REPORT_VERIFIED);
 			logger.info(hashMap2.toString());
 //			查找该用户的报告，在订单表里面查找状态字和用户的tel
 			Orders orders = new Orders();

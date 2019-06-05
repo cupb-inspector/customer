@@ -44,6 +44,9 @@
 		<if test="cuspasswd!=null">
 			cuspasswd=#{cuspasswd},
 		</if>
+		<if test="email!=null">
+			email=#{email},
+		</if>
 		cusid=#{cusid} where cusid=#{cusid}
 	</update>
 
