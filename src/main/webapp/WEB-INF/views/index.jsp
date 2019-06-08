@@ -28,7 +28,8 @@
     <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <script src="js/jquery-1.8.2.min.js"></script>
-User
+       <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <style>
         html,
         body {
@@ -87,7 +88,28 @@ User
             height: 100%;
         }
     </style>
+    <script>
+    function skip(href) {
+    	//myiframe.location.target="myiframe";
+    	myiframe.location.href = href;
+    }
+        $(function () {
+          //  $("#accordion").accordion()
+          console.log('手风琴')
+            $('#accordion').accordion({ 
+             //   active: false, 
+              //  header: '.head', 
+              //  navigation: true, 
+           //     event: 'mouseover', 
+                fillSpace: true, 
+                height: true ,
+                fit:true,
+                animated:'easeslide'
+            });
+        })
 
+
+    </script>
  
 
 </head>
@@ -97,15 +119,17 @@ User
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default sidebar sidebar-offcanvas" id="sidebar">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
+            <ul>
+            </ul>
+                <ul id="accordion" class="nav navbar-nav">
                     <li class="nav-item menu-item">
-                            <a class="nav-link" href="index-content" target="myiframe">
+                            <a class="nav-link" href="index-content" target="myiframe" onclick=skip(this.href) >
                                 <i class="menu-icon fa fa-laptop"></i>
                                 我的主页
                             </a>
                     </li>
                     <li class="nav-item menu-item">
-                            <a class="nav-link" href="check-content" target="myiframe">
+                            <a class="nav-link" href="check-content" target="myiframe" onclick=skip(this.href)>
                                 <i class="menu-icon fa fa-file-text"></i>
                                 我要下单
                             </a>
@@ -382,8 +406,9 @@ User
     <script src="assets/js/lib/flot-chart/jquery.flot.js"></script>
     <script src="assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
     <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
-    <script src="assets/weather/js/jquery.simpleWeather.min.js"></script>
+ 
     <!-- 
+       <script src="assets/weather/js/jquery.simpleWeather.min.js"></script>
     <script src="assets/weather/js/weather-init.js"></script>
  -->
     <script src="assets/js/lib/moment/moment.js"></script>
