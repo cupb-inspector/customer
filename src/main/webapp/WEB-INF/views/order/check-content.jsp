@@ -36,20 +36,22 @@
 	<script src="hxy/js/hxy-alert.js"></script>
 
 	<script type="text/javascript">
-		//仅选择日期
-		$("#form-date").datetimepicker(
-			{
-				language: "zh-CN",
-				weekStart: 1,
-				todayBtn: 1,
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 2,
-				minView: 2,
-				forceParse: 0,
-				format: "yyyy-mm-dd"
-			});
+
 		$(document).ready(function () {
+			//仅选择日期
+			$("#excdate").datetimepicker(
+				{
+					//language: "zh-CN",
+					weekStart: 1,
+					todayBtn: 1,
+					autoclose: 1,
+					todayHighlight: 1,
+					startView: 2,
+					minView: 2,
+					forceParse: 0,
+					format: "yyyy-mm-dd"
+				});
+			
 			$("#btn1")
 				.click(
 					function () {
@@ -280,7 +282,7 @@
 										style="float:right">验货日期</label>
 								</div>
 								<div class="col-12 col-md-9">
-									<input type="date" class="form-control form-date" id="excdate"
+									<input class="form-control form-date" id="excdate"
 										placeholder="选择或者输入一个日期：yyyy-MM-dd">
 								</div>
 							</div>
