@@ -69,13 +69,13 @@
 
 						if (excdate == "") {
 
-							$('.alert').removeClass('alert-success')
-							$('.alert').html('请选择验货日期').addClass('alert-warning').show().delay(2000).fadeOut();
+							$('.hxy-alert').removeClass('hxy-alert-success')
+							$('.hxy-alert').html('请选择验货日期').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 							return false;
 						}
 						if (facname == "") {
-							$('.alert').removeClass('alert-success')
-							$('.alert').html('请填写工厂名称').addClass('alert-warning').show().delay(2000).fadeOut();
+							$('.hxy-alert').removeClass('hxy-alert-success')
+							$('.hxy-alert').html('请填写工厂名称').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 							return false;
 						}
 						var file_obj = document.getElementById('afile').files[0];
@@ -105,8 +105,8 @@
 							success: function (result) {
 								console.log(result);//打印服务端返回的数据(调试用)
 								if (result.resultCode == 200) {
-									//跳转到首页	$('.alert').removeClass('alert-success')
-									$('.alert').html('提交成功').addClass('alert-success').show().delay(2000).fadeOut();
+									//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
+									$('.hxy-alert').html('提交成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
 									document.getElementById("excdate").value = ''
 									document.getElementById("facname").value = ''
 									document.getElementById("facaddress").value = ''
@@ -117,14 +117,14 @@
 									document.getElementById("afile").value = ''
 								} else if (result.resultCode == 601) {
 									//	$(this).remove();
-									$('.alert')
+									$('.hxy-alert')
 										.removeClass(
-											'alert-success')
-									$('.alert')
+											'hxy-alert-success')
+									$('.hxy-alert')
 										.html(
 											'密码错误')
 										.addClass(
-											'alert-warning')
+											'hxy-alert-warning')
 										.show()
 										.delay(
 											2000)
@@ -133,14 +133,14 @@
 										.getElementById("passwd").value = ''
 								} else if (result.resultCode == 404) {
 									//	$(this).remove();
-									$('.alert')
+									$('.hxy-alert')
 										.removeClass(
-											'alert-success')
-									$('.alert')
+											'hxy-alert-success')
+									$('.hxy-alert')
 										.html(
 											'手机号未注册')
 										.addClass(
-											'alert-warning')
+											'hxy-alert-warning')
 										.show()
 										.delay(
 											2000)
@@ -153,8 +153,8 @@
 							},
 							error: function () {
 								//console.log(data);
-								$('.alert').removeClass('alert-success')
-								$('.alert').html('检查网络是否连接').addClass('alert-warning').show().delay(2000).fadeOut();
+								$('.hxy-alert').removeClass('hxy-alert-success')
+								$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 							}
 						});
 					});
@@ -172,6 +172,36 @@
 
 		});
 	</script>
+	    <script type="text/javascript">
+        var maxstrlen = 200;
+        function Q(s) {
+            return document.getElementById(s);
+        }
+        function checkWords(c) {
+            len = maxstrlen;
+            var str = c.value;
+            myLen = getStrleng(str);
+            var wck = Q("wordCheck");
+            if (myLen > len * 2) {
+                c.value = str.substring(0, i + 1);
+            } else {
+                wck.innerHTML = Math.floor((len * 2 - myLen) / 2);
+            }
+        }
+        function getStrleng(str) {
+            myLen = 0;
+            i = 0;
+            for (; (i < str.length) && (myLen <= maxstrlen * 2); i++) {
+                if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128)
+                    myLen++;
+                else
+                    myLen += 2;
+            }
+            return myLen;
+        }
+    </script>
+	
+	
 	<style>
 		html,
 		body {
@@ -183,7 +213,7 @@
 </head>
 
 <body>
-	<div class="alert"></div>
+	<div class="hxy-alert"></div>
 	<!-- Header-->
 	<div class="content" style="background: #f1f2f7;;height:100%width:100%">
 		<div class="animated fadeIn">
@@ -294,7 +324,13 @@
 								</div>
 								<div class="col-12 col-md-9">
 									<textarea name="textarea-input" id="profile" rows="5"
-										placeholder="请填写一些注意事项或者要求，建议等" class="form-control"></textarea>
+										placeholder="请填写一些注意事项或者要求，建议等" class="form-control" onkeyup="javascript:checkWords(this);"
+            onmousedown="javascript:checkWords(this);"></textarea>
+										
+										
+										
+										<small
+											class="help-block form-text">还可以输入<span style="font-family: Georgia; font-size: 26px;" id="wordCheck">200</span>个汉字</small>
 								</div>
 							</div>
 					

@@ -87,6 +87,92 @@ public class UserController {
 		}
 	}
 
+	@RequestMapping(value = "/modify-email", method = RequestMethod.POST)
+	public void modifyEmail(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+		int resultCode = 0;
+		if (user != null) {
+			String email = null;
+			try {
+				email = request.getParameter("email").trim();// 这个应该是新邮箱
+			} catch (Exception e) {
+			}
+			if (email != null && !email.isEmpty()) {
+
+				user.setEmail(email);
+				UserService userService = new UserService();
+				userService.update(user);
+
+				resultCode = 200;
+			} else {
+				resultCode = 502;
+			}
+		} else {
+			resultCode = 404;
+		}
+
+		org.json.JSONObject user_data = new org.json.JSONObject();
+		user_data.put("resultCode", resultCode);
+		String jsonStr2 = user_data.toString();
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().append(jsonStr2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/modify-passwd", method = RequestMethod.POST)
+	public void modify(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+		int resultCode = 0;
+		if (user != null) {
+			String origin = null;
+			String new2 = null;
+			try {
+				origin = request.getParameter("origin").trim();// 这个应该是电话号码
+				new2 = request.getParameter("new2").trim();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if (origin != null && new2 != null) {
+				// 先比对原密码是否一致
+				CodeMd5 codeMd5 = new CodeMd5();
+				try {
+					origin = codeMd5.codeMd5(origin);
+					new2 = codeMd5.codeMd5(new2);
+					if (user.getCuspasswd().equals(origin)) {
+						// 更新密码
+						user.setCuspasswd(new2);
+						UserService userService = new UserService();
+						userService.update(user);
+						resultCode = 200;
+					} else {
+						resultCode = 502;// 原密码错误
+					}
+				} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			} else {
+				resultCode = 601;
+			}
+		} else {
+			resultCode = 404;
+		}
+		logger.info("返回注册信息");
+		org.json.JSONObject user_data = new org.json.JSONObject();
+		user_data.put("resultCode", resultCode);
+		String jsonStr2 = user_data.toString();
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().append(jsonStr2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@RequestMapping(value = "/register-user", method = RequestMethod.POST)
 	public void userRegister(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		int resultCode = 0;
@@ -156,6 +242,8 @@ public class UserController {
 					// 提示用户未注册
 					if (userService.insert(user)) {
 						logger.info("用户注册成功");
+						// 新注册的用户是没有id的，因此需要再次读取数据库查看id
+						user = userService.selectUserByTel(user.getCustel());
 						request.getSession().setAttribute("user", user);
 						resultCode = 200;
 					} else
@@ -167,7 +255,6 @@ public class UserController {
 			resultCode = 404;
 		}
 		logger.info("返回注册信息");
-
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
 		user_data.put("key2", "today4");

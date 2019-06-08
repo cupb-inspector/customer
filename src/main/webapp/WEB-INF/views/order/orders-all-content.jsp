@@ -40,11 +40,16 @@ request.setCharacterEncoding("utf-8");
 User user = (User) request.getSession().getAttribute("user");
 List<Orders> ls=null;
 if (user == null) {
-	//登录过期！重新登录提示页！
-	response.sendRedirect(request.getContextPath() + "/admin-lose");
-	//request.getRequestDispatcher("/WEB-INF/a.jsp").forward(request, response);
+	//登录过期！直接跳转到登录页
+	%>
+	<script type="text/javascript">
+		console.log('跳转');
+		window.top.location.href= 'login'
+	</script>
+	<% 
 } else {
 	OrderService o = new OrderService();
+	System.out.println("查看当前用户"+user.toString());
 	 ls=o.selectAllByCusId(user.getCusid());
 }
 %>
@@ -79,6 +84,7 @@ if (user == null) {
 											<th>工厂名称</th>
 											<th>产品名称</th>
 											<th>状态</th>
+											<th>下单日期</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -94,6 +100,7 @@ if (user == null) {
 										<td><%=orders.getFactoryname() %></td>
 										<td><%=orders.getGoods() %></td>
 										<td><%=orders.getStatusString() %></td>
+										<td><%=orders.getDate()%></td>
 											<td><a href="details2?id=<%=orders.getOrderid() %>">详情</a></td>
 									</tr>
 										<% 
@@ -113,14 +120,8 @@ if (user == null) {
 		</div>
 		<!-- .content -->
 
-
 		<div class="clearfix"></div>
-
-
-
-
 	<!-- Right Panel -->
-
 	<!-- Scripts -->
 	<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>

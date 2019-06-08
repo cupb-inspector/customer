@@ -1,3 +1,4 @@
+<%@page import="hxy.inspec.customer.util.Configuration"%>
 <%@page import="hxy.inspec.customer.po.Orders"%>
 <%@page import="java.util.List"%>
 <%@page import="hxy.inspec.customer.service.OrderService"%>
@@ -231,8 +232,8 @@ if(user!=null){
                                     
 											hashMap2.put("start", 0);
 											hashMap2.put("size", 5);
-											hashMap2.put("custel", user.getCustel());
-											hashMap2.put("status", "9");
+											hashMap2.put("cusId", user.getCusid());
+											hashMap2.put("status", Configuration.BILL_REPORT_PASSED);
 											
 											OrderService orderService = new OrderService();
 											List<Orders> ls =	orderService.findOrdersByStatusJudge(hashMap2);

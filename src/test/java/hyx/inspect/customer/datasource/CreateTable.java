@@ -12,6 +12,7 @@ import hxy.inspec.customer.datasource.ConnectionUtil;
 import hxy.inspec.customer.util.ApplicationStartListener;
 import hxy.inspec.customer.util.Configuration;
 
+
 public class CreateTable {
 	private final static Logger logger = LoggerFactory.getLogger(ApplicationStartListener.class);
 

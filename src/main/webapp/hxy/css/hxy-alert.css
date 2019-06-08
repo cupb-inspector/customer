@@ -1,5 +1,5 @@
   
-    .alert {
+    .hxy-alert {
         display: none;
         position: fixed;
         top: 50%;
@@ -13,25 +13,25 @@
         border-radius: 3px;
     }
     
-    .alert-success {
+    .hxy-alert-success {
         color: #3c763d;
         background-color: #dff0d8;
         border-color: #d6e9c6;
     }
     
-    .alert-info {
+    .hxy-alert-info {
         color: #31708f;
         background-color: #d9edf7;
         border-color: #bce8f1;
     }
     
-    .alert-warning {
+    .hxy-alert-warning {
         color: #8a6d3b;
         background-color: #fcf8e3;
         border-color: #faebcc;
     }
     
-    .alert-danger {
+    .hxy-alert-danger {
         color: #a94442;
         background-color: #f2dede;
         border-color: #ebccd1;
