@@ -182,7 +182,7 @@ public class AccountController {
 			}
 		}
 		String param = "fileUuid=" + fileUuid;
-	
+
 		sendPost(Configuration.IMAGE_URL, param);
 
 		// 返回信息
@@ -209,7 +209,7 @@ public class AccountController {
 	 * @return 所代表远程资源的响应结果
 	 */
 	public static String sendPost(String url, String param) {
-		logger.info("发送图片迁移指令的url"+url+"param"+param);
+		logger.info("发送图片迁移指令的url" + url + "param" + param);
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String result = "";
@@ -266,39 +266,38 @@ public class AccountController {
 		if (user != null) {
 			String value = request.getParameter("value").trim();
 			String notes = request.getParameter("notes").trim();
-			logger.info("提现的信息："+value+"\t"+notes);
-			//查询用户的实际金额是否充足！
-			if (value!=null&&!"null".equals(value)) {
-				UserService userService=new UserService();
-				user=	userService.selectUserById(user.getCusid());
+			logger.info("提现的信息：" + value + "\t" + notes);
+			// 查询用户的实际金额是否充足！
+			if (value != null && !"null".equals(value)) {
+				UserService userService = new UserService();
+				user = userService.selectUserById(user.getCusid());
 				float money = Float.parseFloat(user.getCusMoney());
 				float temMoney = Float.parseFloat(user.getCusTempMoney());
 				float valuef = Float.parseFloat(value);
-				if(money>=valuef) {
+				if (money >= valuef) {
 					logger.info("符合提现");
-					//第一步检查是判断是否提现合理，但是这个时候还不去减少真正的余额，也就是可以继续消费。
-					//等管理员审核的时候，再次检查提现额度是否合理，合理就提现成功，不合理就提现失败。
-					
+					// 第一步检查是判断是否提现合理，但是这个时候还不去减少真正的余额，也就是可以继续消费。
+					// 等管理员审核的时候，再次检查提现额度是否合理，合理就提现成功，不合理就提现失败。
+
 //					说明可以提现
 //					float a = money -valuef;//实际剩下余额
-					float b = temMoney-valuef;
+					float b = temMoney - valuef;
 //					user.setCusMoney(String.valueOf(a));
 					user.setCusTempMoney(String.valueOf(b));
 					userService.update(user);
-					
-					resultCode=200;
-					
+
+					resultCode = 200;
+
 					AccountService accountService = new AccountService();
-					Account account= new Account();
+					Account account = new Account();
 					account.setNotes(notes);
 					account.setValue(value);
 					account.setSurplus(String.valueOf(b));
-					account.setType("2");//提现
+					account.setType("2");// 提现
 					account.setUserId(user.getCusid());
 					account.setOperate("2");
 					account.setStatus("0");
-					
-					
+
 					Date now = new Date();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
 					String StartTime = dateFormat.format(now);
@@ -310,20 +309,18 @@ public class AccountController {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
-				}else {
+
+				} else {
 					logger.info("余额不足");
-					//返回逻辑错误提示，余额不够提现这么多。
-					resultCode=665;//余额不足提示
+					// 返回逻辑错误提示，余额不够提现这么多。
+					resultCode = 665;// 余额不足提示
 				}
 			}
-			
-			
-		}else {
-			resultCode=404;//用户未登录
+
+		} else {
+			resultCode = 404;// 用户未登录
 		}
-		
+
 		// 返回信息
 		org.json.JSONObject user_data = new org.json.JSONObject();
 		user_data.put("resultCode", resultCode);
