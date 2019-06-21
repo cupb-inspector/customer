@@ -7,35 +7,51 @@ public class Configuration {
 	public static String MYSQL_HOST = "";
 	public static String MYSQL_PASSWD = "";
 	public static String MYSQL_USER = "";
-	public  static final int BILL_SUBMITTED = 1;//订单已提交
-	public  static final int BILL_UNPAY = 2;//订单未付款
-	public  static final int BILL_PAY = 3;//订单已经付款
-	public  static final int BILL_ASSIGNING = 4;//订单已经付款
-	public  static final int BILL_ASSIGNED = 5;//验货员已接单
-	public  static final int BILL_INSPECTOR_CONFIRM = 6;//验货员已接单
-	public  static final int BILL_REPORT_SUBMIT = 7;//验货员已接单
-	public  static final int BILL_REPORT_VERIFIED = 8;//验货员已接单
-	public  static final int BILL_REPORT_FINISH = 15;//验货员完成报告
 	
-	public  static final int BILL_REPORT_PASSED = 9;//验货员已接单，报告通过
-	public  static final int BILL_REPORT_UNPASSED = 10;//验货员已接单，报告未通过
-	public  static final int BILL_CANCEL_BY_USER = 12;      //订单被客户自己取消
-	public  static final int BILL_CANCEL_BY_ADMIN = 13;         //订单被管理员
-	public  static final int BILL_TEMP =11;                 //草稿订单
-	public  static final int BILL_CANCEL_BY_INSPECTOR = 14;   //验货员取消订单
-	public  static final int BILL_DELAY_BY_INSPECTOR = 14;     //验货员延期              
-	public  static final int BILL_REPORT_REFUSED1 = 14;          //报告被客户拒绝原因1
-	public  static final int BILL_REPORT_REFUSED2 = 14;          //报告被客户拒绝原因2
-	public  static final int BILL_NEW_USER_FREE = 14;           //新用户订单
-	public  static final int BILL_BORROW = 14;                     //老用户赊账订单
-	public  static final int BILL_BORROW_OK = 14;                 //管理员通过老用户赊账订单
-	public  static final int BILL_BORROW_DONE_BUT_UNPAY = 14;   //老用户赊账但未结清订单
-	public  static final int BILL_DELAY_BY_ADMIN = 14;           //管理员延期分配订单
-	public  static final int BILL_REPORT_REFUSED_BY_ADMIN = 14;  //订单报告被管理员拒绝
-	public  static final int BILL_REPORT_PASSED_BY_ADMIN = 14;   //订单报告被管理员通过
-	public  static final int BILL_PAYED_SURE = 14;                 //订单通过确定性支付成功
-	public  static final int BILL_DELETE_BY_ADMIN = 14;          //管理员删除的订单
-	public  static final int BILL_DELETE_BY_USER = 14;         //用户删除的订单
-	public  static final int BILL_UNPAY_FOR_INSPECTOR = 14; //未给验货员结清订单
-	public  static final int BILL_PASSED_DONE = 14;       //结清订单
+	public  static final int BILL_TEMP =0;                 //草稿订单
+	public  static final int BILL_SUBMITTED = 1;//订单已提交
+	public  static final int BILL_UNPAY = 50;//订单未付款
+	public  static final int BILL_PAY = 100;//订单已经付款
+	
+	public  static final int BILL_ASSIGNING = 150;//订单被管理员接受并正在分配质检员
+	public  static final int BILL_ASSIGNED = 151;//订单已分配
+	public  static final int BILL_DELAY_BY_ADMIN = 200;           //管理员延期分配订单
+	public  static final int BILL_REFUSED_BY_ADMIN = 250;         //订单被管理员取消
+//新老用户赊账
+	public  static final int BILL_ASSIGNING_BY_ADMIN_UNPAID = 300;//订单被管理员接受并正在分配质检员
+	public  static final int BILL_ASSIGNED_BY_ADMIN_UNPAID = 301;//订单已分配
+	public  static final int BILL_DELAY_BY_ADMIN_UNPAID = 350;           //管理员延期分配订单
+	public  static final int BILL_REFUSED_BY_ADMIN_UNPAID = 400;         //订单被管理员取消
+	
+	public  static final int BILL_INSPECTOR_CONFIRM = 450;//订单被管理员接受
+	public  static final int BILL_REFUSED_BY_INSPECTOR = 500;//验货员拒绝
+	public  static final int BILL_DELAY_BY_ADMIN_0INSPECTOR = 550;           //管理员找不到验货员
+	//新老用户赊账
+	public  static final int BILL_ASSIGNED_UNPAID = 600;//验货员接单BILL_INSPECTOR_CONFIRM
+	public  static final int BILL_REFUSED_BY_INSPECTOR_UNPAID = 650;//验货员拒绝
+	public  static final int BILL_DELAY_BY_ADMIN_0INSPECTOR_UNPAID = 700;           //管理员找不到验货员
+	
+	
+	public  static final int BILL_REPORT_SUBMIT = 750;//验货员已提交报告
+	public  static final int BILL_REPORT_DELAY = 800;//验货员延期提交报告
+	public  static final int BILL_CANCEL_BY_INSPECTOR = 850;   //验货员取消订单
+	//新老用户赊账
+	public  static final int BILL_REPORT_SUBMIT_UNPAID = 900;//验货员已提交报告
+	public  static final int BILL_REPORT_DELAY_UNPAID = 950;//验货员延期提交报告
+	public  static final int BILL_CANCEL_BY_INSPECTOR_UNPAID = 1000;   //验货员取消订单
+	
+	public  static final int BILL_REPORT_REFUSED_BY_ADMIN = 1050;  //订单报告被管理员拒绝
+	public  static final int BILL_REPORT_VERIFIED = 1100;   //订单报告被管理员通过
+	//新老用户赊账
+	public  static final int BILL_REPORT_REFUSED_BY_ADMIN_UNPAID = 1150;  //订单报告被管理员拒绝
+	public  static final int BILL_REPORT_PASSED_BY_ADMIN_UNPAID = 1200;   //订单报告被管理员通过并等待付款
+	
+	public  static final int BILL_REPORT_PASSED = 1250;//用户确认报告通过
+	public  static final int BILL_REPORT_UNPASSED = 1300;//用户拒绝报告，未通过
+	
+	public  static final int BILL_PASSED_DONE = 1350;       //结清订单，付款给质检员。。。
+	
+	public  static final int BILL_DELETE_BY_ADMIN = 1400;          //管理员删除的订单
+	public  static final int BILL_DELETE_BY_USER = 1450;         //用户删除的订单
+	public  static final int BILL_UNPAY_FOR_INSPECTOR = 1500; //未给验货员结清订单
 }
