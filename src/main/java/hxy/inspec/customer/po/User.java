@@ -9,8 +9,8 @@ public class User {
 	private String cusname;
 	private String cuspasswd;
 	private String country;// 国家
-	private String province;
-	private String city;
+	private String province;// 省州
+	private String city;// 城市
 	private String email; // 邮箱
 	private String cusgrade;// 等级，与信用相关
 	private String cusvip;

@@ -27,9 +27,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fasterxml.jackson.core.sym.Name;
-
-import hxy.inspec.customer.datasource.DataConnection;
 import hxy.inspec.customer.po.DataStatistic;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
@@ -233,12 +230,12 @@ public class OrderController {
 					int b = dataStatistic.getTotal();
 					b = b + 1;
 					dataStatistic.setTotal(b);
-					int c =dataStatistic.getUnfinishedBill();
-					c = c +1;
+					int c = dataStatistic.getUnfinishedBill();
+					c = c + 1;
 					dataStatistic.setUnfinishedBill(c);
-					
+
 					try {
-						//更新订单
+						// 更新订单
 						dataStatisticService.update(dataStatistic);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
