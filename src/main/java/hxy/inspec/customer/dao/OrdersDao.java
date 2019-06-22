@@ -105,7 +105,7 @@ public class OrdersDao {
 		logger.info("查询参数"+map);
 		SqlSession sqlSession = DataConnection.getSqlSession();
 		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByStatusJudge", map);
-		logger.info("查询结果条数"+goodsList.size());
+//		logger.info("查询结果条数"+goodsList.size());
 		sqlSession.commit();
 		sqlSession.close();
 		return goodsList;

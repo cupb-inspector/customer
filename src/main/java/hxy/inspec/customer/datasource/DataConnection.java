@@ -1,4 +1,5 @@
 package hxy.inspec.customer.datasource;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import hxy.inspec.customer.po.User;
 
-
 public class DataConnection {
 
 	private final static Logger logger = LoggerFactory.getLogger(DataConnection.class);
@@ -26,11 +26,11 @@ public class DataConnection {
 	static {
 		try {
 			File file = new File(resource);
-			logger.info("数据库配置资源路径：" + file.getAbsolutePath());
+//			logger.info("数据库配置资源路径：" + file.getAbsolutePath());
 			InputStream inputStream = Resources.getResourceAsStream(resource);
-			logger.info("创建会话工厂，传入MyBatis配置文件信息");
+//			logger.info("创建会话工厂，传入MyBatis配置文件信息");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-			logger.info("创建会话工厂完成");
+//			logger.info("创建会话工厂完成");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,23 +38,23 @@ public class DataConnection {
 
 	public static SqlSession getSqlSession() throws IOException {
 		if (logger.isDebugEnabled()) {
-			logger.debug("获取数据库会话");
+//			logger.debug("获取数据库会话");
 		}
 		File file = new File(resource);
 		if (logger.isDebugEnabled()) {
-			logger.debug("数据库配置资源路径：" + file.getAbsolutePath());
+//			logger.debug("数据库配置资源路径：" + file.getAbsolutePath());
 		}
 		// 如果sqlSessionFactory没有被创建就读取全局配置文件，假如已经被创建过了，就使用已经存在的sqlsessionfactory。
 		// 这样就有了单例模式的效果
 		if (sqlSessionFactory == null) {
 			InputStream inputStream = Resources.getResourceAsStream(resource);
-			logger.info("创建会话工厂，传入MyBatis配置文件信息");
+//			logger.info("创建会话工厂，传入MyBatis配置文件信息");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-			logger.info("创建会话工厂完成");
+//			logger.info("创建会话工厂完成");
 		}
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		if (logger.isDebugEnabled()) {
-			logger.debug("返回数据库会话");
+//			logger.debug("返回数据库会话");
 		}
 		return sqlSession;
 	}
@@ -68,7 +68,7 @@ public class DataConnection {
 			for (User good : goodsList) {
 				System.out.format("%s\n", good.getCusname());
 			}
-	
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
