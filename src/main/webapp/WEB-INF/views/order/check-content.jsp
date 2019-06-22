@@ -207,6 +207,9 @@
 											console.log(result);//打印服务端返回的数据(调试用)
 											if (result.resultCode == 200) {
 												//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
+
+												document.getElementById('pay').style.display = 'block';
+												document.getElementById('fade').style.display = 'block'
 												$('.hxy-alert')
 													.html(
 														'提交成功')
@@ -471,7 +474,7 @@
 								</div>
 							</div>
 							<div>
-								<button type="submit" class="btn btn-primary btn-sm" onclick="openDialog()">
+								<button type="submit" id="btn1" class="btn btn-primary btn-sm" >
 									<i class="fa fa-dot-circle-o"></i> 提交
 								</button>
 								<button type="reset" id="btn2" class="btn btn-danger btn-sm">
@@ -513,7 +516,11 @@
 
 									<div class="col col-md-3"><label style="float:right;" for="text-input"
 											class=" form-control-label">钱包</label></div>
-									<div class="col-12 col-md-9"><h3>$1236</h3>
+									<div class="col-12 col-md-9">
+										<h3>$1236</h3>
+									</div>
+									<div class="fade" align="center">
+										余额不足
 									</div>
 
 								</div>
