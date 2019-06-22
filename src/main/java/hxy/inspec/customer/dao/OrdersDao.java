@@ -42,10 +42,16 @@ public class OrdersDao {
 		return goodsList;
 	}
 	
-	
-	public int insert(Orders user) throws IOException {
+	/**
+	 * 
+	 * @param 插入订单信息
+	 * @return 返回订单的id号
+	 * @throws IOException
+	 * eric
+	 */
+	public int insert(Orders order) throws IOException {
 		SqlSession sqlSession = DataConnection.getSqlSession();
-		int flag = sqlSession.insert("Orders.insert", user);
+		int flag = sqlSession.insert("Orders.insert", order);
 		sqlSession.commit();
 		sqlSession.close();
 		logger.info("插入后结果：" + flag);
@@ -56,7 +62,6 @@ public class OrdersDao {
 		SqlSession sqlSession = DataConnection.getSqlSession();
 		Orders goodsList = sqlSession.selectOne("Orders.findOrdersById", ordersId);
 		logger.info("查询结果条数"+goodsList);
-		
 		sqlSession.commit();
 		sqlSession.close();
 		return goodsList;

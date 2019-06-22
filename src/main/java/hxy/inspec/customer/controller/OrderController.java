@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hxy.inspec.customer.po.DataStatistic;
 import hxy.inspec.customer.po.Orders;
@@ -34,6 +36,7 @@ import hxy.inspec.customer.service.DataStatisticService;
 import hxy.inspec.customer.service.OrderService;
 import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configuration;
+import hxy.inspec.customer.util.DateUtil;
 
 @Controller
 @RequestMapping("/")
@@ -45,8 +48,13 @@ public class OrderController {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
 		int resultCode = -1;
+		String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号
+		int cusMoney = -1;// 用户钱包余额
+		int moneyStatus = -1;// 0不足，1充足
+		int billPrice = Configuration.BILL_PRICE;// 订单默认价格
 		if (user != null) {
 			// https://blog.csdn.net/u013230511/article/details/48314491
+
 			String excdate = null;
 			String facname = null;
 			String facaddress = null;
@@ -66,17 +74,6 @@ public class OrderController {
 			String fileUuidName = null;
 			boolean flag = false;
 			try {
-
-//				excdate = request.getParameter("excdate").trim();// 执行日期
-//				facname = request.getParameter("facname").trim();// 工厂名称
-//				facaddress = request.getParameter("facaddress").trim();// 工厂地址
-//				facman = request.getParameter("facman").trim();// 联系人
-//				factel = request.getParameter("factel").trim();// 联系人电话
-//				profile = request.getParameter("profile").trim();// 备注
-//				goods = request.getParameter("goods").trim();// 备注
-//				type = request.getParameter("type").trim();// 验货类型
-//				goodsType = request.getParameter("goodsType").trim();// 商品类型
-
 				// 使用Apache文件上传组件处理文件上传步骤：
 				// 1、创建一个DiskFileItemFactory工厂
 				DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -141,7 +138,12 @@ public class OrderController {
 						case "goodsType":
 							goodsType = value;
 							break;
-
+						case "post_type":
+							if ("temp".equals(value)) {
+								status = Configuration.BILL_TEMP;// 保存草稿
+							} else if ("unpay".equals(value)) {
+								status = Configuration.BILL_UNPAY;// 提交未付款，下一步就是付款
+							}
 						default:
 							break;
 						}
@@ -183,26 +185,12 @@ public class OrderController {
 				logger.warn("传入的是一个null");
 			}
 			if (flag) {
-				// 依据订单的价格，和用户账户余额作对比
-				UserService userService = new UserService();
-				user = userService.selectUserByTel(user.getCustel());
-
-				Float money = Float.parseFloat(user.getCusMoney());
-//				Float cost = Float.parseFloat("")
-				float costs = 100;
-				if (money > costs) {
-					// 订单正常提交，正常扣费
-					status = Configuration.BILL_PAY;// 1.提交成功 2.正在验货员正在接单 3.验货员已经出发，4.报告撰写中，5，已完成
-					money = money - costs;
-					user.setCusMoney(String.valueOf(money));
-				} else
-					status = Configuration.BILL_UNPAY;
-
 //			获取时间
 				Date now = new Date();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
 				String date = dateFormat.format(now);
 				Orders order = new Orders();
+				order.setOrderid(orderId);
 				order.setCusId(user.getCusid());
 				order.setCost(cost);
 				order.setDate(date);
@@ -242,26 +230,42 @@ public class OrderController {
 						e.printStackTrace();
 					}
 
-					if (userService.updateOrders(user) == 1) {
-						logger.info("修改用户的钱包与用户的订单数成功");
-					} else {
-						logger.info("修改用户的钱包与用户的订单数失败");
-					}
-
 				} else {
 					resultCode = 500;
 				}
 			} else {
 				resultCode = 400;// bad request
 			}
+
+			if (status == Configuration.BILL_UNPAY) {
+				// 返回钱包信息，
+				UserService userService = new UserService();
+				user = userService.selectUserByTel(user.getCustel());
+
+				cusMoney = user.getCusMoney();
+
+				if (cusMoney >= billPrice) {
+					// 余额充足
+					moneyStatus = 1;
+
+				} else {
+					// 余额不足
+					moneyStatus = 0;
+				}
+
+			}
+
 		} else {
 			resultCode = 604;// 返回没有数据
 		}
+
 		logger.info("下单信息返回");
 		org.json.JSONObject user_data = new org.json.JSONObject();
-		user_data.put("resultCode", resultCode);
-		user_data.put("key2", "today4");
-		user_data.put("key3", "today2");
+		user_data.put("resultCode", resultCode);// 返回操作状态
+		user_data.put("orderId", orderId);// 返回订单号
+		user_data.put("moneyStatus", moneyStatus);// 返回订单是否有足够支付的的余额
+		user_data.put("cusMoney", cusMoney);// 用户余额
+		user_data.put("billPrice", billPrice);// 订单价格
 		String jsonStr2 = user_data.toString();
 		response.setCharacterEncoding("UTF-8");
 		try {
@@ -276,6 +280,48 @@ public class OrderController {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
 
+	}
+	@ResponseBody
+	@RequestMapping(value = "/orderPay", method = RequestMethod.POST)
+	public HashMap<String, Object>  orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		// 获取用户是否登录
+		User user = (User) request.getSession().getAttribute("user");
+		HashMap<String, Object> hashMap = new HashMap<>();
+		// 获取订单号即可完成支付？这个逻辑有点扯？
+		boolean flag = false;
+		String ordersId = null;
+		String pay = null;
+		try {
+			ordersId = request.getParameter("orderId").trim();// 订单号
+			pay = request.getParameter("pay").trim();// 备注
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (flag) {
+			OrderService orderService = new OrderService();
+			try {
+				Orders orders = orderService.selectAllById(ordersId);
+				if (orders != null && "true".equals(pay)) {
+					// 扣款
+					UserService userService = new UserService();
+					user = userService.selectUserById(user.getCusid());
+					orders.setStatus(Configuration.BILL_PAY);// 订单支付成功
+					int a = user.getCusMoney() - Configuration.BILL_PRICE;// 每单的定价
+					user.setCusMoney(a);
+					userService.update(user);
+					// 更新订单状态
+					orders.setStatus(Configuration.BILL_PAY);// 订单已支付
+					orderService.updateStatus(orders);
+
+				}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return hashMap;
 	}
 
 	@RequestMapping(value = "/details2", method = RequestMethod.GET)

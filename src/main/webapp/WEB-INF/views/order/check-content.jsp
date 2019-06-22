@@ -28,6 +28,8 @@
 	<script src="js/jquery.min.js"></script>
 	<link href="zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 	<script src="zui/lib/datetimepicker/datetimepicker.min.js"></script>
+	<!-- 遮罩层 -->
+	<script src="js/jquery.spin.merge.js"></script>
 	<style>
 		.white_content {
 			display: none;
@@ -113,9 +115,9 @@
 	<script src="hxy/js/hxy-alert.js"></script>
 
 	<script type="text/javascript">
-		$(document)
-			.ready(
-				function () {
+		$(document).ready(function () {
+					var $wrapper = $('#wrap-content');
+					var orderId;
 					//仅选择日期
 					$("#excdate").datetimepicker({
 						//language: "zh-CN",
@@ -129,9 +131,9 @@
 						format: "yyyy-mm-dd"
 					});
 
-					$("#btn1")
-						.click(
-							function () {
+					$("#btn1").click(function () {
+								//手动控制遮罩
+								$wrapper.spinModal();
 								var excdate = $("#excdate").val();
 								var facname = $("#facname").val();
 								var facaddress = $("#facaddress")
@@ -141,8 +143,7 @@
 								var profile = $("#profile").val();
 								var goods = $("#goods").val();
 								var type = $("#select").val();
-								var goodsType = $("#goodsselect")
-									.val();
+								var goodsType = $("#goodsselect").val();
 
 								console.log(excdate + "\t"
 									+ facname + "\t"
@@ -154,14 +155,8 @@
 
 								if (excdate == "") {
 
-									$('.hxy-alert').removeClass(
-										'hxy-alert-success')
-									$('.hxy-alert')
-										.html('请选择验货日期')
-										.addClass(
-											'hxy-alert-warning')
-										.show().delay(2000)
-										.fadeOut();
+									$('.hxy-alert').removeClass('hxy-alert-success')
+									$('.hxy-alert').html('请选择验货日期').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 									return false;
 								}
 								if (facname == "") {
@@ -188,11 +183,11 @@
 								fd.append("type", type);
 								fd.append("goodsType", goodsType);
 								fd.append("file", file_obj);
+								fd.append("post_type",'unpay');//提交未付款，
 								document.getElementById('pay').style.display = 'block';
 								document.getElementById('fade').style.display = 'block'
 
-								$
-									.ajax({
+								$.ajax({
 										//几个参数需要注意一下
 										url: "${pageContext.request.contextPath}/cusInsertOrder",//url
 										type: "POST",//方法类型
@@ -202,39 +197,25 @@
 										data: fd,//这个是发送给服务器的数据
 										processData: false, //tell jQuery not to process the data
 										contentType: false, //tell jQuery not to set contentType
-										success: function (
-											result) {
+										success: function (result) {
 											console.log(result);//打印服务端返回的数据(调试用)
 											if (result.resultCode == 200) {
+												//服务器成功保存之后，开始付款
+   												//关闭遮罩
+			            						$wrapper.spinModal(false);
 												//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
-
 												document.getElementById('pay').style.display = 'block';
 												document.getElementById('fade').style.display = 'block'
-												$('.hxy-alert')
-													.html(
-														'提交成功')
-													.addClass(
-														'hxy-alert-success')
-													.show()
-													.delay(
-														2000)
-													.fadeOut();
-												document
-													.getElementById("excdate").value = ''
-												document
-													.getElementById("facname").value = ''
-												document
-													.getElementById("facaddress").value = ''
-												document
-													.getElementById("facman").value = ''
-												document
-													.getElementById("factel").value = ''
-												document
-													.getElementById("profile").value = ''
-												document
-													.getElementById("goods").value = ''
-												document
-													.getElementById("afile").value = ''
+												
+												$("#cusMoney").html(result.cusMoney);
+												$("#billPrice").html(result.billPrice);
+												orderId=result.orderId;
+												if(result.moneyStatus==1){
+													
+												}else if(result.moneyState==0){
+													$('#moneyStatus').removeClass('fade')
+												}
+										
 											} else if (result.resultCode == 601) {
 												//	$(this).remove();
 												$('.hxy-alert')
@@ -288,6 +269,101 @@
 									});
 							});
 
+			$("#btn3")
+			.click(
+				function () {
+					var excdate = $("#excdate").val();
+					var facname = $("#facname").val();
+					var facaddress = $("#facaddress").val();
+					var facman = $("#facman").val();
+					var factel = $("#factel").val();
+					var profile = $("#profile").val();
+					var goods = $("#goods").val();
+					var type = $("#select").val();
+					var goodsType = $("#goodsselect").val();
+
+					console.log(excdate + "\t"+ facname+ "\t"+facaddress+ "\t"+facman+ "\t"+factel+ "\t"+profile+ "\t"+goods+ "\t"+type+ "\t"+goodsType)
+					var file_obj = document.getElementById('afile').files[0];
+				       var fd = new FormData();
+			            fd.append('excdate', excdate)
+			            fd.append('facname', facname);
+			            fd.append("facaddress",facaddress );
+			            fd.append("facman", facman);
+			            fd.append("factel", factel);
+			            fd.append( "profile", profile);
+			            fd.append("goods",goods );
+			            fd.append("type", type );
+			            fd.append("goodsType", goodsType );
+			            fd.append("file", file_obj );
+			            fd.append("post_type",'temp');//按钮的请求类型
+					
+					$.ajax({
+						//几个参数需要注意一下
+						url: "${pageContext.request.contextPath}/cusInsertOrder",//url
+						type: "POST",//方法类型
+						async: false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
+						dataType: "json",//预期服务器返回的数据类型
+						cache: false,
+						data: fd,//这个是发送给服务器的数据
+					    processData:false,  //tell jQuery not to process the data
+		                contentType: false,  //tell jQuery not to set contentType
+						success: function (result) {
+							console.log(result);//打印服务端返回的数据(调试用)
+							if (result.resultCode == 200) {
+								//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
+								$('.hxy-alert').html('草稿保存成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
+								document.getElementById("excdate").value = ''
+								document.getElementById("facname").value = ''
+								document.getElementById("facaddress").value = ''
+								document.getElementById("facman").value = ''
+								document.getElementById("factel").value = ''
+								document.getElementById("profile").value = ''
+								document.getElementById("goods").value = ''
+								document.getElementById("afile").value = ''
+							} else if (result.resultCode == 601) {
+								//	$(this).remove();
+								$('.hxy-alert')
+									.removeClass(
+										'hxy-alert-success')
+								$('.hxy-alert')
+									.html(
+										'密码错误')
+									.addClass(
+										'hxy-alert-warning')
+									.show()
+									.delay(
+										2000)
+									.fadeOut();
+								document
+									.getElementById("passwd").value = ''
+							} else if (result.resultCode == 404) {
+								//	$(this).remove();
+								$('.hxy-alert')
+									.removeClass(
+										'hxy-alert-success')
+								$('.hxy-alert')
+									.html(
+										'手机号未注册')
+									.addClass(
+										'hxy-alert-warning')
+									.show()
+									.delay(
+										2000)
+									.fadeOut();
+							} else if (result.resultCode == 604) {
+								//跳转到首页
+								window.location.href = 'login';
+							}
+							;
+						},
+						error: function () {
+							//console.log(data);
+							$('.hxy-alert').removeClass('hxy-alert-success')
+							$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+						}
+					});
+				});
+
 					$("#btn2").click(function () {
 						document.getElementById("excdate").value = ''
 						document.getElementById("facname").value = ''
@@ -299,6 +375,33 @@
 					});
 
 				});
+		$("#pay").click(function () {
+			$.ajax({
+				  type: 'POST',
+				  url: '/orderPay',
+				  data: {
+					  'orderId':orderId,
+					  'pay':'true'
+				  },
+				  dataType: json,
+				  success: function(result){
+					  
+				  }
+				});
+			
+			document.getElementById("excdate").value = ''
+			document.getElementById("facname").value = ''
+			document.getElementById("facaddress").value = ''
+			document.getElementById("facman").value = ''
+			document.getElementById("factel").value = ''
+			document.getElementById("profile").value = ''
+			document.getElementById("goods").value = ''
+		});
+
+	});
+		
+		
+		
 	</script>
 	<script type="text/javascript">
 		var maxstrlen = 200;
@@ -343,7 +446,7 @@
 <body>
 	<div class="hxy-alert"></div>
 	<!-- Header-->
-	<div class="content" style="background: #f1f2f7;; height: 100% width:100%">
+	<div id="wrap-content"  class="content" style="background: #f1f2f7;; height: 100% width:100%">
 		<div class="animated fadeIn">
 			<div class="row">
 				<div class="col-md-12">
@@ -480,6 +583,9 @@
 								<button type="reset" id="btn2" class="btn btn-danger btn-sm">
 									<i class="fa fa-ban"></i> 重置
 								</button>
+								<button  id="btn3" class="btn btn-danger btn-sm">
+									<i class="fa fa-ban"></i> 草稿
+								</button>
 							</div>
 						</div>
 
@@ -507,7 +613,7 @@
 							<div class="col col-md-5">
 								<div align="center" style="margin:50px">
 
-									<h1>$100</h1>
+									<h1 id ="billPrice" >$100</h1>
 								</div>
 
 							</div>
@@ -517,20 +623,20 @@
 									<div class="col col-md-3"><label style="float:right;" for="text-input"
 											class=" form-control-label">钱包</label></div>
 									<div class="col-12 col-md-9">
-										<h3>$1236</h3>
+										<h3 id ="cusMoney">$1236</h3>
 									</div>
-									<div class="fade" align="center">
+									<div id="moneyStatus" class="fade" align="center">
 										余额不足
 									</div>
 
 								</div>
 								<div class="row form-group" align="center">
 									<div align="center">
-										<button id='submitbtn1' class="btn btn-primary btn-sm"
+										<button id='pay' class="btn btn-primary btn-sm"
 											style="margin-right: 10px">
 											<i class="fa fa-dot-circle-o"></i> 付款
 										</button>
-										<button type="reset" id="btn2" class="btn btn-danger btn-sm">
+										<button type="reset"  onclick="closeDialog()" class="btn btn-danger btn-sm">
 											<i class="fa fa-ban"></i> 取消
 										</button>
 									</div>

@@ -151,7 +151,7 @@ public class AccountController {
 				}
 			}
 			AccountService accountService = new AccountService();
-			logger.info(user.getCusMoney());
+//			logger.info(user.getCusMoney());
 			logger.info(account.getValue());
 
 //			float a = Float.parseFloat(user.getCusMoney())+ Float.parseFloat(account.getValue());
@@ -268,7 +268,7 @@ public class AccountController {
 			if (value != null && !"null".equals(value)) {
 				UserService userService = new UserService();
 				user = userService.selectUserById(user.getCusid());
-				float money = Float.parseFloat(user.getCusMoney());
+				int money =user.getCusMoney();
 				float temMoney = Float.parseFloat(user.getCusTempMoney());
 				float valuef = Float.parseFloat(value);
 				if (money >= valuef) {
