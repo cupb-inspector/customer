@@ -28,7 +28,7 @@ public class SessionFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		logger.info(String.format("过滤器%s", request.getRequestURI()));
-		String[] notFilter = new String[] { "login", "register" };
+		String[] notFilter = new String[] { "login", "register","css","js","jpg","png" };
 		// 请求的uri
 		String uri = request.getRequestURI();
 		String indexUrl = uri.substring(uri.lastIndexOf("/"));

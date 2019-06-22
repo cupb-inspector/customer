@@ -62,6 +62,9 @@ public class Orders {
 		case Configuration.BILL_REPORT_PASSED:
 			value = "报告审核通过";
 			break;
+		case Configuration.BILL_TEMP:
+			value = "草稿";
+			break;
 		default:
 			value = "未知";
 			break;
