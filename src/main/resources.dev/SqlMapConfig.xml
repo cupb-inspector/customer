@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 					value="jdbc:mysql://localhost:3306/inspect?characterEncoding=utf-8" />
 				<property name="username" value="root" />
 				<!-- 018299%zxw -->
-				<property name="password" value="123456" />
+				<property name="password" value="newpass" />
 			</dataSource>
 		</environment>
 		<!-- 下面是测试的线上环境 -->
