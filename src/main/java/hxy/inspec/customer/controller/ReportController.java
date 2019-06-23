@@ -47,9 +47,9 @@ public class ReportController {
 		String fileName = request.getParameter("fileuuid"); // 2323928392489-美人鱼.avi
 		// 处理文件名
 		String realName = request.getParameter("filename");
-        fileName = new String(fileName.getBytes("iso8859-1"), "UTF-8");
-        logger.info("解析后的文件名："+fileName);
-        realName = new String(realName.getBytes("iso8859-1"), "UTF-8");
+		fileName = new String(fileName.getBytes("iso8859-1"), "UTF-8");
+		logger.info("解析后的文件名：" + fileName);
+		realName = new String(realName.getBytes("iso8859-1"), "UTF-8");
 		logger.info("下载文件名：" + fileName);
 		// 上传的文件都是保存在/WEB-INF/upload目录下的子目录当中
 //		String fileSaveRootPath = this.getServletContext().getRealPath("/WEB-INF/upload");
@@ -253,11 +253,12 @@ public class ReportController {
 		HashMap<String, Object> hashMap = new HashMap<>();
 		int resultCode = -1;
 		if (user != null) {
-			String fuzzySearch = request.getParameter("fuzzySearch").trim();// 执行日期
-			String startIndex = request.getParameter("startIndex").trim();// 执行日期
-			String pageSize = request.getParameter("pageSize").trim();// 执行日期
-			String draw = request.getParameter("draw").trim();// 执行日期
-			logger.info(String.format("%s\t%s\t%s\t%s", fuzzySearch, startIndex, pageSize, draw));
+//			分页加载的实现技术
+			String fuzzySearch = request.getParameter("fuzzySearch").trim();// 是否模糊搜索
+			String startIndex = request.getParameter("startIndex").trim();// 分页加载的起点
+			String pageSize = request.getParameter("pageSize").trim();// 分页加载的页面大小
+			String draw = request.getParameter("draw").trim();// 视图
+			logger.info(String.format("分页加载的参数%s\t%s\t%s\t%s", fuzzySearch, startIndex, pageSize, draw));
 			HashMap<String, Object> hashMap2 = new HashMap<>();
 			hashMap2.put("start", Integer.parseInt(startIndex));
 			hashMap2.put("size", Integer.parseInt(pageSize));
@@ -283,7 +284,7 @@ public class ReportController {
 					hashMa2p.put("excedate", orders2.getExcedate());
 					hashMa2p.put("reportfile", orders2.getReportfile());
 					hashMa2p.put("reportfileuuid", orders2.getReportfileuuid());
-					hashMa2p.put("id",orders2.getOrderid());
+					hashMa2p.put("id", orders2.getOrderid());
 //					hashMa2p.put("role",orders2.getExcedate());
 					list2.add(hashMa2p);
 				}

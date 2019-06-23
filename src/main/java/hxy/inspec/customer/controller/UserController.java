@@ -217,7 +217,7 @@ public class UserController {
 				user.setCustel(tel);
 				user.setEmail(email);
 				user.setCusgrade("0");
-				user.setCusMoney("0");
+				user.setCusMoney(0);
 				user.setCusOrders("0");
 				user.setCusTempMoney("0");
 				// 检查用户是否存在

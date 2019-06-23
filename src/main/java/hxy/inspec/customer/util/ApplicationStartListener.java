@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Iterator;
 
 import javax.servlet.ServletContextAttributeEvent;
@@ -86,11 +85,10 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 	public void contextInitialized(ServletContextEvent sce) {
 		logger.info("应用开始启动，正在新建一个用于保存文件的文件夹，在当前系统用户的目录下");
 		// 再当前用户的目录下面新建一个文件夹，然后从中获取文件
-		//读取配置文件
+		// 读取配置文件
 		try {
 			File f = new File("sqlConfig.xml");
 			logger.info("配置文件路径" + f.getAbsolutePath());
-			
 			String resource = "sqlConfig.xml";
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			SAXReader reader = new SAXReader();
@@ -108,10 +106,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 		String fileSaveRootPath = "inspect";
 		File fileFolder = new File(fileSaveRootPath);
 		if (!fileFolder.exists()) {
@@ -119,11 +114,8 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 		}
 		// 获取当前目录的绝对路径
 		Configuration.FILE_ROOT_DIR = fileFolder.getAbsolutePath();
-		
-		
-//		代码新建数据库  CREATE SCHEMA `inspect` DEFAULT CHARACTER SET utf8mb4 ;
 
-		
+//		代码新建数据库  CREATE SCHEMA `inspect` DEFAULT CHARACTER SET utf8mb4 ;
 
 		logger.info("启动应用，开始数据库建表！注意修改java文件的代码，这个是建表的密码");
 		Connection connection = ConnectionUtil.getConnection();
@@ -148,7 +140,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
-		
+
 		String sql1 = "create table IF NOT EXISTS  account (id int not null primary key  AUTO_INCREMENT, `userId` VARCHAR(15) default '0', `operate` VARCHAR(10) NULL,`value` VARCHAR(25) default '0' ,`surplus` VARCHAR(15) default '0' ,`time` VARCHAR(45) NULL ,`type` VARCHAR(2) default '0' ,`file` VARCHAR(45) default '0' ,`fileUuid` VARCHAR(155) default '0' ,`adminId` VARCHAR(15) default '0',  `notes` VARCHAR(55) default '0',  `status` VARCHAR(2) default '0',  `result` INT(11) default '0')default charset=utf8; ";
 		PreparedStatement preparedStatement1 = ConnectionUtil.getPreparedStatement(connection, sql1);
 		try {
@@ -167,32 +159,33 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
-		//先查询是否存在，如果不存在就新建一条
+		// 先查询是否存在，如果不存在就新建一条
 		String sql4 = "select * from data_statistic where dataId = 1 ";
-		//新建表之后需要存入一条数据。id=1
+		// 新建表之后需要存入一条数据。id=1
 		PreparedStatement preparedStatement4 = ConnectionUtil.getPreparedStatement(connection, sql4);
 		ResultSet resultSet = null;
 		try {
 			logger.info("查询表是否存在数据");
-			resultSet=	preparedStatement4.executeQuery();
+			resultSet = preparedStatement4.executeQuery();
 			if (resultSet.next()) {
 				logger.info("说明表里的数据存在id为1的");
-			}else {
-				//插入数据
-				String sql5="INSERT INTO data_statistic (dataId,total,today,users,unfinishedBill,finishedBill,unfinishedReport,finishedReport) VALUES (1,0,0,0,0,0,0,0) ";
+			} else {
+				// 插入数据
+				String sql5 = "INSERT INTO data_statistic (dataId,total,today,users,unfinishedBill,finishedBill,unfinishedReport,finishedReport) VALUES (1,0,0,0,0,0,0,0) ";
 				PreparedStatement preparedStatement5 = ConnectionUtil.getPreparedStatement(connection, sql5);
-				
+
 				int resultSet2 = preparedStatement5.executeUpdate();
-				if (resultSet2==1) {
+				if (resultSet2 == 1) {
 					logger.info("插入id为1的数据成功");
 				}
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
+
 		}
-		
+
 		String sql5 = "create table IF NOT EXISTS  praise (id int not null primary key  AUTO_INCREMENT, `praiseContent` VARCHAR(500) NULL, `serviceLevel` INT(11) default '0',`orderid` INT(11) )default charset=utf8; ";
 		PreparedStatement preparedStatement5 = ConnectionUtil.getPreparedStatement(connection, sql5);
 		try {
@@ -202,7 +195,7 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
-		
+
 		String sql6 = "create table IF NOT EXISTS  summarizedinfo (id int not null primary key  AUTO_INCREMENT, `provisions` float default '0', `doneOrdersSum` BIGINT default '0',`undoneOrderSum` BIGINT default '0', `refusedOrderSum` BIGINT default '0',`totalOrderNum` BIGINT default '0')default charset=utf8; ";
 		PreparedStatement preparedStatement6 = ConnectionUtil.getPreparedStatement(connection, sql6);
 		try {
@@ -212,46 +205,9 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 			e.printStackTrace();
 			logger.error("数据库连接失败！");
 		}
-		
-		
-		/*
-		 * String sql1 =
-		 * "create table IF NOT EXISTS  net_type_and_province (id int not null primary key  AUTO_INCREMENT, `ttkduserid` VARCHAR(45) NULL, `netType` VARCHAR(45) NULL,`province` VARCHAR(45) NULL,`ceiling` VARCHAR(45) NULL,`floor` VARCHAR(45) NULL,`price` VARCHAR(45) NULL,`added` VARCHAR(45) NULL,`profile` VARCHAR(45) NULL  )default charset=utf8; "
-		 * ; PreparedStatement preparedStatement1 =
-		 * ConnectionUtil.getPreparedStatement(connection, sql1); try {
-		 * logger.info("尝试新建netTypeAndProvince表"); preparedStatement1.executeUpdate(); }
-		 * catch (SQLException e) { e.printStackTrace(); logger.error("数据库连接失败！"); }
-		 * 
-		 * String sql2 =
-		 * "create table IF NOT EXISTS  transfer_bill (id int not null primary key  AUTO_INCREMENT,`ttkduserid` VARCHAR(45) NOT NULL,\n"
-		 * + "  `number` VARCHAR(15) NULL,\n" + "  `netName` VARCHAR(120) NULL,\n" +
-		 * "  `province` VARCHAR(100) NULL,\n" + "  `weight` VARCHAR(100) NULL,\n" +
-		 * "  `cost` VARCHAR(10) NULL,`date` VARCHAR(20) NULL)"; PreparedStatement
-		 * preparedStatement2 = ConnectionUtil.getPreparedStatement(connection, sql2);
-		 * try { logger.info("尝试新建transferBill表"); int resultSet1 =
-		 * preparedStatement2.executeUpdate(); } catch (SQLException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * String sql3 =
-		 * "create table IF NOT EXISTS  net_to_type (id int not null primary key  AUTO_INCREMENT, `ttkduserid` VARCHAR(45) NULL, `netType` VARCHAR(45) NULL ,`netProfile` VARCHAR(45) NULL )default charset=utf8; "
-		 * ; PreparedStatement preparedStatement3 =
-		 * ConnectionUtil.getPreparedStatement(connection, sql3); try {
-		 * logger.info("尝试新建net_to_type表"); int resultSet0 =
-		 * preparedStatement3.executeUpdate(); } catch (SQLException e) {
-		 * e.printStackTrace(); logger.error("数据库连接失败！"); }
-		 * 
-		 * /* String sql3 =
-		 * "create table IF NOT EXISTS  result_bill (id int not null primary key  AUTO_INCREMENT,`ttkduserid` VARCHAR(45) NOT NULL,\n"
-		 * + "  `number` VARCHAR(15) NULL,\n" + "  `netName` VARCHAR(120) NULL,\n" +
-		 * "  `province` VARCHAR(100) NULL,\n" + "  `weight` VARCHAR(100) NULL,\n" +
-		 * "  `cost` VARCHAR(10) NULL, PRIMARY KEY (`id`))"; PreparedStatement
-		 * preparedStatement3 = ConnectionUtil.getPreparedStatement(connection, sql3);
-		 * try { logger.info("尝试新建transferBill表"); int resultSet1 =
-		 * preparedStatement3.executeUpdate(); } catch (SQLException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 */
+
 		finally {
+
 			ConnectionUtil.close(preparedStatement, connection);
 		}
 

@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
 	<link rel="stylesheet" href="assets/css/lib/datatable/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 <style>
         html,
@@ -47,14 +46,6 @@
 									<th>下单时间</th>
 									<th>报告</th>
 									<th>执行日期</th>
-										<!--  
-										<th>产品订单号</th>
-										<th>产品货号</th>
-										<th>产品名称</th>
-										<th>服务类型</th>
-										<th>状态</th>
-										<th>操作</th>
-										-->
 									</tr>
 								</thead>
 								<tbody>
