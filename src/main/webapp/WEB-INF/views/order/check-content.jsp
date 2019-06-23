@@ -28,7 +28,86 @@
 	<script src="js/jquery.min.js"></script>
 	<link href="zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 	<script src="zui/lib/datetimepicker/datetimepicker.min.js"></script>
+	<!-- 遮罩层 -->
+	<script src="js/jquery.spin.merge.js"></script>
+	<style>
+		.white_content {
+			display: none;
+			position: absolute;
+			top: 15%;
+			left: 25%;
+			width: 55%;
+			height: 55%;
+			padding: 20px;
+			z-index: 1002;
+		}
 
+		.black_overlay {
+			display: none;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: dimgray;
+			z-index: 1001;
+			-moz-opacity: 0.8;
+			opacity: .80;
+			filter: alpha(opacity=88);
+		}
+
+		html,
+		body {
+			margin: 0px;
+			width: 100%;
+			height: 100%;
+		}
+
+		#weatherWidget .currentDesc {
+			color: #ffffff !important;
+		}
+
+		.traffic-chart {
+			min-height: 335px;
+		}
+
+		#flotPie1 {
+			height: 150px;
+		}
+
+		#flotPie1 td {
+			padding: 3px;
+		}
+
+		#flotPie1 table {
+			top: 20px !important;
+			right: -10px !important;
+		}
+
+		.chart-container {
+			display: table;
+			min-width: 270px;
+			text-align: left;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+
+		#flotLine5 {
+			height: 105px;
+		}
+
+		#flotBarChart {
+			height: 150px;
+		}
+
+		#cellPaiChart {
+			height: 160px;
+		}
+
+		#connect {
+			color: chocolate
+		}
+	</style>
 	<!--基于jQuery写的消息提示
   https://www.awaimai.com/1627.html
     -->
@@ -36,141 +115,161 @@
 	<script src="hxy/js/hxy-alert.js"></script>
 
 	<script type="text/javascript">
-
 		$(document).ready(function () {
+			var $wrapper = $('#wrap-content');
+			var orderId;
 			//仅选择日期
-			$("#excdate").datetimepicker(
-				{
-					//language: "zh-CN",
-					weekStart: 1,
-					todayBtn: 1,
-					autoclose: 1,
-					todayHighlight: 1,
-					startView: 2,
-					minView: 2,
-					forceParse: 0,
-					format: "yyyy-mm-dd"
-				});
-			
-			$("#btn1")
-				.click(
-					function () {
-						var excdate = $("#excdate").val();
-						var facname = $("#facname").val();
-						var facaddress = $("#facaddress").val();
-						var facman = $("#facman").val();
-						var factel = $("#factel").val();
-						var profile = $("#profile").val();
-						var goods = $("#goods").val();
-						var type = $("#select").val();
-						var goodsType = $("#goodsselect").val();
-
-						console.log(excdate + "\t"+ facname+ "\t"+facaddress+ "\t"+facman+ "\t"+factel+ "\t"+profile+ "\t"+goods+ "\t"+type+ "\t"+goodsType)
-
-						if (excdate == "") {
-
-							$('.hxy-alert').removeClass('hxy-alert-success')
-							$('.hxy-alert').html('请选择验货日期').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-							return false;
-						}
-						if (facname == "") {
-							$('.hxy-alert').removeClass('hxy-alert-success')
-							$('.hxy-alert').html('请填写工厂名称').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-							return false;
-						}
-						var file_obj = document.getElementById('afile').files[0];
-					       var fd = new FormData();
-				            fd.append('excdate', excdate)
-				            fd.append('facname', facname);
-				            fd.append("facaddress",facaddress );
-				            fd.append("facman", facman);
-				            fd.append("factel", factel);
-				            fd.append( "profile", profile);
-				            fd.append("goods",goods );
-				            fd.append("type", type );
-				            fd.append("goodsType", goodsType );
-				            fd.append("file", file_obj );
-						
-
-						$.ajax({
-							//几个参数需要注意一下
-							url: "${pageContext.request.contextPath}/cusInsertOrder",//url
-							type: "POST",//方法类型
-							async: false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
-							dataType: "json",//预期服务器返回的数据类型
-							cache: false,
-							data: fd,//这个是发送给服务器的数据
-						    processData:false,  //tell jQuery not to process the data
-			                contentType: false,  //tell jQuery not to set contentType
-							success: function (result) {
-								console.log(result);//打印服务端返回的数据(调试用)
-								if (result.resultCode == 200) {
-									//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
-									$('.hxy-alert').html('提交成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
-									document.getElementById("excdate").value = ''
-									document.getElementById("facname").value = ''
-									document.getElementById("facaddress").value = ''
-									document.getElementById("facman").value = ''
-									document.getElementById("factel").value = ''
-									document.getElementById("profile").value = ''
-									document.getElementById("goods").value = ''
-									document.getElementById("afile").value = ''
-								} else if (result.resultCode == 601) {
-									//	$(this).remove();
-									$('.hxy-alert')
-										.removeClass(
-											'hxy-alert-success')
-									$('.hxy-alert')
-										.html(
-											'密码错误')
-										.addClass(
-											'hxy-alert-warning')
-										.show()
-										.delay(
-											2000)
-										.fadeOut();
-									document
-										.getElementById("passwd").value = ''
-								} else if (result.resultCode == 404) {
-									//	$(this).remove();
-									$('.hxy-alert')
-										.removeClass(
-											'hxy-alert-success')
-									$('.hxy-alert')
-										.html(
-											'手机号未注册')
-										.addClass(
-											'hxy-alert-warning')
-										.show()
-										.delay(
-											2000)
-										.fadeOut();
-								} else if (result.resultCode == 604) {
-									//跳转到首页
-									window.location.href = 'login';
-								}
-								;
-							},
-							error: function () {
-								//console.log(data);
-								$('.hxy-alert').removeClass('hxy-alert-success')
-								$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-							}
-						});
-					});
-
-			$("#btn2").click(function () {
-				document.getElementById("excdate").value = ''
-				document.getElementById("facname").value = ''
-				document.getElementById("facaddress").value = ''
-				document.getElementById("facman").value = ''
-				document.getElementById("factel").value = ''
-				document.getElementById("profile").value = ''
-				document.getElementById("goods").value = ''
+			$("#excdate").datetimepicker({
+				//language: "zh-CN",
+				weekStart: 1,
+				todayBtn: 1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0,
+				format: "yyyy-mm-dd"
 			});
 
-			$("#btn3")
-			.click(
+			$("#btn1").click(function () {
+			
+				var excdate = $("#excdate").val();
+				var facname = $("#facname").val();
+				var facaddress = $("#facaddress")
+					.val();
+				var facman = $("#facman").val();
+				var factel = $("#factel").val();
+				var profile = $("#profile").val();
+				var goods = $("#goods").val();
+				var type = $("#select").val();
+				var goodsType = $("#goodsselect").val();
+
+				console.log(excdate + "\t"
+					+ facname + "\t"
+					+ facaddress + "\t"
+					+ facman + "\t" + factel
+					+ "\t" + profile + "\t"
+					+ goods + "\t" + type
+					+ "\t" + goodsType)
+
+				if (excdate == "") {
+
+					$('.hxy-alert').removeClass('hxy-alert-success')
+					$('.hxy-alert').html('请选择验货日期').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+					return false;
+				}
+				if (facname == "") {
+					$('.hxy-alert').removeClass(
+						'hxy-alert-success')
+					$('.hxy-alert')
+						.html('请填写工厂名称')
+						.addClass(
+							'hxy-alert-warning')
+						.show().delay(2000)
+						.fadeOut();
+					return false;
+				}
+				var file_obj = document
+					.getElementById('afile').files[0];
+				var fd = new FormData();
+				fd.append('excdate', excdate)
+				fd.append('facname', facname);
+				fd.append("facaddress", facaddress);
+				fd.append("facman", facman);
+				fd.append("factel", factel);
+				fd.append("profile", profile);
+				fd.append("goods", goods);
+				fd.append("type", type);
+				fd.append("goodsType", goodsType);
+				fd.append("file", file_obj);
+				fd.append("post_type", 'unpay');//提交未付款，
+				document.getElementById('pay').style.display = 'block';
+				document.getElementById('fade').style.display = 'block'
+					//手动控制遮罩
+					$wrapper.spinModal();
+				$.ajax({
+					//几个参数需要注意一下
+					url: "${pageContext.request.contextPath}/cusInsertOrder",//url
+					type: "POST",//方法类型
+					async: false,//同步需要等待服务器返回数据后再执行后面的两个函数，success和error。如果设置成异步，那么可能后面的success可能执行后还是没有收到消息。
+					dataType: "json",//预期服务器返回的数据类型
+					cache: false,
+					data: fd,//这个是发送给服务器的数据
+					processData: false, //tell jQuery not to process the data
+					contentType: false, //tell jQuery not to set contentType
+					success: function (result) {
+						console.log(result);//打印服务端返回的数据(调试用)
+						if (result.resultCode == 200) {
+							//服务器成功保存之后，开始付款
+							//关闭遮罩
+							$wrapper.spinModal(false);
+							//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
+							document.getElementById('pay').style.display = 'block';
+							document.getElementById('fade').style.display = 'block'
+
+							$("#cusMoney").html(result.cusMoney);
+							$("#billPrice").html(result.billPrice);
+							orderId = result.orderId;
+							if (result.moneyStatus == 1) {
+
+							} else if (result.moneyState == 0) {
+								$('#moneyStatus').removeClass('fade')
+							}
+
+						} else if (result.resultCode == 601) {
+							//	$(this).remove();
+							$('.hxy-alert')
+								.removeClass(
+									'hxy-alert-success')
+							$('.hxy-alert')
+								.html(
+									'密码错误')
+								.addClass(
+									'hxy-alert-warning')
+								.show()
+								.delay(
+									2000)
+								.fadeOut();
+							document
+								.getElementById("passwd").value = ''
+						} else if (result.resultCode == 404) {
+							//	$(this).remove();
+							$('.hxy-alert')
+								.removeClass(
+									'hxy-alert-success')
+							$('.hxy-alert')
+								.html(
+									'手机号未注册')
+								.addClass(
+									'hxy-alert-warning')
+								.show()
+								.delay(
+									2000)
+								.fadeOut();
+						} else if (result.resultCode == 604) {
+							//跳转到首页
+							window.location.href = 'login';
+						}
+						;
+					},
+					error: function () {
+						//console.log(data);
+						$('.hxy-alert')
+							.removeClass(
+								'hxy-alert-success')
+						$('.hxy-alert')
+							.html(
+								'检查网络是否连接')
+							.addClass(
+								'hxy-alert-warning')
+							.show()
+							.delay(2000)
+							.fadeOut();
+					}
+				});
+			});
+
+			$("#btn3").click(
 				function () {
 					var excdate = $("#excdate").val();
 					var facname = $("#facname").val();
@@ -182,21 +281,21 @@
 					var type = $("#select").val();
 					var goodsType = $("#goodsselect").val();
 
-					console.log(excdate + "\t"+ facname+ "\t"+facaddress+ "\t"+facman+ "\t"+factel+ "\t"+profile+ "\t"+goods+ "\t"+type+ "\t"+goodsType)
+					console.log(excdate + "\t" + facname + "\t" + facaddress + "\t" + facman + "\t" + factel + "\t" + profile + "\t" + goods + "\t" + type + "\t" + goodsType)
 					var file_obj = document.getElementById('afile').files[0];
-				       var fd = new FormData();
-			            fd.append('excdate', excdate)
-			            fd.append('facname', facname);
-			            fd.append("facaddress",facaddress );
-			            fd.append("facman", facman);
-			            fd.append("factel", factel);
-			            fd.append( "profile", profile);
-			            fd.append("goods",goods );
-			            fd.append("type", type );
-			            fd.append("goodsType", goodsType );
-			            fd.append("file", file_obj );
-			            fd.append("post_type",'temp');//按钮的请求类型
-					
+					var fd = new FormData();
+					fd.append('excdate', excdate)
+					fd.append('facname', facname);
+					fd.append("facaddress", facaddress);
+					fd.append("facman", facman);
+					fd.append("factel", factel);
+					fd.append("profile", profile);
+					fd.append("goods", goods);
+					fd.append("type", type);
+					fd.append("goodsType", goodsType);
+					fd.append("file", file_obj);
+					fd.append("post_type", 'temp');//按钮的请求类型
+
 					$.ajax({
 						//几个参数需要注意一下
 						url: "${pageContext.request.contextPath}/cusInsertOrder",//url
@@ -205,12 +304,13 @@
 						dataType: "json",//预期服务器返回的数据类型
 						cache: false,
 						data: fd,//这个是发送给服务器的数据
-					    processData:false,  //tell jQuery not to process the data
-		                contentType: false,  //tell jQuery not to set contentType
+						processData: false,  //tell jQuery not to process the data
+						contentType: false,  //tell jQuery not to set contentType
 						success: function (result) {
 							console.log(result);//打印服务端返回的数据(调试用)
 							if (result.resultCode == 200) {
-								//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
+								//跳转到首页	
+								$('.hxy-alert').removeClass('hxy-alert-warning')
 								$('.hxy-alert').html('草稿保存成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
 								document.getElementById("excdate").value = ''
 								document.getElementById("facname").value = ''
@@ -238,18 +338,8 @@
 									.getElementById("passwd").value = ''
 							} else if (result.resultCode == 404) {
 								//	$(this).remove();
-								$('.hxy-alert')
-									.removeClass(
-										'hxy-alert-success')
-								$('.hxy-alert')
-									.html(
-										'手机号未注册')
-									.addClass(
-										'hxy-alert-warning')
-									.show()
-									.delay(
-										2000)
-									.fadeOut();
+								$('.hxy-alert').removeClass('hxy-alert-success')
+								$('.hxy-alert').html('手机号未注册').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 							} else if (result.resultCode == 604) {
 								//跳转到首页
 								window.location.href = 'login';
@@ -264,38 +354,103 @@
 					});
 				});
 
+			$("#btn2").click(function () {
+				document.getElementById("excdate").value = ''
+				document.getElementById("facname").value = ''
+				document.getElementById("facaddress").value = ''
+				document.getElementById("facman").value = ''
+				document.getElementById("factel").value = ''
+				document.getElementById("profile").value = ''
+				document.getElementById("goods").value = ''
+			});
+
+			$("#pay").click(function () {
+				$.ajax({
+					type: 'POST',
+					url:  getRootPath() +'/orderPay',
+					data: {
+						'orderId': orderId,
+						'pay': 'true'
+					},
+					dataType: "json",//预期服务器返回的数据类型
+					success: function (result) {
+						if(result.resultCode==200){
+							//支付成功
+							$('.hxy-alert').removeClass('hxy-alert-warning')
+							$('.hxy-alert').html('支付成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
+							document.getElementById('pay').style.display = 'none';
+							document.getElementById('fade').style.display = 'none';
+							
+						}else{
+							//支付失败
+							$('.hxy-alert').removeClass('hxy-alert-success')
+							$('.hxy-alert').html('支付失败').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+							document.getElementById('pay').style.display = 'none';
+							document.getElementById('fade').style.display = 'none';
+						}
+
+					}
+				});
+
+				document.getElementById("excdate").value = ''
+				document.getElementById("facname").value = ''
+				document.getElementById("facaddress").value = ''
+				document.getElementById("facman").value = ''
+				document.getElementById("factel").value = ''
+				document.getElementById("profile").value = ''
+				document.getElementById("goods").value = ''
+			});
+
 		});
+
+
+		function getRootPath() {
+			//获取当前网址，如： http://localhost:8088/test/test.jsp
+			var curPath = window.document.location.href;
+			//获取主机地址之后的目录，如： test/test.jsp
+			var pathName = window.document.location.pathname;
+			var pos = curPath.indexOf(pathName);
+			//获取主机地址，如： http://localhost:8088
+			var localhostPath = curPath.substring(0, pos);
+			//获取带"/"的项目名，如：/test
+			var projectName = pathName.substring(0, pathName.substr(1).indexOf(
+				'/') + 1);
+			return (localhostPath + projectName);//发布前用此
+		}
+
+
+
 	</script>
-	    <script type="text/javascript">
-        var maxstrlen = 200;
-        function Q(s) {
-            return document.getElementById(s);
-        }
-        function checkWords(c) {
-            len = maxstrlen;
-            var str = c.value;
-            myLen = getStrleng(str);
-            var wck = Q("wordCheck");
-            if (myLen > len * 2) {
-                c.value = str.substring(0, i + 1);
-            } else {
-                wck.innerHTML = Math.floor((len * 2 - myLen) / 2);
-            }
-        }
-        function getStrleng(str) {
-            myLen = 0;
-            i = 0;
-            for (; (i < str.length) && (myLen <= maxstrlen * 2); i++) {
-                if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128)
-                    myLen++;
-                else
-                    myLen += 2;
-            }
-            return myLen;
-        }
-    </script>
-	
-	
+	<script type="text/javascript">
+		var maxstrlen = 200;
+		function Q(s) {
+			return document.getElementById(s);
+		}
+		function checkWords(c) {
+			len = maxstrlen;
+			var str = c.value;
+			myLen = getStrleng(str);
+			var wck = Q("wordCheck");
+			if (myLen > len * 2) {
+				c.value = str.substring(0, i + 1);
+			} else {
+				wck.innerHTML = Math.floor((len * 2 - myLen) / 2);
+			}
+		}
+		function getStrleng(str) {
+			myLen = 0;
+			i = 0;
+			for (; (i < str.length) && (myLen <= maxstrlen * 2); i++) {
+				if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128)
+					myLen++;
+				else
+					myLen += 2;
+			}
+			return myLen;
+		}
+	</script>
+
+
 	<style>
 		html,
 		body {
@@ -309,7 +464,7 @@
 <body>
 	<div class="hxy-alert"></div>
 	<!-- Header-->
-	<div class="content" style="background: #f1f2f7;;height:100%width:100%">
+	<div id="wrap-content" class="content" style="background: #f1f2f7;; height: 100% width:100%">
 		<div class="animated fadeIn">
 			<div class="row">
 				<div class="col-md-12">
@@ -322,39 +477,47 @@
 								<div class="row form-group">
 									<div class="col col-md-2">
 										<label for="text-input" class=" form-control-label"
-											style="float:right">工厂名称</label>
+											style="float: right">工厂名称</label>
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="text" id="facname" name="text-input"
-											placeholder="请填写工厂有效名称，百度高德地图可以搜到" class="form-control"><small
+											placeholder="请填写工厂有效名称，百度高德地图可以搜到" class="form-control">
+											<!-- 
+											<small
 											class="form-text text-muted">建议先地图搜索确定下再填写</small>
+											 -->
 									</div>
 								</div>
 								<div class="row form-group">
 									<div class="col col-md-2">
 										<label for="email-input" class=" form-control-label"
-											style="float:right">工厂地址</label>
+											style="float: right">工厂地址</label>
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="text" id="facaddress" name="email-input" placeholder="工厂有效地址"
-											class="form-control"><small
+											class="form-control">
+											<!-- 
+											<small
 											class="help-block form-text">地图上确定可以搜到的地址</small>
+											 -->
 									</div>
 								</div>
 								<div class="row form-group">
 									<div class="col col-md-2">
 										<label for="password-input" class=" form-control-label"
-											style="float:right">联系人</label>
+											style="float: right">联系人</label>
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="text" id="facman" name="password-input" placeholder="请填写联系人姓名"
-											class="form-control"><small class="help-block form-text">不要填写一些别名</small>
+											class="form-control">
+											<!--  
+											<small class="help-block form-text">不要填写一些别名</small>-->
 									</div>
 								</div>
 								<div class="row form-group">
 									<div class="col col-md-2">
 										<label for="disabled-input" class=" form-control-label"
-											style="float:right">联系人电话</label>
+											style="float: right">联系人电话</label>
 									</div>
 									<div class="col-12 col-md-9">
 										<input type="text" id="factel" name="disabled-input" placeholder="请填写有效的电话"
@@ -364,7 +527,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col col-md-2">
-									<label for="select" class=" form-control-label" style="float:right">验货类型</label>
+									<label for="select" class=" form-control-label" style="float: right">验货类型</label>
 								</div>
 								<div class="col-12 col-md-9">
 									<select name="select" id="select" class="form-control">
@@ -379,7 +542,7 @@
 							<div class="row form-group">
 								<div class="col col-md-2">
 									<label for="textarea-input" class=" form-control-label"
-										style="float:right">产品名称</label>
+										style="float: right">产品名称</label>
 								</div>
 								<div class="col-12 col-md-9">
 									<input name="text" id="goods" rows="5" placeholder="产品名称，货号"
@@ -388,7 +551,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col col-md-2">
-									<label for="select" class=" form-control-label" style="float:right">产品类型</label>
+									<label for="select" class=" form-control-label" style="float: right">产品类型</label>
 								</div>
 								<div class="col-12 col-md-9">
 									<select name="select" id="goodsselect" class="form-control">
@@ -403,7 +566,7 @@
 							<div class="row form-group">
 								<div class="col col-md-2">
 									<label for="textarea-input" class=" form-control-label"
-										style="float:right">验货日期</label>
+										style="float: right">验货日期</label>
 								</div>
 								<div class="col-12 col-md-9">
 									<input class="form-control form-date" id="excdate"
@@ -414,28 +577,29 @@
 							<div class="row form-group">
 								<div class="col col-md-2">
 									<label for="textarea-input" class=" form-control-label"
-										style="float:right">备注</label>
+										style="float: right">备注</label>
 								</div>
 								<div class="col-12 col-md-9">
 									<textarea name="textarea-input" id="profile" rows="5"
-										placeholder="请填写一些注意事项或者要求，建议等" class="form-control" onkeyup="javascript:checkWords(this);"
-            onmousedown="javascript:checkWords(this);"></textarea>
-										
-										
-										
-										<small
-											class="help-block form-text">还可以输入<span style="font-family: Georgia; font-size: 26px;" id="wordCheck">200</span>个汉字</small>
+										placeholder="请填写一些注意事项或者要求，建议等" class="form-control"
+										onkeyup="javascript:checkWords(this);"
+										onmousedown="javascript:checkWords(this);"></textarea>
+
+
+
+									<small class="help-block form-text">还可以输入<span
+											style="font-family: Georgia; font-size: 26px;" id="wordCheck">200</span>个汉字
+									</small>
 								</div>
 							</div>
-					
+
 							<div class="row form-group">
 								<div class="col col-md-2">
 									<label for="file-multiple-input" class=" form-control-label"
-										style="float:right">资料</label>
+										style="float: right">资料</label>
 								</div>
 								<div class="col-12 col-md-9">
-									<input type="file" id="afile" name="file-multiple-input"
-										class="form-control-file">
+									<input type="file" id="afile" name="file-multiple-input" class="form-control-file">
 								</div>
 							</div>
 							<div>
@@ -445,7 +609,7 @@
 								<button type="reset" id="btn2" class="btn btn-danger btn-sm">
 									<i class="fa fa-ban"></i> 重置
 								</button>
-								<button  id="btn3" class="btn btn-danger btn-sm">
+								<button id="btn3" class="btn btn-danger btn-sm">
 									<i class="fa fa-ban"></i> 草稿
 								</button>
 							</div>
@@ -461,8 +625,62 @@
 	</div>
 	<!-- .animated -->
 
-	<!-- .content -->
+	<!-- 弹窗 -->
+	<div>
+		<!--点击弹出付款的界面-->
+		<div id="pay" class="white_content">
+			<div class="card">
+				<div class="card-header">
+					<strong class="card-title">付款</strong>
+				</div>
+				<div class="card-body">
+					<div>
+						<div class="row form-group">
+							<div class="col col-md-5">
+								<div align="center" style="margin:50px">
 
+									<h1 id="billPrice">$100</h1>
+								</div>
+
+							</div>
+							<div class="col col-md-7">
+								<div class="row form-group" style="margin:50px">
+
+									<div class="col col-md-3"><label style="float:right;" for="text-input"
+											class=" form-control-label">钱包</label></div>
+									<div class="col-12 col-md-9">
+										<h3 id="cusMoney">$1236</h3>
+									</div>
+									<div id="moneyStatus" class="fade" align="center">
+										余额不足
+									</div>
+
+								</div>
+								<div class="row form-group" align="center">
+									<div align="center">
+										<button id='pay' class="btn btn-primary btn-sm" style="margin-right: 10px">
+											<i class="fa fa-dot-circle-o"></i> 付款
+										</button>
+										<button type="reset" onclick="closeDialog()" class="btn btn-danger btn-sm">
+											<i class="fa fa-ban"></i> 取消
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--/.card-body-->
+				</div>
+				<!-- /.card -->
+
+			</div>
+		</div>
+		<div id="fade" class="black_overlay"></div>
+
+		<!--/点击弹出付款的界面-->
+	</div>
+	<!-- .content -->
 	<!-- Scripts -->
 	<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
@@ -470,7 +688,16 @@
 	<script src="assets/js/jquery.matchHeight.min.js"></script>
 	<script src="assets/js/main.js"></script>
 
-
+	<script>
+		function openDialog() {
+			document.getElementById('pay').style.display = 'block';
+			document.getElementById('fade').style.display = 'block'
+		}
+		function closeDialog() {
+			document.getElementById('pay').style.display = 'none';
+			document.getElementById('fade').style.display = 'none'
+		}
+	</script>
 
 
 </body>

@@ -1,11 +1,16 @@
 package hxy.inspec.customer.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,14 +37,6 @@ import hxy.inspec.customer.po.User;
 import hxy.inspec.customer.service.AccountService;
 import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configuration;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -154,7 +151,7 @@ public class AccountController {
 				}
 			}
 			AccountService accountService = new AccountService();
-			logger.info(user.getCusMoney());
+//			logger.info(user.getCusMoney());
 			logger.info(account.getValue());
 
 //			float a = Float.parseFloat(user.getCusMoney())+ Float.parseFloat(account.getValue());
@@ -271,7 +268,7 @@ public class AccountController {
 			if (value != null && !"null".equals(value)) {
 				UserService userService = new UserService();
 				user = userService.selectUserById(user.getCusid());
-				float money = Float.parseFloat(user.getCusMoney());
+				int money =user.getCusMoney();
 				float temMoney = Float.parseFloat(user.getCusTempMoney());
 				float valuef = Float.parseFloat(value);
 				if (money >= valuef) {

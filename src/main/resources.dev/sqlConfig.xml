@@ -2,7 +2,7 @@
   <RESULT>  
   <VALUES>　　   
     <KEY>root</KEY>　　     
-    <VALUE>123456</VALUE>  
+    <VALUE>newpass</VALUE>  
      <HOST>localhost</HOST>
      <IMAGE>http://localhost:8080/admin/copy-file</IMAGE>
    </VALUES>  
