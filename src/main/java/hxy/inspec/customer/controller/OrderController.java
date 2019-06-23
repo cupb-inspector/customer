@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import hxy.inspec.customer.po.Account;
 import hxy.inspec.customer.po.DataStatistic;
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.po.User;
@@ -286,6 +287,10 @@ public class OrderController {
 	public HashMap<String, Object>  orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
+		int resultCode=0;
+		if(user!=null) {
+			logger.info(String.format("用户%s在支付订单", user.getCusname()));
+		}
 		HashMap<String, Object> hashMap = new HashMap<>();
 		// 获取订单号即可完成支付？这个逻辑有点扯？
 		boolean flag = false;
@@ -294,8 +299,8 @@ public class OrderController {
 		try {
 			ordersId = request.getParameter("orderId").trim();// 订单号
 			pay = request.getParameter("pay").trim();// 备注
+			flag=true;
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		if (flag) {
 			OrderService orderService = new OrderService();
@@ -312,15 +317,23 @@ public class OrderController {
 					// 更新订单状态
 					orders.setStatus(Configuration.BILL_PAY);// 订单已支付
 					orderService.updateStatus(orders);
-
+					resultCode=200;
+					//需要加上钱包明细
+					Account account = new Account();
+//					account.set
+				}else {
+					resultCode=601;
 				}
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
+		}else {
+			resultCode=404;
 		}
+		logger.info(String.format("返回支付信息%s", resultCode));
+		hashMap.put("resultCode", resultCode);
 		return hashMap;
 	}
 
