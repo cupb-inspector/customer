@@ -57,7 +57,7 @@ public class Orders {
 			value = "报告已提交";
 			break;
 		case Configuration.BILL_REPORT_VERIFIED:
-			value = "报告已审核";
+			value = "报告已通过管理员审核";
 			break;
 		case Configuration.BILL_REPORT_PASSED:
 			value = "报告审核通过";
