@@ -212,20 +212,26 @@
 							orderId = result.orderId;
 							if (result.moneyStatus == 1) {
 
-							} else if (result.moneyStatus == 0) {
-								console.log(result.moneyStatus+"\t移除隐藏")
+							} else if (result.moneyState == 0) {
 								$('#moneyStatus').removeClass('fade')
-								//余额不足，付款变成充值去
-								$('#charge').removeClass('fade')
-								$('#paybt').addClass('fade')
-								
 							}
 
 						} else if (result.resultCode == 601) {
 							//	$(this).remove();
-							$('.hxy-alert').removeClass('hxy-alert-success')
-							$('.hxy-alert').html('密码错误').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-							document.getElementById("passwd").value = ''
+							$('.hxy-alert')
+								.removeClass(
+									'hxy-alert-success')
+							$('.hxy-alert')
+								.html(
+									'密码错误')
+								.addClass(
+									'hxy-alert-warning')
+								.show()
+								.delay(
+									2000)
+								.fadeOut();
+							document
+								.getElementById("passwd").value = ''
 						} else if (result.resultCode == 404) {
 							//	$(this).remove();
 							$('.hxy-alert')
@@ -578,6 +584,9 @@
 										placeholder="请填写一些注意事项或者要求，建议等" class="form-control"
 										onkeyup="javascript:checkWords(this);"
 										onmousedown="javascript:checkWords(this);"></textarea>
+
+
+
 									<small class="help-block form-text">还可以输入<span
 											style="font-family: Georgia; font-size: 26px;" id="wordCheck">200</span>个汉字
 									</small>
@@ -605,9 +614,13 @@
 								</button>
 							</div>
 						</div>
+
+
 					</div>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 	<!-- .animated -->
@@ -639,13 +652,12 @@
 										<h3 id="cusMoney">$1236</h3>
 									</div>
 									<div id="moneyStatus" class="fade" align="center">
-										<h3>余额不足</h3>
-									
+										余额不足
 									</div>
 
 								</div>
 								<div class="row form-group" align="center">
-									<div id="paybt" align="center">
+									<div align="center">
 										<button id='pay' class="btn btn-primary btn-sm" style="margin-right: 10px">
 											<i class="fa fa-dot-circle-o"></i> 付款
 										</button>
@@ -653,7 +665,6 @@
 											<i class="fa fa-ban"></i> 取消
 										</button>
 									</div>
-									<div id="charge" class="fade"><a href="payment">充值</a></div>
 								</div>
 							</div>
 						</div>

@@ -121,9 +121,19 @@ public class OrdersDao {
 		SqlSession sqlSession = DataConnection.getSqlSession();
 		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByCusId", cusId);
 		logger.info("查询结果条数"+goodsList.size());
-		for (Orders good : goodsList) {
-//			System.out.format("%s\n", good.getNetName());
-		}
+
+		sqlSession.commit();
+		sqlSession.close();
+		return goodsList;
+	}
+
+
+	public List<Orders> findOrdersByRange(HashMap<String, Object> map) throws IOException {
+		// TODO Auto-generated method stub
+		logger.info("查询参数"+map);
+		SqlSession sqlSession = DataConnection.getSqlSession();
+		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByRange", map);
+		logger.info("查询结果条数"+goodsList.size());
 		sqlSession.commit();
 		sqlSession.close();
 		return goodsList;

@@ -282,14 +282,13 @@ public class OrderController {
 		User user = (User) request.getSession().getAttribute("user");
 
 	}
-
 	@ResponseBody
 	@RequestMapping(value = "/orderPay", method = RequestMethod.POST)
-	public HashMap<String, Object> orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+	public HashMap<String, Object>  orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
-		int resultCode = 0;
-		if (user != null) {
+		int resultCode=0;
+		if(user!=null) {
 			logger.info(String.format("用户%s在支付订单", user.getCusname()));
 		}
 		HashMap<String, Object> hashMap = new HashMap<>();
@@ -300,7 +299,7 @@ public class OrderController {
 		try {
 			ordersId = request.getParameter("orderId").trim();// 订单号
 			pay = request.getParameter("pay").trim();// 备注
-			flag = true;
+			flag=true;
 		} catch (Exception e) {
 		}
 		if (flag) {
@@ -313,31 +312,25 @@ public class OrderController {
 					user = userService.selectUserById(user.getCusid());
 					orders.setStatus(Configuration.BILL_PAY);// 订单支付成功
 					int a = user.getCusMoney() - Configuration.BILL_PRICE;// 每单的定价
-					// 支付的时候一定要保证金额正常
-					if (a >= 0) {
-						user.setCusMoney(a);
-						userService.update(user);
-						// 更新订单状态
-						orders.setStatus(Configuration.BILL_PAY);// 订单已支付
-						orderService.updateStatus(orders);
-						resultCode = 200;
-						// 需要加上钱包明细
-						Account account = new Account();
-//						account.set
-					} else {
-						resultCode = 509;//金额不足
-					}
-
-				} else {
-					resultCode = 601;
+					user.setCusMoney(a);
+					userService.update(user);
+					// 更新订单状态
+					orders.setStatus(Configuration.BILL_PAY);// 订单已支付
+					orderService.updateStatus(orders);
+					resultCode=200;
+					//需要加上钱包明细
+					Account account = new Account();
+//					account.set
+				}else {
+					resultCode=601;
 				}
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-		} else {
-			resultCode = 404;
+		}else {
+			resultCode=404;
 		}
 		logger.info(String.format("返回支付信息%s", resultCode));
 		hashMap.put("resultCode", resultCode);
@@ -452,7 +445,22 @@ public class OrderController {
 			return "order/orders-details-finished";
 		} else
 			return "lose";
-
 	}
-
+	
+	@RequestMapping(value = "/orders-unfinished", method = RequestMethod.GET)
+	public String customer_getUnfinishOrders(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("utf-8");
+		User user = (User) request.getSession().getAttribute("user");
+		List<Orders> ls = null;
+		OrderService o = new OrderService();
+		HashMap<String, Object> map =new HashMap<String, Object> ();
+		map.put("cusId", user.getCusid());
+		map.put("first", Configuration.BILL_REPORT_VERIFIED);
+		map.put("second", Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID);
+		ls = o.findOrdersByRange(map);
+		model.addAttribute("list", ls);
+		logger.info("unfinish order model: "+model);
+		return "order/orders-unfinished";
+	}
+	
 }

@@ -90,4 +90,17 @@ public class OrderService {
 
 	}
 
+	public List<Orders> findOrdersByRange(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list=null;
+		try {
+			list = ordersDao.findOrdersByRange(map);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

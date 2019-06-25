@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -53,17 +56,23 @@
                                             <th>订单号</th>
                                             <th>验货日期</th>
                                             <th>工厂名称</th>
-                                            <th>产品订单号</th>
-                                            <th>产品货号</th>
                                             <th>产品名称</th>
-                                            <th>服务类型</th>
                                             <th>状态</th>
                                             <th>操作</th>
             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                    <c:forEach items="${list}" var="order" varStatus="status" >
+                                        <tr>
+                                            <th>${order.orderid }</th>
+                                            <th>${order.excedate}</th>
+                                            <th>${order.factoryname}</th>
+                                            <th>${order. goods}</th>
+                                            <th>${order.getStatusString()}</th>
+                                            <th><a href="details3?id=${ order.orderid }">详情</a></th>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

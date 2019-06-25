@@ -35,12 +35,41 @@
   
   <script type="text/javascript">
     $(document).ready(function () {
+    	 console.log("set the cookie to remember the user");
+    	if ($.cookie("rmbUser") == "true") {
+            $("#remember").attr("checked", true);
+            $("#tel").val($.cookie("username"));
+            $("#passwd").val($.cookie("password"));
+        }  
+		/* --------------------- 
+		作者：傲娇的何先生 
+		来源：CSDN 
+		原文：https://blog.csdn.net/HeyWeCome/article/details/76985251 
+		版权声明：本文为博主原创文章，转载请附上博文链接！ */
       $("#btn1").click(function () {
     	  var username =$("#tel").val()
     	  var passwd=$("#passwd").val()
     	  
     	  var telReg =/^1\d{10}$/;
-    	  var remenber=document.getElementById("remenber").checked;
+    	//注意： 操作checkbox的checked,disabled属性时jquery1.6以前版本用attr,1.6以上（包含）建议用prop
+    	  alert($("#remember").prop("checked"));
+    	  if ($("#remember").prop("checked")) {
+              var str_username = $("#tel").val();//用户名
+              var str_password = $("#passwd").val();//密码
+              $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
+              $.cookie("username", str_username, { expires: 7 });
+              $.cookie("password", str_password, { expires: 7 });
+          }
+          else {
+              $.cookie("rmbUser", "false", { expire: -1 });
+              $.cookie("username", "", { expires: -1 });
+              $.cookie("password", "", { expires: -1 });
+          }
+			/* --------------------- 
+			作者：傲娇的何先生 
+			来源：CSDN 
+			原文：https://blog.csdn.net/HeyWeCome/article/details/76985251 
+			版权声明：本文为博主原创文章，转载请附上博文链接！ */
     	  
     	  console.log(username+"\t"+passwd)
     	  
@@ -145,7 +174,7 @@
 								class="form-control" placeholder="密码" onkeydown=KeyDown()>
 						</div>
 						<div class="checkbox">
-							<label> <input id="remenber" type="checkbox"> 记住密码
+							<label> <input id="remember" type="checkbox"> 记住密码
 							</label> <label class="pull-right"> <a href="#">忘记密码?</a>
 							</label>
 
@@ -170,7 +199,8 @@
 			</div>
 		</div>
 	</div>
-
+<!-- the cookie should before the jquery -->
+	<script src="js/jquery.cookie.js"></script>
 	<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>

@@ -19,7 +19,7 @@
 	} else {
 		OrderService o = new OrderService();
 		HashMap<String, Object> map =new HashMap<String, Object> ();
-		map.put("status", Configuration.BILL_REPORT_PASSED);
+		map.put("status", Configuration.BILL_REPORT_VERIFIED);
 		map.put("cusId", user.getCusid());
 		ls = o.selectAllByIdAndStatus(map);
 	}
