@@ -69,7 +69,7 @@
                                             <th>${order.excedate}</th>
                                             <th>${order.factoryname}</th>
                                             <th>${order. goods}</th>
-                                            <th>${order.status }</th>
+                                            <th>${order.getStatusString()}</th>
                                             <th><a href="details3?id=${ order.orderid }">详情</a></th>
                                         </tr>
                                     </c:forEach>
