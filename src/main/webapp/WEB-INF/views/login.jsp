@@ -35,35 +35,49 @@
   
   <script type="text/javascript">
     $(document).ready(function () {
-    	 console.log("set the cookie to remember the user");
-    	if ($.cookie("rmbUser") == "true") {
+    	if(! window.localStorage){
+    	    alert("浏览器不支持localstorage");
+    	}else{
+    		var storage=window.localStorage;
+    	}
+    	 console.log(storage.getItem("username"));
+    	 if(storage.getItem("username") != null){
+             $("#tel").val(storage.getItem("username"));
+             $("#passwd").val(storage.getItem("password"));
+    	 }
+    	/* if ($.cookie("rmbUser") == "true") {
             $("#remember").attr("checked", true);
             $("#tel").val($.cookie("username"));
             $("#passwd").val($.cookie("password"));
-        }  
+        } */  
 		/* --------------------- 
 		作者：傲娇的何先生 
 		来源：CSDN 
 		原文：https://blog.csdn.net/HeyWeCome/article/details/76985251 
 		版权声明：本文为博主原创文章，转载请附上博文链接！ */
+		
       $("#btn1").click(function () {
     	  var username =$("#tel").val()
     	  var passwd=$("#passwd").val()
     	  
     	  var telReg =/^1\d{10}$/;
     	//注意： 操作checkbox的checked,disabled属性时jquery1.6以前版本用attr,1.6以上（包含）建议用prop
-    	  alert($("#remember").prop("checked"));
+    	  //alert($("#remember").prop("checked"));
     	  if ($("#remember").prop("checked")) {
               var str_username = $("#tel").val();//用户名
               var str_password = $("#passwd").val();//密码
-              $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
+              /* $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
               $.cookie("username", str_username, { expires: 7 });
-              $.cookie("password", str_password, { expires: 7 });
+              $.cookie("password", str_password, { expires: 7 }); */
+              storage.setItem("username",str_username);
+              storage.setItem("password",str_password);
           }
           else {
-              $.cookie("rmbUser", "false", { expire: -1 });
+              /* $.cookie("rmbUser", "false", { expire: -1 });
               $.cookie("username", "", { expires: -1 });
-              $.cookie("password", "", { expires: -1 });
+              $.cookie("password", "", { expires: -1 }); */
+          	  storage.removeItem("username");
+          	  storage.removeItem("password");
           }
 			/* --------------------- 
 			作者：傲娇的何先生 
