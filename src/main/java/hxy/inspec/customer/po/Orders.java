@@ -47,6 +47,10 @@ public class Orders {
 		case Configuration.BILL_PAY:
 			value = "已付款";
 			break;
+		case Configuration.BILL_CANCLE_BY_CUSTOMER_UNPAY:
+		case Configuration.BILL_CANCLE_BY_CUSTOMER:
+			value = "已取消";
+			break;
 		case Configuration.BILL_ASSIGNING:
 		case Configuration.BILL_ASSIGNING_BY_ADMIN_UNPAID:
 			value = "正在分配质检员中";

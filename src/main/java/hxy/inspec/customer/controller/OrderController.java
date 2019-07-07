@@ -459,7 +459,12 @@ public class OrderController {
 		OrderService o = new OrderService();
 		HashMap<String, Object> map =new HashMap<String, Object> ();
 		//获得一部分status
-		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_SUBMITTED, Configuration.BILL_REFUSED_BY_ADMIN));
+		list.add(Configuration.BILL_SUBMITTED);
+		list.add(Configuration.BILL_UNPAY);
+		list.add(Configuration.BILL_PAY);
+		list.add(Configuration.BILL_ASSIGNING);
+		list.add(Configuration.BILL_ASSIGNED);
+		list.add(Configuration.BILL_DELAY_BY_ADMIN);
 		logger.info(""+list);
 		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_ASSIGNING_BY_ADMIN_UNPAID, Configuration.BILL_REFUSED_BY_ADMIN_UNPAID));
 		logger.info(""+list);
@@ -473,6 +478,27 @@ public class OrderController {
 		model.addAttribute("list", ls);
 		logger.info("unfinish order model: "+model);
 		return "order/orders-unfinished";
+	}
+	
+	@RequestMapping(value = "/orders-cancel", method = RequestMethod.GET)
+	public String customer_getCancelOrders(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("utf-8");
+		User user = (User) request.getSession().getAttribute("user");
+		List<Orders> ls = null;
+		//将status放入list中
+		List<Integer> list = new ArrayList<>();
+		OrderService o = new OrderService();
+		HashMap<String, Object> map =new HashMap<String, Object> ();
+		//获得一部分status
+		list.add(Configuration.BILL_CANCLE_BY_CUSTOMER);
+		list.add(Configuration.BILL_CANCLE_BY_CUSTOMER_UNPAY);
+		logger.info(""+list);
+		map.put("cusId", user.getCusid());
+		map.put("list", list);
+		ls = o.findOrdersByRange(map);
+		model.addAttribute("list", ls);
+		logger.info("cancle order model: "+model);
+		return "order/orders-cancel";
 	}
 	
 }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import hxy.inspec.customer.datasource.DataConnection;
 
 public class GetOrderStatusWithList {
-	private final static Logger logger = LoggerFactory.getLogger(DataConnection.class);
+	private final static Logger logger = LoggerFactory.getLogger(GetOrderStatusWithList.class);
 	//将所有状态放入list中
 	static List<Integer> list;
 	//使用静态代码块来实现对象的实例创建，保证创建此实例只需要执行一次

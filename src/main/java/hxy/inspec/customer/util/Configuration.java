@@ -13,8 +13,10 @@ public class Configuration {
 	public static final int BILL_TEMP = 0; // 草稿订单
 	public static final int BILL_SUBMITTED = 1;// 订单已提交
 	public static final int BILL_UNPAY = 50;// 订单未付款
+	public static final int BILL_CANCLE_BY_CUSTOMER_UNPAY = 60;// 用户取消订单
 	public static final int BILL_PAY = 100;// 订单已经付款
-
+	public static final int BILL_CANCLE_BY_CUSTOMER = 110;// 用户取消订单
+	
 	public static final int BILL_ASSIGNING = 150;// 订单被管理员接受并正在分配质检员
 	public static final int BILL_ASSIGNED = 151;// 订单已分配
 	public static final int BILL_DELAY_BY_ADMIN = 200; // 管理员延期分配订单

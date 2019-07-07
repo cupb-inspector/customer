@@ -117,14 +117,14 @@
 		<url-pattern>/orders-all-content</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>orders-cancel</servlet-name>
 		<jsp-file>/WEB-INF/views/order/orders-cancel.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>orders-cancel</servlet-name>
 		<url-pattern>/orders-cancel</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<servlet>
 		<servlet-name>orders-draft</servlet-name>
