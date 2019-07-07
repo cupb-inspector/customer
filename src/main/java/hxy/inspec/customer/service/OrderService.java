@@ -63,6 +63,12 @@ public class OrderService {
 		return list;
 	}
 
+	public List<Orders> selectAllByFinishedStatus(HashMap<String, Object> tel) throws IOException {
+		OrdersDao ordersDao = new OrdersDao();
+		List<Orders> list = ordersDao.selectAllByFinishedStatus(tel);
+		return list;
+	}
+
 	public Orders selectAllById(String ordersId) throws IOException {
 		OrdersDao ordersDao = new OrdersDao();
 		Orders list = ordersDao.selectAllById(ordersId);

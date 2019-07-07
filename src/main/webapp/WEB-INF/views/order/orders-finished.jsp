@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="hxy.inspec.customer.util.Configuration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -19,9 +20,14 @@
 	} else {
 		OrderService o = new OrderService();
 		HashMap<String, Object> map =new HashMap<String, Object> ();
-		map.put("status", Configuration.BILL_REPORT_VERIFIED);
+		List<Integer> list0 = new ArrayList<Integer>();
+		list0.add(Configuration.BILL_REPORT_VERIFIED);
+		list0.add(Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID);
+		list0.add(Configuration.BILL_REFUSED_BY_ADMIN_UNPAID);
+		list0.add(Configuration.BILL_REFUSED_BY_ADMIN);
 		map.put("cusId", user.getCusid());
-		ls = o.selectAllByIdAndStatus(map);
+		map.put("list",list0);
+		ls = o.findOrdersByRange(map);
 	}
 %>
 
