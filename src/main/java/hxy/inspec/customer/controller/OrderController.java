@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import hxy.inspec.customer.service.OrderService;
 import hxy.inspec.customer.service.UserService;
 import hxy.inspec.customer.util.Configuration;
 import hxy.inspec.customer.util.DateUtil;
+import hxy.inspec.customer.util.GetOrderStatusWithList;
 
 @Controller
 @RequestMapping("/")
@@ -452,11 +454,21 @@ public class OrderController {
 		request.setCharacterEncoding("utf-8");
 		User user = (User) request.getSession().getAttribute("user");
 		List<Orders> ls = null;
+		//将status放入list中
+		List<Integer> list = new ArrayList<>();
 		OrderService o = new OrderService();
 		HashMap<String, Object> map =new HashMap<String, Object> ();
+		//获得一部分status
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_SUBMITTED, Configuration.BILL_REFUSED_BY_ADMIN));
+		logger.info(""+list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_ASSIGNING_BY_ADMIN_UNPAID, Configuration.BILL_REFUSED_BY_ADMIN_UNPAID));
+		logger.info(""+list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_INSPECTOR_CONFIRM, Configuration.BILL_REPORT_VERIFIED));
+		logger.info(""+list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_REPORT_REFUSED_BY_ADMIN_UNPAID, Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID));
+		logger.info(""+list);
 		map.put("cusId", user.getCusid());
-		map.put("first", Configuration.BILL_REPORT_VERIFIED);
-		map.put("second", Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID);
+		map.put("list", list);
 		ls = o.findOrdersByRange(map);
 		model.addAttribute("list", ls);
 		logger.info("unfinish order model: "+model);

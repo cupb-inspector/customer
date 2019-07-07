@@ -54,6 +54,6 @@ public class Configuration {
 
 	public static final int BILL_DELETE_BY_ADMIN = 1400; // 管理员删除的订单
 	public static final int BILL_DELETE_BY_USER = 1450; // 用户删除的订单
-	public static final int BILL_DELETE_BY_INSPECTOR = 1650; // 质检员删除的订单
 	public static final int BILL_UNPAY_FOR_INSPECTOR = 1500; // 未给验货员结清订单
+	public static final int BILL_DELETE_BY_INSPECTOR = 1650; // 质检员删除的订单
 }

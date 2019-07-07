@@ -89,7 +89,15 @@
 	
 	<select id="findOrdersByRange" parameterType="Map"
 		resultType="hxy.inspec.customer.po.Orders" >
-		select * from orders WHERE cusId=#{cusId} and status &lt; #{second} and status &lt;&gt; #{first}
+		select * from orders WHERE cusId=#{cusId} and status in 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+            #{item}  
+        </foreach>
+	</select>
+	
+	<select id="findOrdersByFinishedStatus" parameterType="Map"
+		resultType="hxy.inspec.customer.po.Orders" >
+		select * from orders WHERE cusId=#{cusId} and status = #{second} or status = #{first}
 	</select>
 
 </mapper>

@@ -138,6 +138,17 @@ public class OrdersDao {
 		sqlSession.close();
 		return goodsList;
 	}
+
+
+	public List<Orders> selectAllByFinishedStatus(HashMap<String, Object> tel) throws IOException {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = DataConnection.getSqlSession();
+		List<Orders> goodsList = sqlSession.selectList("Orders.findOrdersByFinishedStatus", tel);
+		logger.info("查询结果条数"+goodsList.size());
+		sqlSession.commit();
+		sqlSession.close();
+		return goodsList; 
+	}
 	
 	
 	
