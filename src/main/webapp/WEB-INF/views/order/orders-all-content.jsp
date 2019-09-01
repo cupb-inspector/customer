@@ -101,7 +101,7 @@ if (user == null) {
 										<td><%=orders.getGoods() %></td>
 										<td><%=orders.getStatusString() %></td>
 										<td><%=orders.getDate()%></td>
-											<td><a href="details2?id=<%=orders.getOrderid() %>">详情</a></td>
+											<td><a href="details2?id=<%=orders.getOrderid() %>" target="_blank">详情</a></td>
 									</tr>
 										<% 
 										}

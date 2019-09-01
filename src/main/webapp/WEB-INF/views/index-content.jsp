@@ -244,7 +244,7 @@ if(user!=null){
                                     				Orders os = ls.get(i);
                                     				%>
                                 <tr>
-                                    <th scope="row"><%=os.getOrderid() %></th>
+                                    <td scope="row"><%=os.getOrderid() %></td>
                                     <td><%=os.getExcedate() %></td>
                                     <td><%=os.getFactoryname() %></td>
                                     <td><%=os.getGoods() %></td>

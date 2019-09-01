@@ -46,12 +46,13 @@ import hxy.inspec.customer.util.GetOrderStatusWithList;
 public class OrderController {
 	private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
+	//用户下单后接收订单信息
 	@RequestMapping(value = "/cusInsertOrder", method = RequestMethod.POST)
 	public void cusInsertOrder(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
 		int resultCode = -1;
-		String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号
+		String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号，长度17
 		int cusMoney = -1;// 用户钱包余额
 		int moneyStatus = -1;// 0不足，1充足
 		int billPrice = Configuration.BILL_PRICE;// 订单默认价格
