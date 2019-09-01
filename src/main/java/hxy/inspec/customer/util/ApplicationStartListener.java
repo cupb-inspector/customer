@@ -119,9 +119,9 @@ public class ApplicationStartListener implements ServletContextListener, Servlet
 
 		logger.info("启动应用，开始数据库建表！注意修改java文件的代码，这个是建表的密码");
 		Connection connection = ConnectionUtil.getConnection();
-		String sql = "create table IF NOT EXISTS  orders (orderid int not null primary key  AUTO_INCREMENT,  `cusId` VARCHAR(45) NULL, `qualId` VARCHAR(45) NULL,  `excedate` VARCHAR(45) NULL,  `date` VARCHAR(45) NULL,\n"
+		String sql = "create table IF NOT EXISTS  orders (id int not null primary key  AUTO_INCREMENT,`orderid` VARCHAR(17) NOT NULL COMMENT '订单号',`cusId` VARCHAR(45) NULL COMMENT '用户id', `qualId` VARCHAR(45) NULL COMMENT '质检员id',  `excedate` VARCHAR(45) NULL COMMENT '订单执行日期',  `date` VARCHAR(45) NULL COMMENT '下单日期',\n"
 				+ "  `factoryname` VARCHAR(45) NULL,\n" + "  `factoryaddress` VARCHAR(45) NULL,\n"
-				+ "  `factoryman` VARCHAR(45) NULL,`factorytel` VARCHAR(45) NULL,`profile` VARCHAR(400) NULL,`file` VARCHAR(200) NULL,`reportfile` VARCHAR(200) NULL,`fileuuid` VARCHAR(200) NULL,`reportfileuuid` VARCHAR(200) NULL,`status` VARCHAR(45) NULL,`fee` VARCHAR(45) default '0',`cost` VARCHAR(45) default '0',`othercost` VARCHAR(45) default '0',`profit` VARCHAR(45) default '0',`goods` VARCHAR(45) NULL,`goodsType` VARCHAR(1) default '0')default charset=utf8mb4;";
+				+ "  `factoryman` VARCHAR(45) NULL COMMENT '工厂联系人',`factorytel` VARCHAR(45) NULL COMMENT '工厂联系人电话',`profile` LONGTEXT NULL COMMENT '长备注',`file` VARCHAR(200) NULL,`reportfile` VARCHAR(200) NULL,`fileuuid` VARCHAR(200) NULL COMMENT '附件uuid',`reportfileuuid` VARCHAR(200) NULL ,`status` VARCHAR(45) NULL COMMENT '订单状态',`fee` VARCHAR(45) default '0' COMMENT '订单费用',`cost` VARCHAR(45) default '0',`othercost` VARCHAR(45) default '0',`profit` VARCHAR(45) default '0' COMMENT '',`goods` VARCHAR(45) NULL  COMMENT '检测品名称',`goodsType` VARCHAR(1) default '0'  COMMENT '检测商品类型')default charset=utf8mb4;";
 		PreparedStatement preparedStatement = ConnectionUtil.getPreparedStatement(connection, sql);
 		try {
 			int flag = preparedStatement.executeUpdate();

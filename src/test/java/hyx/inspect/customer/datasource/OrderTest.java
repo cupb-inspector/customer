@@ -1,7 +1,10 @@
 package hyx.inspect.customer.datasource;
 
+import org.junit.Test;
+
 import hxy.inspec.customer.po.Orders;
 import hxy.inspec.customer.service.OrderService;
+import hxy.inspec.customer.util.DateUtil;
 
 public class OrderTest {
 
@@ -27,6 +30,12 @@ public class OrderTest {
 			System.out.println("成功");
 		}
 
+	}
+	
+	@Test
+	public void orderIdTest(){
+		String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号
+		System.out.println(orderId+"\n长度："+orderId.length());
 	}
 
 }
