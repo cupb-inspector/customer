@@ -46,17 +46,29 @@ import hxy.inspec.customer.util.GetOrderStatusWithList;
 public class OrderController {
 	private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-	//用户下单后接收订单信息
+	// 用户下单后接收订单信息
 	@RequestMapping(value = "/cusInsertOrder", method = RequestMethod.POST)
 	public void cusInsertOrder(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
+		org.json.JSONObject user_data = new org.json.JSONObject();
 		User user = (User) request.getSession().getAttribute("user");
 		int resultCode = -1;
-		String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号，长度17
 		int cusMoney = -1;// 用户钱包余额
 		int moneyStatus = -1;// 0不足，1充足
 		int billPrice = Configuration.BILL_PRICE;// 订单默认价格
 		if (user != null) {
+			String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号，长度17
+			user_data.put("orderId", orderId);// 返回订单号
+			boolean freshMan = false;
+			// 判断是否为新用户，如果是新用户，则第一单免费
+			UserService userService = new UserService();
+			user = userService.selectUserById(user.getCusid());
+
+			if (user.getCusOrders() == 0) {
+				freshMan = true;
+			
+			}
+			user_data.put("fresh", freshMan);// 如果是新用户，订单界面直接提示新用户
 			// https://blog.csdn.net/u013230511/article/details/48314491
 
 			String excdate = null;
@@ -212,11 +224,17 @@ public class OrderController {
 				order.setFileuuid(fileUuidName);
 				order.setFile(fileName);
 				OrderService orderService = new OrderService();
+				//新用户直接付款完成
+				if(freshMan) {
+					status=Configuration.BILL_PAY;//新用户第一单直接
+				}
+				
+				// 无论是新用户还是啥用户，订单提交后都是先存储到数据库，并且记录状态为未付款
 				if (orderService.insert(order)) {
 					resultCode = 200;
 					// 更新订单总数
-					int a = Integer.parseInt(user.getCusOrders()) + 1;
-					user.setCusOrders(String.valueOf(a));
+					int a = user.getCusOrders() + 1;
+					user.setCusOrders(a);
 					DataStatisticService dataStatisticService = new DataStatisticService();
 					DataStatistic dataStatistic = dataStatisticService.select();
 					int b = dataStatistic.getTotal();
@@ -227,10 +245,9 @@ public class OrderController {
 					dataStatistic.setUnfinishedBill(c);
 
 					try {
-						// 更新订单
+						// 更新统计订单信息
 						dataStatisticService.update(dataStatistic);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -243,9 +260,6 @@ public class OrderController {
 
 			if (status == Configuration.BILL_UNPAY) {
 				// 返回钱包信息，
-				UserService userService = new UserService();
-				user = userService.selectUserByTel(user.getCustel());
-
 				cusMoney = user.getCusMoney();
 
 				if (cusMoney >= billPrice) {
@@ -264,12 +278,13 @@ public class OrderController {
 		}
 
 		logger.info("下单信息返回");
-		org.json.JSONObject user_data = new org.json.JSONObject();
+
+
 		user_data.put("resultCode", resultCode);// 返回操作状态
-		user_data.put("orderId", orderId);// 返回订单号
 		user_data.put("moneyStatus", moneyStatus);// 返回订单是否有足够支付的的余额
 		user_data.put("cusMoney", cusMoney);// 用户余额
 		user_data.put("billPrice", billPrice);// 订单价格
+
 		String jsonStr2 = user_data.toString();
 		response.setCharacterEncoding("UTF-8");
 		try {
@@ -285,59 +300,75 @@ public class OrderController {
 		User user = (User) request.getSession().getAttribute("user");
 
 	}
+
+	// 订单支付
 	@ResponseBody
 	@RequestMapping(value = "/orderPay", method = RequestMethod.POST)
-	public HashMap<String, Object>  orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+	public HashMap<String, Object> orderPay(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		// 获取用户是否登录
 		User user = (User) request.getSession().getAttribute("user");
-		int resultCode=0;
-		if(user!=null) {
-			logger.info(String.format("用户%s在支付订单", user.getCusname()));
-		}
+		int resultCode = 0;
 		HashMap<String, Object> hashMap = new HashMap<>();
-		// 获取订单号即可完成支付？这个逻辑有点扯？
-		boolean flag = false;
-		String ordersId = null;
-		String pay = null;
-		try {
-			ordersId = request.getParameter("orderId").trim();// 订单号
-			pay = request.getParameter("pay").trim();// 备注
-			flag=true;
-		} catch (Exception e) {
-		}
-		if (flag) {
-			OrderService orderService = new OrderService();
+		if (user != null) {
+			logger.info(String.format("用户%s在支付订单", user.getCusname()));
+
+			// 获取订单号即可完成支付？这个逻辑有点扯？
+			boolean flag = false;
+			String ordersId = null;
+			String pay = null;
 			try {
-				Orders orders = orderService.selectAllById(ordersId);
-				if (orders != null && "true".equals(pay)) {
-					// 扣款
-					UserService userService = new UserService();
-					user = userService.selectUserById(user.getCusid());
-					orders.setStatus(Configuration.BILL_PAY);// 订单支付成功
-					int a = user.getCusMoney() - Configuration.BILL_PRICE;// 每单的定价
-					user.setCusMoney(a);
-					userService.update(user);
-					// 更新订单状态
-					orders.setStatus(Configuration.BILL_PAY);// 订单已支付
-					orderService.updateStatus(orders);
-					resultCode=200;
-					//需要加上钱包明细
-					Account account = new Account();
+				ordersId = request.getParameter("orderId").trim();// 订单号
+				pay = request.getParameter("pay").trim();// 备注
+				flag = true;
+			} catch (Exception e) {
+			}
+			if (flag) {
+				OrderService orderService = new OrderService();
+				try {
+					Orders orders = orderService.selectAllById(ordersId);
+					if (orders != null && "true".equals(pay)) {
+						//第一步确定是否余额充足，不充足天转充值界面，充足就不跳转充值界面
+
+						// 扣款
+						UserService userService = new UserService();
+						user = userService.selectUserById(user.getCusid());
+						
+						int a = user.getCusMoney() - Configuration.BILL_PRICE;// 每单的定价
+						//如果余额充足，则完成订单支付。如果余额不足返回不足提示信息
+						if(a>=0) {
+							logger.info(String.format("%s 余额充足 %s", user.getCusname(),user.getCusMoney()));
+							user.setCusMoney(a);
+							userService.update(user);
+							// 更新订单状态
+							orders.setStatus(Configuration.BILL_PAY);// 订单已支付
+							orderService.updateStatus(orders);
+							resultCode = 200;
+						}else {
+							//余额不足，跳转到充值界面
+							logger.warn(String.format("%s余额不足：%s", user.getCusname(),user.getCusMoney()));
+							resultCode = 607;
+						}
+					
+					
+						// 需要加上钱包明细
+						Account account = new Account();
 //					account.set
-				}else {
-					resultCode=601;
+					} else {
+						resultCode = 601;
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				resultCode = 404;
 			}
-
-		}else {
-			resultCode=404;
 		}
 		logger.info(String.format("返回支付信息%s", resultCode));
 		hashMap.put("resultCode", resultCode);
 		return hashMap;
+
 	}
 
 	@RequestMapping(value = "/details2", method = RequestMethod.GET)
@@ -449,31 +480,36 @@ public class OrderController {
 		} else
 			return "lose";
 	}
-	
+
 	@RequestMapping(value = "/orders-unfinished", method = RequestMethod.GET)
-	public String customer_getUnfinishOrders(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+	public String customer_getUnfinishOrders(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("utf-8");
 		User user = (User) request.getSession().getAttribute("user");
 		List<Orders> ls = null;
-		//将status放入list中
+		// 将status放入list中
 		List<Integer> list = new ArrayList<>();
 		OrderService o = new OrderService();
-		HashMap<String, Object> map =new HashMap<String, Object> ();
-		//获得一部分status
-		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_SUBMITTED, Configuration.BILL_REFUSED_BY_ADMIN));
-		logger.info(""+list);
-		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_ASSIGNING_BY_ADMIN_UNPAID, Configuration.BILL_REFUSED_BY_ADMIN_UNPAID));
-		logger.info(""+list);
-		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_INSPECTOR_CONFIRM, Configuration.BILL_REPORT_VERIFIED));
-		logger.info(""+list);
-		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_REPORT_REFUSED_BY_ADMIN_UNPAID, Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID));
-		logger.info(""+list);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		// 获得一部分status
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_SUBMITTED,
+				Configuration.BILL_REFUSED_BY_ADMIN));
+		logger.info("" + list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_ASSIGNING_BY_ADMIN_UNPAID,
+				Configuration.BILL_REFUSED_BY_ADMIN_UNPAID));
+		logger.info("" + list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_INSPECTOR_CONFIRM,
+				Configuration.BILL_REPORT_VERIFIED));
+		logger.info("" + list);
+		list.addAll(GetOrderStatusWithList.getStatusSublist(Configuration.BILL_REPORT_REFUSED_BY_ADMIN_UNPAID,
+				Configuration.BILL_REPORT_PASSED_BY_ADMIN_UNPAID));
+		logger.info("" + list);
 		map.put("cusId", user.getCusid());
 		map.put("list", list);
 		ls = o.findOrdersByRange(map);
 		model.addAttribute("list", ls);
-		logger.info("unfinish order model: "+model);
+		logger.info("unfinish order model: " + model);
 		return "order/orders-unfinished";
 	}
-	
+
 }

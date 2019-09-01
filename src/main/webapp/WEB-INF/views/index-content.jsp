@@ -9,13 +9,7 @@
 <%@page import="hxy.inspec.customer.service.UserService"%>
 <%@page import="hxy.inspec.customer.po.User"%>
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
-<!--<![endif]-->
-
 <%
 //查询个人信息
 request.setCharacterEncoding("utf-8");
@@ -26,10 +20,7 @@ if(user!=null){
 	UserService s = new UserService();
 	 u =	s.login(user.getCustel());
 }
-
-
 %>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,6 +41,7 @@ if(user!=null){
 
     <link href="assets/css/charts/chartist.min.css" rel="stylesheet">
     <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+
 
     <style>
         #weatherWidget .currentDesc {
