@@ -13,47 +13,30 @@ $(document).ready(function () {
 		forceParse: 0,
 		format: "yyyy-mm-dd"
 	});
-
+	//提交按钮
 	$("#btn1").click(function () {
-
 		var excdate = $("#excdate").val();
 		var facname = $("#facname").val();
-		var facaddress = $("#facaddress")
-			.val();
+		var facaddress = $("#facaddress").val();
 		var facman = $("#facman").val();
 		var factel = $("#factel").val();
 		var profile = $("#profile").val();
 		var goods = $("#goods").val();
 		var type = $("#select").val();
 		var goodsType = $("#goodsselect").val();
-
-		console.log(excdate + "\t"
-			+ facname + "\t"
-			+ facaddress + "\t"
-			+ facman + "\t" + factel
-			+ "\t" + profile + "\t"
-			+ goods + "\t" + type
-			+ "\t" + goodsType)
-
+		console.log(excdate + "\t" + facname + "\t" + facaddress + "\t" + facman + "\t" + factel + "\t" + profile + "\t" + goods + "\t" + type + "\t" + goodsType)
 		if (excdate == "") {
-
 			$('.hxy-alert').removeClass('hxy-alert-success')
 			$('.hxy-alert').html('请选择验货日期').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 			return false;
 		}
 		if (facname == "") {
-			$('.hxy-alert').removeClass(
-				'hxy-alert-success')
-			$('.hxy-alert')
-				.html('请填写工厂名称')
-				.addClass(
-					'hxy-alert-warning')
-				.show().delay(2000)
-				.fadeOut();
+			$('.hxy-alert').removeClass('hxy-alert-success')
+			$('.hxy-alert').html('请填写工厂名称').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 			return false;
 		}
-		var file_obj = document
-			.getElementById('afile').files[0];
+
+		var file_obj = document.getElementById('afile').files[0];
 		var fd = new FormData();
 		fd.append('excdate', excdate)
 		fd.append('facname', facname);
@@ -65,9 +48,10 @@ $(document).ready(function () {
 		fd.append("type", type);
 		fd.append("goodsType", goodsType);
 		fd.append("file", file_obj);
-		fd.append("post_type", 'unpay');//提交未付款，
-		document.getElementById('pay').style.display = 'block';
-		document.getElementById('fade').style.display = 'block'
+		fd.append("post_type", 'unpay');//提交未付款
+//		document.getElementById('fade').style.display = 'block';
+//		document.getElementById('pay').style.display = 'block';
+	
 		//手动控制遮罩
 		$wrapper.spinModal();
 		$.ajax({
@@ -87,9 +71,9 @@ $(document).ready(function () {
 					//关闭遮罩
 					$wrapper.spinModal(false);
 					//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
-					document.getElementById('pay').style.display = 'block';
-					document.getElementById('fade').style.display = 'block'
 
+					document.getElementById('fade').style.display = 'block'
+					document.getElementById('pay').style.display = 'block';
 					$("#cusMoney").html(result.cusMoney);
 					$("#billPrice").html(result.billPrice);
 					orderId = result.orderId;
@@ -100,25 +84,15 @@ $(document).ready(function () {
 					}
 
 				} else if (result.resultCode == 607) {
-					//余额不足
+					// 等待开发
 					//	$(this).remove();
-					$('.hxy-alert').removeClass('hxy-alert-success')
-					$('.hxy-alert').html('余额不足').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+					// $('.hxy-alert').removeClass('hxy-alert-success')
+					// $('.hxy-alert').html('余额不足').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 					// document.getElementById("passwd").value = ''
 				} else if (result.resultCode == 404) {
 					//	$(this).remove();
-					$('.hxy-alert')
-						.removeClass(
-							'hxy-alert-success')
-					$('.hxy-alert')
-						.html(
-							'手机号未注册')
-						.addClass(
-							'hxy-alert-warning')
-						.show()
-						.delay(
-							2000)
-						.fadeOut();
+					$('.hxy-alert').removeClass('hxy-alert-success')
+					$('.hxy-alert').html('手机号未注册').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 				} else if (result.resultCode == 604) {
 					//跳转到首页
 					window.location.href = 'login';
@@ -127,17 +101,8 @@ $(document).ready(function () {
 			},
 			error: function () {
 				//console.log(data);
-				$('.hxy-alert')
-					.removeClass(
-						'hxy-alert-success')
-				$('.hxy-alert')
-					.html(
-						'检查网络是否连接')
-					.addClass(
-						'hxy-alert-warning')
-					.show()
-					.delay(2000)
-					.fadeOut();
+				$('.hxy-alert').removeClass('hxy-alert-success')
+				$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 			}
 		});
 	});
@@ -195,20 +160,9 @@ $(document).ready(function () {
 						document.getElementById("afile").value = ''
 					} else if (result.resultCode == 601) {
 						//	$(this).remove();
-						$('.hxy-alert')
-							.removeClass(
-								'hxy-alert-success')
-						$('.hxy-alert')
-							.html(
-								'密码错误')
-							.addClass(
-								'hxy-alert-warning')
-							.show()
-							.delay(
-								2000)
-							.fadeOut();
-						document
-							.getElementById("passwd").value = ''
+						$('.hxy-alert').removeClass('hxy-alert-success')
+						$('.hxy-alert').html('密码错误').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+						document.getElementById("passwd").value = ''
 					} else if (result.resultCode == 404) {
 						//	$(this).remove();
 						$('.hxy-alert').removeClass('hxy-alert-success')
@@ -216,11 +170,9 @@ $(document).ready(function () {
 					} else if (result.resultCode == 604) {
 						//跳转到首页
 						window.location.href = 'login';
-					}
-					;
+					};
 				},
 				error: function () {
-					//console.log(data);
 					$('.hxy-alert').removeClass('hxy-alert-success')
 					$('.hxy-alert').html('检查网络是否连接').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
 				}
@@ -272,7 +224,6 @@ $(document).ready(function () {
 
 			}
 		});
-
 		document.getElementById("excdate").value = ''
 		document.getElementById("facname").value = ''
 		document.getElementById("facaddress").value = ''
@@ -294,8 +245,7 @@ function getRootPath() {
 	//获取主机地址，如： http://localhost:8088
 	var localhostPath = curPath.substring(0, pos);
 	//获取带"/"的项目名，如：/test
-	var projectName = pathName.substring(0, pathName.substr(1).indexOf(
-		'/') + 1);
+	var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
 	return (localhostPath + projectName);//发布前用此
 }
 

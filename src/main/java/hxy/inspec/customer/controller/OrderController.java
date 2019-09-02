@@ -159,6 +159,8 @@ public class OrderController {
 								status = Configuration.BILL_TEMP;// 保存草稿
 							} else if ("unpay".equals(value)) {
 								status = Configuration.BILL_UNPAY;// 提交未付款，下一步就是付款
+							}else {
+								status = Configuration.BILL_EXCEPTION;// 未知订单状态，处理一些反爬虫等。
 							}
 						default:
 							break;

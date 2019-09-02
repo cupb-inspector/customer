@@ -56,4 +56,6 @@ public class Configuration {
 	public static final int BILL_DELETE_BY_USER = 1450; // 用户删除的订单
 	public static final int BILL_UNPAY_FOR_INSPECTOR = 1500; // 未给验货员结清订单
 	public static final int BILL_DELETE_BY_INSPECTOR = 1650; // 质检员删除的订单
+	public static final int BILL_EXCEPTION = 4040;// 未知的订单状态，或者错误的订单状态。比如有人故意爬虫提交自定义数据，无法识别。
+
 }

@@ -2,12 +2,7 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/commons.jsp" />
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
-<!--<![endif]-->
 
 <head>
 	<meta charset="utf-8">
@@ -33,7 +28,7 @@
 	<!-- 提取到文件了 -->
 	<script src="inspector/order/js/checkcontent.js"></script>
 	<style>
-		.white_content {
+		/* .white_content {
 			display: none;
 			position: absolute;
 			top: 15%;
@@ -42,11 +37,24 @@
 			height: 55%;
 			padding: 20px;
 			z-index: 1002;
+		} */
+
+		.white_content {
+			display: none;
+			position: fixed;
+			width: 55%;
+			height: 55%;
+			left: 0px;
+			right: 0px;
+			bottom: 0px;
+			top: 0px;
+			margin: auto;
+			z-index: 1002;
 		}
 
 		.black_overlay {
 			display: none;
-			position: absolute;
+			position: fixed;
 			top: 0%;
 			left: 0%;
 			width: 100%;
@@ -58,8 +66,7 @@
 			filter: alpha(opacity=88);
 		}
 
-		html,
-		body {
+		html,body {
 			margin: 0px;
 			width: 100%;
 			height: 100%;
@@ -115,10 +122,7 @@
     -->
 	<link rel="stylesheet" href="hxy/css/hxy-alert.css">
 	<script src="hxy/js/hxy-alert.js"></script>
-
 	<script type="text/javascript">
-		
-
 	</script>
 	<script type="text/javascript">
 		var maxstrlen = 200;
@@ -148,16 +152,6 @@
 			return myLen;
 		}
 	</script>
-
-
-	<style>
-		html,
-		body {
-			margin: 0px;
-			width: 100%;
-			height: 100%;
-		}
-	</style>
 </head>
 
 <body>
@@ -181,7 +175,7 @@
 									<div class="col-12 col-md-9">
 										<input type="text" id="facname" name="text-input"
 											placeholder="请填写工厂有效名称，百度高德地图可以搜到" class="form-control">
-											<!-- 
+										<!-- 
 											<small
 											class="form-text text-muted">建议先地图搜索确定下再填写</small>
 											 -->
@@ -195,7 +189,7 @@
 									<div class="col-12 col-md-9">
 										<input type="text" id="facaddress" name="email-input" placeholder="工厂有效地址"
 											class="form-control">
-											<!-- 
+										<!-- 
 											<small
 											class="help-block form-text">地图上确定可以搜到的地址</small>
 											 -->
@@ -209,7 +203,7 @@
 									<div class="col-12 col-md-9">
 										<input type="text" id="facman" name="password-input" placeholder="请填写联系人姓名"
 											class="form-control">
-											<!--  
+										<!--  
 											<small class="help-block form-text">不要填写一些别名</small>-->
 									</div>
 								</div>
@@ -310,13 +304,9 @@
 								</button>
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 	<!-- .animated -->
@@ -364,16 +354,13 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<!--/.card-body-->
 				</div>
 				<!-- /.card -->
-
 			</div>
 		</div>
 		<div id="fade" class="black_overlay"></div>
-
 		<!--/点击弹出付款的界面-->
 	</div>
 	<!-- .content -->
