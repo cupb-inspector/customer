@@ -59,16 +59,7 @@ public class OrderController {
 		if (user != null) {
 			String orderId = DateUtil.getCurrentDateStr();// 采用微信的同样方式生成订单号，长度17
 			user_data.put("orderId", orderId);// 返回订单号
-			boolean freshMan = false;
-			// 判断是否为新用户，如果是新用户，则第一单免费
-			UserService userService = new UserService();
-			user = userService.selectUserById(user.getCusid());
-
-			if (user.getCusOrders() == 0) {
-				freshMan = true;
-			
-			}
-			user_data.put("fresh", freshMan);// 如果是新用户，订单界面直接提示新用户
+	
 			// https://blog.csdn.net/u013230511/article/details/48314491
 
 			String excdate = null;
@@ -88,6 +79,18 @@ public class OrderController {
 			String goodsType = null;
 			String fileName = null;
 			String fileUuidName = null;
+			
+			boolean freshMan = false;
+			// 判断是否为新用户，如果是新用户，则第一单免费
+			UserService userService = new UserService();
+			user = userService.selectUserById(user.getCusid());
+
+			if (user.getCusOrders() == 0) {
+				freshMan = true;
+				status=Configuration.BILL_SUBMITTED;//新用户直接提交成功！
+			}
+			user_data.put("fresh", freshMan);// 如果是新用户，订单界面直接提示新用户
+			
 			boolean flag = false;
 			try {
 				// 使用Apache文件上传组件处理文件上传步骤：
@@ -237,6 +240,9 @@ public class OrderController {
 					// 更新订单总数
 					int a = user.getCusOrders() + 1;
 					user.setCusOrders(a);
+					//更新用户信息
+					userService.updateOrders(user);
+					//更新总订单信息
 					DataStatisticService dataStatisticService = new DataStatisticService();
 					DataStatistic dataStatistic = dataStatisticService.select();
 					int b = dataStatistic.getTotal();
@@ -279,7 +285,8 @@ public class OrderController {
 			resultCode = 604;// 返回没有数据
 		}
 
-		logger.info("下单信息返回");
+		//用户提交了订单之后，直接以未支付的状态插入数据库，然后返回用户信息钱包等信息，由前端给出继续付款。还是提示余额不足，需要充足等信息。
+		logger.info("返回金额信息");
 
 
 		user_data.put("resultCode", resultCode);// 返回操作状态

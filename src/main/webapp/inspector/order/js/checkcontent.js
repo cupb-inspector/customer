@@ -49,9 +49,9 @@ $(document).ready(function () {
 		fd.append("goodsType", goodsType);
 		fd.append("file", file_obj);
 		fd.append("post_type", 'unpay');//提交未付款
-//		document.getElementById('fade').style.display = 'block';
-//		document.getElementById('pay').style.display = 'block';
-	
+		//		document.getElementById('fade').style.display = 'block';
+		//		document.getElementById('pay').style.display = 'block';
+
 		//手动控制遮罩
 		$wrapper.spinModal();
 		$.ajax({
@@ -72,15 +72,29 @@ $(document).ready(function () {
 					$wrapper.spinModal(false);
 					//跳转到首页	$('.hxy-alert').removeClass('hxy-alert-success')
 
-					document.getElementById('fade').style.display = 'block'
-					document.getElementById('pay').style.display = 'block';
-					$("#cusMoney").html(result.cusMoney);
-					$("#billPrice").html(result.billPrice);
-					orderId = result.orderId;
-					if (result.moneyStatus == 1) {
 
-					} else if (result.moneyState == 0) {
-						$('#moneyStatus').removeClass('fade')
+					if (result.fresh) {
+						document.getElementById('fresh').style.display = 'block'
+						document.getElementById('fade').style.display = 'block';
+					} else {
+						console.log("老用户")
+						document.getElementById('fade').style.display = 'block'
+						document.getElementById('pay').style.display = 'block';
+						$("#cusMoney").html(result.cusMoney);
+						$("#billPrice").html(result.billPrice);
+						orderId = result.orderId;
+						//先判断是否为新人
+
+						if (result.moneyStatus == 1) {
+							console.log("余额充足")
+							//余额充足，继续支付
+						} else if (result.moneyStatus == 0) {
+							//余额不足，支付按钮改成充值
+							console.log("余额不足")
+							$('#moneyStatus').removeClass('fade')
+							$("#payBtn").html("充值");
+							$("#payBtn").val("充值");
+						}
 					}
 
 				} else if (result.resultCode == 607) {
@@ -107,6 +121,7 @@ $(document).ready(function () {
 		});
 	});
 
+	//保存草稿
 	$("#btn3").click(
 		function () {
 			var excdate = $("#excdate").val();
@@ -178,7 +193,7 @@ $(document).ready(function () {
 				}
 			});
 		});
-
+	//取消按钮
 	$("#btn2").click(function () {
 		document.getElementById("excdate").value = ''
 		document.getElementById("facname").value = ''
@@ -189,48 +204,59 @@ $(document).ready(function () {
 		document.getElementById("goods").value = ''
 	});
 
-	$("#pay").click(function () {
-		$.ajax({
-			type: 'POST',
-			url: getRootPath() + '/orderPay',
-			data: {
-				'orderId': orderId,
-				'pay': 'true'
-			},
-			dataType: "json",//预期服务器返回的数据类型
-			success: function (result) {
-				if (result.resultCode == 200) {
-					//支付成功
-					$('.hxy-alert').removeClass('hxy-alert-warning')
-					$('.hxy-alert').html('支付成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
-					document.getElementById('pay').style.display = 'none';
-					document.getElementById('fade').style.display = 'none';
+	//支付按钮
+	$("#payBtn").click(function () {
+		//获取按钮的值
+		var value = $("#payBtn").val();
+		console.log(value)
+		if (value == "充值") {
+				//跳转到首页
+				window.location.href = 'wallet';
+		} else {
 
-				} else if (result.resultCode == 607) {
-					//支付失败
-					$('.hxy-alert').removeClass('hxy-alert-success')
-					$('.hxy-alert').html('余额不足').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-					document.getElementById('pay').style.display = 'none';
-					document.getElementById('fade').style.display = 'none';
-					// 弹出一个提示界面，然后有两个按钮。退出和跳转支付界面
-				}
-				else {
-					//支付失败
-					$('.hxy-alert').removeClass('hxy-alert-success')
-					$('.hxy-alert').html('支付失败').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
-					document.getElementById('pay').style.display = 'none';
-					document.getElementById('fade').style.display = 'none';
-				}
+			$.ajax({
+				type: 'POST',
+				url: getRootPath() + '/orderPay',
+				data: {
+					'orderId': orderId,
+					'pay': 'true'
+				},
+				dataType: "json",//预期服务器返回的数据类型
+				success: function (result) {
+					if (result.resultCode == 200) {
+						//支付成功
+						$('.hxy-alert').removeClass('hxy-alert-warning')
+						$('.hxy-alert').html('支付成功').addClass('hxy-alert-success').show().delay(2000).fadeOut();
+						document.getElementById('pay').style.display = 'none';
+						document.getElementById('fade').style.display = 'none';
 
-			}
-		});
-		document.getElementById("excdate").value = ''
-		document.getElementById("facname").value = ''
-		document.getElementById("facaddress").value = ''
-		document.getElementById("facman").value = ''
-		document.getElementById("factel").value = ''
-		document.getElementById("profile").value = ''
-		document.getElementById("goods").value = ''
+					} else if (result.resultCode == 607) {
+						//支付失败
+						$('.hxy-alert').removeClass('hxy-alert-success')
+						$('.hxy-alert').html('余额不足').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+						document.getElementById('pay').style.display = 'none';
+						document.getElementById('fade').style.display = 'none';
+						// 弹出一个提示界面，然后有两个按钮。退出和跳转支付界面
+					}
+					else {
+						//支付失败
+						$('.hxy-alert').removeClass('hxy-alert-success')
+						$('.hxy-alert').html('支付失败').addClass('hxy-alert-warning').show().delay(2000).fadeOut();
+						document.getElementById('pay').style.display = 'none';
+						document.getElementById('fade').style.display = 'none';
+					}
+
+				}
+			});
+
+			document.getElementById("excdate").value = ''
+			document.getElementById("facname").value = ''
+			document.getElementById("facaddress").value = ''
+			document.getElementById("facman").value = ''
+			document.getElementById("factel").value = ''
+			document.getElementById("profile").value = ''
+			document.getElementById("goods").value = ''
+		}
 	});
 
 });

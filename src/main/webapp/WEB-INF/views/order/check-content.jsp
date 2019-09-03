@@ -344,7 +344,7 @@
 								</div>
 								<div class="row form-group" align="center">
 									<div align="center">
-										<button id='pay' class="btn btn-primary btn-sm" style="margin-right: 10px">
+										<button id='payBtn' value="付款" class="btn btn-primary btn-sm" style="margin-right: 10px">
 											<i class="fa fa-dot-circle-o"></i> 付款
 										</button>
 										<button type="reset" onclick="closeDialog()" class="btn btn-danger btn-sm">
@@ -363,6 +363,33 @@
 		<div id="fade" class="black_overlay"></div>
 		<!--/点击弹出付款的界面-->
 	</div>
+
+		<!-- 新用户提示 -->
+		<div>
+			<!--点击弹出付款的界面-->
+			<div id="fresh" class="white_content">
+				<div class="card">
+					<div class="card-header">
+						<strong class="card-title">付款</strong>
+					</div>
+					<div class="card-body">
+						<div>
+							亲爱的新用户您好！感谢您信任××质检。为了您的良好体验，我们公司推出第一单优惠活动。
+						</div>
+						<div align="center">
+						
+							<button type="reset" onclick="closeDialogFresh()" class="btn btn-danger btn-sm">
+								<i class="fa fa-ban"></i> 确定
+							</button>
+						</div>
+						<!--/.card-body-->
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+			<div id="fade" class="black_overlay"></div>
+			<!--/点击弹出付款的界面-->
+		</div>
 	<!-- .content -->
 	<!-- Scripts -->
 	<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
@@ -378,6 +405,10 @@
 		}
 		function closeDialog() {
 			document.getElementById('pay').style.display = 'none';
+			document.getElementById('fade').style.display = 'none'
+		}
+		function closeDialogFresh() {
+			document.getElementById('fresh').style.display = 'none';
 			document.getElementById('fade').style.display = 'none'
 		}
 	</script>

@@ -47,6 +47,9 @@
 		<if test="email!=null">
 			email=#{email},
 		</if>
+		<if test="cusOrders!=null">
+			cusOrders=#{cusOrders},
+		</if>
 		cusid=#{cusid} where cusid=#{cusid}
 	</update>
 
