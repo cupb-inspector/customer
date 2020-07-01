@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.3</version>
+			<version>8.0.16</version>
 		</dependency>
 
 		<!-- 导入仓库的jar包，虽然Tomcat里面是有Servlet但是，构建的时候还是找不到，所以还是需要导入 -->
