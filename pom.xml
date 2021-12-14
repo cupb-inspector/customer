@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.5</junit.version>
-		<log4j.version>2.5</log4j.version>
+		<log4j.version>2.16.0</log4j.version>
 		<springframework.version>4.0.6.RELEASE</springframework.version>
 	</properties>
 
